@@ -202,6 +202,7 @@ Examples
 --------
 
 * Simply Open a page an check the content: <br>
+
     #include "Browser.h"
     #include <iostream>
     //set up a browser instance
