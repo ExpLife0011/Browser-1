@@ -38,7 +38,7 @@ About
 -----
 
 Inspired by the python library **mechanize.Browser** <br>
-A Simple to use yet efficient headers only library (wrapped over **libcurl**/**curl** wrapper) to emulate a browser in C++.
+A Simple to use yet efficient headers only library (wrapped over **libcurl** / **curl** wrapper) to emulate a browser in C++.
 It helps and simplify web interaction. <br>
 All the regex are written by hand to reduce dependency to libcurl, which is pretty small.
 Keep in mind that this is really **alpha**. <br>
