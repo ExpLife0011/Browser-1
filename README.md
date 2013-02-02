@@ -204,7 +204,7 @@ Examples
 * Simply Open a page an check the content: <br>
 
 ```c++
-#include "Browser.h"
+#include "Browser.hpp"
 #include <iostream>
 //set up a browser instance
 Browser br;
