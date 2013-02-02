@@ -68,8 +68,10 @@ Missing
 closed_state', '_seek_wrapper__pos', '_seek_wrapper__read_complete_state', 'close', 'get_data', 'geturl', 'info', 'invariant', 'next', 'read', 'readline', 'readlines', 'seek', 'set_data', 'te
 ll', 'wrapped', 'xreadlines']</pre>
 * Review the whole code to make it more clean and more efficient
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+________________________________________________________________________________
+
+<pre>
 **BROWSER**
 void init();
 void clean();
@@ -128,10 +130,10 @@ void history();
 void back(int timeout);
 bool viewing_html();
 
-<dt>**links**</dt>
-<dd>std::string url();</dd>
-<dd>std::string name();</dd>
-<dd>std::string title();</dd>
+**links**
+std::string url();
+std::string name();
+std::string title();
 std::string target();
 
 **forms**
@@ -194,4 +196,4 @@ void get_between_two(std::string raw_input, std::string seeking, std::vector <st
 void get_after_delimiter(std::string html_response, std::string seeking, std::vector <std::string> &form_container);
 void get_from_intern(std::string raw_input, std::string word,std::string word2, std::vector <std::string> & container);
 
-
+</pre>
