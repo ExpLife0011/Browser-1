@@ -203,45 +203,45 @@ Examples
 
 * Simply Open a page an check the content: <br>
 
-```
-    #include "Browser.h"
-    #include <iostream>
-    //set up a browser instance
-    Browser br;
-    //use gzip compression
-    br.set_handle_gzip(true);
-    //allow browser redirection
-    br.set_handle_redirect(true);
-    br.open("http://www.somepage.com");
-    //you can also set the timeout this way for 10s:
-    /*
-    br.open("http://www.somepage.com",10);
-    */
-    //you can even post right away some data this way:
-    /*
-    br.open("http://www.somepage.com","datatopost=something");
-    //or with timeout
-    br.open("http://www.somepage.com","datatopost=something",10);
-    //or even this way is possible
-    br.open("http://www.somepage.com",10,"datatopost=something");
-    */
-    //check some info
-    std::cout<<br.info()
-             <<"\n"
-             <<br.status()
-             <<"\n"
-             <<br.response()
-             <<"\n"
-             <<br.links()
-             <<"\n"
-             <<br.forms().all();
-    //you can loop through the links this way:
-    for(int i=0;i<br.links.size();i++)
-        cout<<br.links[i]<<"\n";
-    //you can loop through the forms this way:
-    for(int i=0;i<br.forms.size;i++)
-        cout<<br.forms[i]<<"\n";
-    //...and this is just the beginning of how easy it is!
+```c++
+#include "Browser.h"
+#include <iostream>
+//set up a browser instance
+Browser br;
+//use gzip compression
+br.set_handle_gzip(true);
+//allow browser redirection
+br.set_handle_redirect(true);
+br.open("http://www.somepage.com");
+//you can also set the timeout this way for 10s:
+/*
+br.open("http://www.somepage.com",10);
+*/
+//you can even post right away some data this way:
+/*
+br.open("http://www.somepage.com","datatopost=something");
+//or with timeout
+br.open("http://www.somepage.com","datatopost=something",10);
+//or even this way is possible
+br.open("http://www.somepage.com",10,"datatopost=something");
+*/
+//check some info
+std::cout<<br.info()
+         <<"\n"
+         <<br.status()
+         <<"\n"
+         <<br.response()
+         <<"\n"
+         <<br.links()
+         <<"\n"
+         <<br.forms().all();
+//you can loop through the links this way:
+for(int i=0;i<br.links.size();i++)
+    cout<<br.links[i]<<"\n";
+//you can loop through the forms this way:
+for(int i=0;i<br.forms.size;i++)
+    cout<<br.forms[i]<<"\n";
+//...and this is just the beginning of how easy it is!
 ```
 
 
