@@ -37,11 +37,11 @@ License (unixhub)
 About
 -----
 
-Inspired by the python library mechanize.Browser <br>
-A Simple to use yet efficient headers only library (wrapped over libcurl/curl wrapper) to emulate a browser in C++.
+Inspired by the python library **mechanize.Browser** <br>
+A Simple to use yet efficient headers only library (wrapped over **libcurl**/**curl** wrapper) to emulate a browser in C++.
 It helps and simplify web interaction. <br>
 All the regex are written by hand to reduce dependency to libcurl, which is pretty small.
-Keep in mind that this is really alpha. <br>
+Keep in mind that this is really **alpha**. <br>
 
 I made this library to make it easier to translate my python script that use mechanize.Browser into C++. Without this library the process to do what I normally do in python is a huge pain. <br>
 I might soon write the whole the cheat sheet of the equivalence of the python mechanize.Browser into the C++ Browser. <br>
