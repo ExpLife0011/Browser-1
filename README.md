@@ -245,4 +245,96 @@ for(int i=0;i<br.forms.size;i++)
 //...and this is just the beginning of how easy it is!
 ```
 
+* Set the browser the way you want: <br>
 
+```c++
+#include "Browser.hpp"
+#include <iostream>
+#include <map>
+#include <vector>
+
+//set up a browser instance
+Browser br;
+
+//you can add a user-agent this way
+br.adduseragent("Mozilla/5.0 (X11; FreeBSD x86_64; rv:17.0) Gecko/17.0 Firefox/17.0");
+
+//add some headers in all thoses ways
+
+//with a 2D array:
+std::string header[2] = {"User-agent","Mozilla/5.0 (iPhone; U; CPU iPhone OS 5_1 like Mac OS X; en-US) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/7534.48.3"};
+br.addheaders(header);
+
+//or with a map:
+map <std::string ,std::string> some_headers;
+some_headers["User-agent"]="Mozilla/5.0 (X11; FreeBSD x86_64; rv:17.0) Gecko/17.0 Firefox/17.0";
+br.addheaders(some_headers);
+
+//or with 2 separate strings:
+std::string first  = "User-agent";
+std::string second = "Mozilla/5.0 (X11; FreeBSD x86_64; rv:17.0) Gecko/17.0 Firefox/17.0";
+
+//or with a vector (must be of even size)
+std::vector headers2;
+headers2.push_back("User-agent");
+headers2.push_back("Mozilla/5.0 (X11; FreeBSD x86_64; rv:17.0) Gecko/17.0 Firefox/17.0");
+br.addheaders(headers2);
+
+//to see everything that is going on
+br.set_verbose(true);
+
+//if you give no string to this function you will see the cookie output on the screen
+br.set_cookiejar();
+
+//but if you give it a string it will save the cookie in the file "my_cookies" for example
+br.set_cookiejar("/home/raptor/my_cookies");
+
+//this function tells the browser to follow redirections
+br.set_handle_redirect(true);
+
+//this function is to use gzip compression
+br.set_handle_gzip(true);
+
+//this function is for a better handling of ssl
+br.set_handle_ssl(true);
+
+//you can even set the dns resolver, but curl must be compiled with support for that
+br.set_dns("192.168.0.1");
+
+//a nifty function that indicates which interface to use for the transfert
+br.set_interface("wlan0");
+
+//you can specify the port to use
+br.set_interface("wlan0",6000);
+
+//you can even specify a port range
+br.set_interface("wlan0",6000,10000);
+
+//set those to false if you don't want to parse the page and retrieve the forms and links
+br.fetch_forms(false);
+br.fetch_links(false);
+
+
+//you can set a proxy this way:
+br.set_proxy("localhost", "socks5");
+
+//if you don't specify the type it automatically set it to http
+br.set_proxy("192.168.0.1");
+
+//login to the proxy if you need to
+br.set_proxy_login("username", "passwd");
+
+//set an http tunnelling
+br.set_http_tunel(true);
+
+//you can unset the proxy:
+br.set_proxy(false);
+
+//you can use http 1.0 instead of the default 1.1
+br.set_http_version_1_0(true);
+
+//in case of congestion you can control the speed limit in kbs
+br.limit_speed(30);
+//you can even set the limit for how many time in seconds
+br.limit_time(10);
+```
