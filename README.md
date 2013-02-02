@@ -62,8 +62,9 @@ Missing
 * curl_multi   using this for multiple handle at the same time and pipelining
 * check the $(curl-config --feature) to know with which feature the cULR library was built
 * change br.response into a class like in python: <br>
+<pre>
 >>> dir(br.response())
 ['__copy__', '__doc__', '__getattr__', '__init__', '__iter__', '__module__', '__repr__', '__setattr__', '_headers', '_seek_wrapper__cache', '_seek_wrapper__have_readline', '_seek_wrapper__is_
 closed_state', '_seek_wrapper__pos', '_seek_wrapper__read_complete_state', 'close', 'get_data', 'geturl', 'info', 'invariant', 'next', 'read', 'readline', 'readlines', 'seek', 'set_data', 'te
-ll', 'wrapped', 'xreadlines']
+ll', 'wrapped', 'xreadlines']</pre>
 * Review the whole code to make it more clean and more efficient
