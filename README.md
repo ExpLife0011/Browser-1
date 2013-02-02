@@ -68,3 +68,130 @@ Missing
 closed_state', '_seek_wrapper__pos', '_seek_wrapper__read_complete_state', 'close', 'get_data', 'geturl', 'info', 'invariant', 'next', 'read', 'readline', 'readlines', 'seek', 'set_data', 'te
 ll', 'wrapped', 'xreadlines']</pre>
 * Review the whole code to make it more clean and more efficient
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**BROWSER**
+void init();
+void clean();
+bool error();
+std::string status();
+std::string info()
+forms_class forms;
+forms_class::form_class form;
+links_class links;
+void select_form(int number_start_from_zero);
+void fetch_forms(bool allow);
+void fetch_links(bool allow);
+void submit(int timeout);
+void set_direct_form_post(bool direct,std::string url);
+std::string escape(std::string the_string);
+std::string unescape(std::string the_string);
+void limit_speed(int limit);
+void limit_time(int limit);
+void set_http_tunel(bool allow);
+void set_proxy_login(std::string username, std::string passwd);
+void addheaders(std::string headers_to_add[2]);
+void adduseragent(std::string theuseragent);
+void addheaders(std::string header_to_add,std::string second_header_to_add);
+void addheaders(std::map<std::string, std::string> Headers);
+void addheaders(std::vector<std::string> Headers);
+void open(std::string url, int usertimeout,bool save_history);
+void open(std::string url, std::string post_data, int usertimeout);
+void open(std::string url, int usertimeout,std::string post_data);
+void open_novisit(std::string url, int usertimeout);
+void set_handle_redirect(bool allow);
+void set_handle_gzip(bool allow);
+void set_handle_ssl(bool allow);
+void set_verbose(bool allow);
+void set_cookie(std::string cookies);
+void set_cookiejar(std::string cookiejar);
+void set_cookiejar();
+void set_dns(std::string dns_server);
+void set_proxy(bool allow);
+void set_proxy(std::string proxy, std::string type);
+void set_interface(std::string interface_name, long int port, long int max_port);
+void set_http_version_1_0(bool set_it);
+void write_bytes(std::string filename);
+std::string getcookies();
+void reload();
+std::string geturl();
+std::string title();
+bool intitle(std::string str);
+bool inresponse(std::string str);
+bool inurl(std::string str);
+std::string response();
+void head_request(bool allow);
+CURL *get_handle();
+void close();
+void clear_history();
+void history();
+void back(int timeout);
+bool viewing_html();
+
+<dt>**links**</dt>
+<dd>std::string url();</dd>
+<dd>std::string name();</dd>
+<dd>std::string title();</dd>
+std::string target();
+
+**forms**
+std::vector <std::string> form_raw_container;
+forms_class(std::string whole_html);
+forms_class();
+~forms_class();
+void initialize(std::string whole_html);
+std::string all();
+int size();
+std::vector <form_class> all_forms;
+form_class operator[ ]  (int ite);
+
+    **textarea**
+    std::string value();
+    std::string name();
+
+    **select**
+    std::vector <option> options;
+    void change_name(std::string new_name);
+    std::string name();
+
+        **option**
+        bool     selected_;
+        bool selected();
+        std::string value();
+
+    **input**
+    std::string name();
+    std::string type();
+    std::string value();
+    void change_name(std::string new_name);
+    void change_type(std::string new_type);
+    void change_value(std::string new_value);
+
+    **form**
+    std::vector < select_struct > select;
+    std::vector < input_struct  > input;
+    std::vector <textarea_struct> textarea;
+    bool direct_post = false;
+    std::map <std::string, std::string> bytes_;
+    void bytes(std::string name, std::string content_type="");
+    std::string url();
+    std::string method();
+    bool multipart();
+    void clear();
+    std::string *operator[ ]  (std::string name);
+
+
+**regex**
+bool remove_html_comment(std::string & html_response);
+void remove_html_comments(std::string & html_response);
+void lower_it(std::string income, std::string & outcome);
+void upper_it(std::string income, std::string & outcome);
+bool word_in(std::string the_string, std::string to_search);
+std::string get_after_equal(std::string html_response, std::string seeking);
+void replaceAll(std::string& str, const std::string& from, const std::string& to);
+std::string get_between_two_closed(std::string raw_input,std::string seeking);
+void get_between_two(std::string raw_input, std::string seeking, std::vector <std::string> & container);
+void get_after_delimiter(std::string html_response, std::string seeking, std::vector <std::string> &form_container);
+void get_from_intern(std::string raw_input, std::string word,std::string word2, std::vector <std::string> & container);
+
+
