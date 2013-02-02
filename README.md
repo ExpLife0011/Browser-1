@@ -43,6 +43,26 @@ It helps and simplify web interaction. <br>
 All the regex are written by hand reducing the dependencies to one library: libcurl; which is pretty small. <br>
 Keep in mind that this is really **alpha**. <br>
 
+Why
+---
+
 I made this library to make it easier to translate my python script that use mechanize.Browser into C++. Without this library the process to do what I normally do in python is a huge pain. <br>
 I might soon write the whole the cheat sheet of the equivalence of the python mechanize.Browser into the C++ Browser. <br>
 You can take a look at this example of the python library called mechanize.Browser() which inspired me http://stockrt.github.com/p/emulating-a-browser-in-python-with-mechanize/ , imagine doing a simple thing like that in C++ and that's what the library does. <br>
+
+Missing
+-------
+
+* Nice Error handling (to not make the browser suddenly crash in case of errors)
+* proxy auth type and http auth type for this: http://user:password@www.example.com
+* ssl 3.0 and tls 1.0 same as a real browser but might add dependencies
+* threaded ssl openssl gnuTLS
+* br.follow_link()
+* br.encoding() for utf-8 and others
+* curl_multi   using this for multiple handle at the same time and pipelining
+* check the $(curl-config --feature) to know with which feature the cULR library was built
+* change br.response into a class like in python:
+>>> dir(br.response())
+['__copy__', '__doc__', '__getattr__', '__init__', '__iter__', '__module__', '__repr__', '__setattr__', '_headers', '_seek_wrapper__cache', '_seek_wrapper__have_readline', '_seek_wrapper__is_
+closed_state', '_seek_wrapper__pos', '_seek_wrapper__read_complete_state', 'close', 'get_data', 'geturl', 'info', 'invariant', 'next', 'read', 'readline', 'readlines', 'seek', 'set_data', 'te
+ll', 'wrapped', 'xreadlines']
