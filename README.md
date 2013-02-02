@@ -203,6 +203,7 @@ Examples
 
 * Simply Open a page an check the content: <br>
 
+<code>
     #include "Browser.h"
     #include <iostream>
     //set up a browser instance
@@ -241,6 +242,6 @@ Examples
     for(int i=0;i<br.forms.size;i++)
         cout<<br.forms[i]<<"\n";
     //...and this is just the beginning of how easy it is!
-
+</code>
 
 
