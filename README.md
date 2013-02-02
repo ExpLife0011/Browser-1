@@ -135,6 +135,7 @@ std::string url();
 std::string name();
 std::string title();
 std::string target();
+std::string all()
 
 **forms**
 std::vector <std::string> form_raw_container;
@@ -232,7 +233,7 @@ std::cout<<br.info()
          <<"\n"
          <<br.response()
          <<"\n"
-         <<br.links()
+         <<br.links().all();
          <<"\n"
          <<br.forms().all();
 //you can loop through the links this way:
