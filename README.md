@@ -375,7 +375,7 @@ br.back();
 br.back(40);
 
 //view this history
-cout<<br.history();
+std::cout<<br.history();
 
 //clear it
 br.clear_history();
@@ -398,4 +398,70 @@ br.open_novisit("http://location_of_captcha_on_the_page.jpg");
 br.close();
 ```
 
-* Playing with the forms
+* Playing with the forms and links
+
+```c++
+#include "Browser.hpp"
+#include <iostream>
+
+//create the Browser instance
+Browser br;
+
+//open a page with some forms
+br.open("http://bughunters.addix.net/igbtest/formtest.php");
+
+//print all the forms in 1 shot
+cout<<br.forms.all();
+
+//loop through the forms
+for(int i =0;i<br.forms.size();i++)
+{
+    //show some direct info about the form
+    std::cout<<br.forms[i]
+             <<"\n==========\n"
+             <<br.forms[i].url()
+             <<"\n==========\n"
+             <<br.forms[i].method()
+             <<"\n==========\n"
+             <<br.forms[i].multipart()
+             <<"\n==========\n";
+
+    //show some more precise infos about the inside of the form
+    for(int j=0;j<br.forms[i].textarea.size();j++)
+    {
+        std::cout<<br.forms[i].textarea[j].name()
+                 <<"\n=============\n"
+                 <<br.forms[i].textarea[j].value()
+                 <<"\n=============\n";
+    }
+
+    for(int j=0;j<br.forms[i].input.size();j++)
+    {
+        std::cout<<br.forms[i].input[j].name()
+                 <<"\n=============\n"
+                 <<br.forms[i].input[j].value()
+                 <<"\n=============\n"
+                 <<br.forms[i].input[j].type()
+                 <<"\n=============\n";
+    }
+
+    for(int j=0;j<br.forms[i].select.size();j++)
+    {
+        std::cout<<br.forms[i].select[j].name()
+                 <<"\n=============\n";
+        for(int k=0;k<br.forms[i].select[j].options.size())
+        {
+                std::cout<<br.forms[i].select[j].options[k].value()
+                         <<"\n=============\n"
+                         <<br.forms[i].select[j].options[k].selected()
+                         <<"\n=============\n";
+        }
+    }
+
+}
+
+```
+
+
+
+
