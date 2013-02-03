@@ -338,3 +338,64 @@ br.limit_speed(30);
 //you can even set the limit for how many time in seconds
 br.limit_time(10);
 ```
+
+* Open a page in multiple ways
+
+```c++
+#include "Browser.hpp"
+#include <iostream>
+
+Browser br;
+
+//open a page right away
+br.open("http://www.page.com");
+
+//open a page with timeout or 40s
+br.open("http://www.page.com",40);
+
+//open a page to post something
+br.open("http://www.page.com","something=somethingelse");
+
+//same as above but with timeout in 2 ways
+br.open("http://www.page.com","something=somethingelse",40);
+br.open("http://www.page.com",40,"something=somethingelse");
+
+//open a page until some status comes true
+do
+{
+    br.open("http://somepage.might.bug");
+}while( !br.viewing_html() || br.status() != "200" || br.error() );
+
+//refresh the current page
+br.reload();
+
+//go back in history - last page visited
+br.back();
+//same with 40s timeout
+br.back(40);
+
+//view this history
+cout<<br.history();
+
+//clear it
+br.clear_history();
+
+//do a header only request
+br.head_request(true);
+br.open("http://somepage.net");
+
+//download something to some file
+br.write_bytes("/home/user/file.jpg");
+br.open("http://site.com/image.jpg");
+
+//when already on a page and don't want to loose forms
+//nor history nor anything else and you want to download something (like captchas)
+//use the following
+br.write_bytes("captcha.jpg");
+br.open_novisit("http://location_of_captcha_on_the_page.jpg");
+
+//close our browser - not necessary if there's only 1 browser
+br.close();
+```
+
+* Playing with the forms
