@@ -458,6 +458,33 @@ for(int i =0;i<br.forms.size();i++)
         }
     }
 
+    //Now let's see how to fill up a form we found
+    //first we need to select a form to work on
+    //we start counting from 0
+    br.select_form(0);
+    //after selecting the form we can fill it the way we want
+    *br.form["name"]      = "something";
+    *br.form["something"] = "anotherthing";
+
+    //if the type of the input is "file" then it will consider the string as
+    //the file location
+    //if you want to set it as a file yourself you can do as follow
+    br.form.bytes("name_of_form_part_that_contain_bytes");
+
+    //don't forget to fill the value of the submit button if there are many
+    //when it's finish submit the form like that
+    br.submit()
+    //As simple as that!
+
+    //now what if we want to create a form out of the blue and post it somewhere
+    br.set_direct_form_post(true,"http://www.page_to_post_direct.net");
+    *br.form["somthing_to_post"] = "something";
+    br.form.bytes("else");
+    *br.form["else"] = "/usr/bin/program";
+    br.submit();
+
+
+
 }
 
 ```
