@@ -53,7 +53,7 @@ You can take a look at this example of the python library called mechanize.Brows
 Missing
 -------
 
-* Nice Error handling (to not make the browser suddenly crash in case of errors)
+* nice Error handling (to not make the browser suddenly crash in case of errors)
 * proxy auth type and http auth type for this: http://user:password@www.example.com
 * ssl 3.0 and tls 1.0 same as a real browser but might add dependencies
 * threaded ssl openssl gnuTLS
