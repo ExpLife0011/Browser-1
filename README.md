@@ -547,7 +547,7 @@ int main()
             br.write_bytes("/home/user/download/image"+o+".jpg");
             //let's put a big timeout because we may have big images
             br.open("http://www.imagessite.com/image"+o+"something.jpg",200);
-        }while(br.error);
+        }while(br.error());
         std::cout<<"\nImage number "+o+" has been saved";
     }
 
