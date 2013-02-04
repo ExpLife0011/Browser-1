@@ -524,7 +524,7 @@ int main()
 
 ```
 
-* Mini multiple image downloader example
+* Mini multiple images downloader example
 
 ```c++
 #include "Browser.hpp"
