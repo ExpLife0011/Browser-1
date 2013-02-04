@@ -430,7 +430,7 @@ int main()
     cout<<br.forms.all();
 
     //loop through the forms
-    for(int i =0;i<br.forms.size();i++)
+    for(unsigned int i =0;i<br.forms.size();i++)
     {
         //show some direct info about the form
         std::cout<<br.forms[i]
@@ -443,7 +443,7 @@ int main()
                  <<"\n==========\n";
 
         //show some more precise infos about the inside of the form
-        for(int j=0;j<br.forms[i].textarea.size();j++)
+        for(unsigned int j=0;j<br.forms[i].textarea.size();j++)
         {
             std::cout<<br.forms[i].textarea[j].name()
                      <<"\n=============\n"
@@ -451,7 +451,7 @@ int main()
                      <<"\n=============\n";
         }
 
-        for(int j=0;j<br.forms[i].input.size();j++)
+        for(unsigned int j=0;j<br.forms[i].input.size();j++)
         {
             std::cout<<br.forms[i].input[j].name()
                      <<"\n=============\n"
@@ -461,11 +461,11 @@ int main()
                      <<"\n=============\n";
         }
 
-        for(int j=0;j<br.forms[i].select.size();j++)
+        for(unsigned int j=0;j<br.forms[i].select.size();j++)
         {
             std::cout<<br.forms[i].select[j].name()
                      <<"\n=============\n";
-            for(int k=0;k<br.forms[i].select[j].options.size())
+            for(unsigned int k=0;k<br.forms[i].select[j].options.size())
             {
                     std::cout<<br.forms[i].select[j].options[k].value()
                              <<"\n=============\n"
@@ -507,7 +507,7 @@ int main()
     std::cout<<br.links.all()
 
     //Loop through all the links and show of infos about each one of them
-    for(int i=0;i<br.links.size();i++
+    for(unsigned int i=0;i<br.links.size();i++)
     {
         cout<<br.links[i].url()
             <<"\n=================\n"
