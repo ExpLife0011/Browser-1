@@ -507,6 +507,46 @@ for(int i =0;i<br.forms.size();i++)
 
 ```
 
+* What does each Regex do
+
+```c++
+
+//transform a string into its lower case equivalent
+void lower_it(std::string income, std::string & outcome);
+
+//transform a string into its upper case equivalent
+void upper_it(std::string income, std::string & outcome);
+
+//return true if the word to_search is present in any way in a string (case insensitive)
+bool word_in(std::string the_string, std::string to_search);
+
+//replace instance of a string with another string
+void replaceAll(std::string& str, const std::string& from, const std::string& to);
+
+//Remove 1 comments -> return true
+//No more comments  -> return false
+bool remove_html_comment(std::string & html_response);
+
+//uses remove_html_comment to remove all comment in the html_response
+void remove_html_comments(std::string & html_response);
+
+//RETURN "seeking *= *\"(.*)\"
+std::string get_after_equal(std::string html_response, std::string seeking);
+
+//GET  "< *seeking(.*)< */or\ *seeking" and append it to the form_container
+void get_after_delimiter(std::string html_response, std::string seeking, std::vector <std::string> &form_container);
+
+//GET "< *seeking(.*)>" and append it to a container
+void get_between_two(std::string raw_input, std::string seeking, std::vector <std::string> & container);
+
+//GET ">(.*)< *[/|\] *seeking[ |>]" and throws a string
+std::string get_between_two_closed(std::string raw_input,std::string seeking);
+
+//"(< *word2 .* word *=.*< *[/|\] *word2 *>)"
+void get_from_intern(std::string raw_input, std::string word,std::string word2, std::vector <std::string> & container);
+
+```
+
 
 
 
