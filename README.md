@@ -68,6 +68,7 @@ Missing
 closed_state', '_seek_wrapper__pos', '_seek_wrapper__read_complete_state', 'close', 'get_data', 'geturl', 'info', 'invariant', 'next', 'read', 'readline', 'readlines', 'seek', 'set_data', 'te
 ll', 'wrapped', 'xreadlines']</pre>
 * Review the whole code to make it more clean and more efficient
+* use stringPools instead of cstring for real efficiency
 
 ________________________________________________________________________________
 
