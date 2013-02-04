@@ -1,0 +1,9 @@
+== INSTALL ==
+ 1.) All Platforms
+
+
+== All ==
+
+ * Link the curl library to the project with g++ : -lcurl
+ * add the headers or link directly to the precompiled Browser library
+ * compile

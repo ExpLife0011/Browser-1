@@ -1,0 +1,5 @@
+* By hand:
+
+g++ -Wall -s -march=i686 -O3 -fexpensive-optimizations -fdelete-null-pointer-checks -std=c++11 -Wstrict-overflow=2 -fno-builtin -fno-operator-names -mtune=i686 main.cpp -I/usr/include -I/home/raptor/mechanize_plus_plus/mechanize -lcurl -o mechanize_test
+
+
