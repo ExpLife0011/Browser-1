@@ -484,7 +484,25 @@ for(int i =0;i<br.forms.size();i++)
     br.submit();
 
 
+    //The links
 
+    //show all the links in one shot
+    std::cout<<br.links.all()
+
+    //Loop through all the links and show of infos about each one of them
+    for(int i=0;i<br.links.size();i++
+    {
+        cout<<br.links[i].url()
+            <<"\n=================\n"
+            <<br.links[i].name()
+            <<"\n=================\n"
+            <<br.links[i].title()
+            <<"\n=================\n"
+            <<br.links[i].target()
+            <<"\n=================\n"
+            /*this one is the same as br.links[i].url()*/
+            <<br.links[i];
+    }
 }
 
 ```
