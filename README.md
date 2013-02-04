@@ -207,42 +207,47 @@ Examples
 ```c++
 #include "Browser.hpp"
 #include <iostream>
-//set up a browser instance
-Browser br;
-//use gzip compression
-br.set_handle_gzip(true);
-//allow browser redirection
-br.set_handle_redirect(true);
-br.open("http://www.somepage.com");
-//you can also set the timeout this way for 10s:
-/*
-br.open("http://www.somepage.com",10);
-*/
-//you can even post right away some data this way:
-/*
-br.open("http://www.somepage.com","datatopost=something");
-//or with timeout
-br.open("http://www.somepage.com","datatopost=something",10);
-//or even this way is possible
-br.open("http://www.somepage.com",10,"datatopost=something");
-*/
-//check some info
-std::cout<<br.info()
-         <<"\n"
-         <<br.status()
-         <<"\n"
-         <<br.response()
-         <<"\n"
-         <<br.links().all();
-         <<"\n"
-         <<br.forms().all();
-//you can loop through the links this way:
-for(int i=0;i<br.links.size();i++)
-    cout<<br.links[i]<<"\n";
-//you can loop through the forms this way:
-for(int i=0;i<br.forms.size;i++)
-    cout<<br.forms[i]<<"\n";
-//...and this is just the beginning of how easy it is!
+
+int main()
+{
+    //set up a browser instance
+    Browser br;
+    //use gzip compression
+    br.set_handle_gzip(true);
+    //allow browser redirection
+    br.set_handle_redirect(true);
+    br.open("http://www.somepage.com");
+    //you can also set the timeout this way for 10s:
+    /*
+    br.open("http://www.somepage.com",10);
+    */
+    //you can even post right away some data this way:
+    /*
+    br.open("http://www.somepage.com","datatopost=something");
+    //or with timeout
+    br.open("http://www.somepage.com","datatopost=something",10);
+    //or even this way is possible
+    br.open("http://www.somepage.com",10,"datatopost=something");
+    */
+    //check some info
+    std::cout<<br.info()
+             <<"\n"
+             <<br.status()
+             <<"\n"
+             <<br.response()
+             <<"\n"
+             <<br.links().all();
+             <<"\n"
+             <<br.forms().all();
+    //you can loop through the links this way:
+    for(int i=0;i<br.links.size();i++)
+        cout<<br.links[i]<<"\n";
+    //you can loop through the forms this way:
+    for(int i=0;i<br.forms.size;i++)
+        cout<<br.forms[i]<<"\n";
+    //...and this is just the beginning of how easy it is!
+    return 0;
+}
 ```
 
 * Set the browser the way you want: <br>
@@ -253,90 +258,94 @@ for(int i=0;i<br.forms.size;i++)
 #include <map>
 #include <vector>
 
-//set up a browser instance
-Browser br;
+int main()
+{
+    //set up a browser instance
+    Browser br;
 
-//you can add a user-agent this way
-br.adduseragent("Mozilla/5.0 (X11; FreeBSD x86_64; rv:17.0) Gecko/17.0 Firefox/17.0");
+    //you can add a user-agent this way
+    br.adduseragent("Mozilla/5.0 (X11; FreeBSD x86_64; rv:17.0) Gecko/17.0 Firefox/17.0");
 
-//add some headers in all thoses ways
+    //add some headers in all thoses ways
 
-//with a 2D array:
-std::string header[2] = {"User-agent","Mozilla/5.0 (iPhone; U; CPU iPhone OS 5_1 like Mac OS X; en-US) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/7534.48.3"};
-br.addheaders(header);
+    //with a 2D array:
+    std::string header[2] = {"User-agent","Mozilla/5.0 (iPhone; U; CPU iPhone OS 5_1 like Mac OS X; en-US) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/7534.48.3"};
+    br.addheaders(header);
 
-//or with a map:
-map <std::string ,std::string> some_headers;
-some_headers["User-agent"]="Mozilla/5.0 (X11; FreeBSD x86_64; rv:17.0) Gecko/17.0 Firefox/17.0";
-br.addheaders(some_headers);
+    //or with a map:
+    map <std::string ,std::string> some_headers;
+    some_headers["User-agent"]="Mozilla/5.0 (X11; FreeBSD x86_64; rv:17.0) Gecko/17.0 Firefox/17.0";
+    br.addheaders(some_headers);
 
-//or with 2 separate strings:
-std::string first  = "User-agent";
-std::string second = "Mozilla/5.0 (X11; FreeBSD x86_64; rv:17.0) Gecko/17.0 Firefox/17.0";
+    //or with 2 separate strings:
+    std::string first  = "User-agent";
+    std::string second = "Mozilla/5.0 (X11; FreeBSD x86_64; rv:17.0) Gecko/17.0 Firefox/17.0";
 
-//or with a vector (must be of even size)
-std::vector headers2;
-headers2.push_back("User-agent");
-headers2.push_back("Mozilla/5.0 (X11; FreeBSD x86_64; rv:17.0) Gecko/17.0 Firefox/17.0");
-br.addheaders(headers2);
+    //or with a vector (must be of even size)
+    std::vector headers2;
+    headers2.push_back("User-agent");
+    headers2.push_back("Mozilla/5.0 (X11; FreeBSD x86_64; rv:17.0) Gecko/17.0 Firefox/17.0");
+    br.addheaders(headers2);
 
-//to see everything that is going on
-br.set_verbose(true);
+    //to see everything that is going on
+    br.set_verbose(true);
 
-//if you give no string to this function you will see the cookie output on the screen
-br.set_cookiejar();
+    //if you give no string to this function you will see the cookie output on the screen
+    br.set_cookiejar();
 
-//but if you give it a string it will save the cookie in the file "my_cookies" for example
-br.set_cookiejar("/home/raptor/my_cookies");
+    //but if you give it a string it will save the cookie in the file "my_cookies" for example
+    br.set_cookiejar("/home/raptor/my_cookies");
 
-//this function tells the browser to follow redirections
-br.set_handle_redirect(true);
+    //this function tells the browser to follow redirections
+    br.set_handle_redirect(true);
 
-//this function is to use gzip compression
-br.set_handle_gzip(true);
+    //this function is to use gzip compression
+    br.set_handle_gzip(true);
 
-//this function is for a better handling of ssl
-br.set_handle_ssl(true);
+    //this function is for a better handling of ssl
+    br.set_handle_ssl(true);
 
-//you can even set the dns resolver, but curl must be compiled with support for that
-br.set_dns("192.168.0.1");
+    //you can even set the dns resolver, but curl must be compiled with support for that
+    br.set_dns("192.168.0.1");
 
-//a nifty function that indicates which interface to use for the transfert
-br.set_interface("wlan0");
+    //a nifty function that indicates which interface to use for the transfert
+    br.set_interface("wlan0");
 
-//you can specify the port to use
-br.set_interface("wlan0",6000);
+    //you can specify the port to use
+    br.set_interface("wlan0",6000);
 
-//you can even specify a port range
-br.set_interface("wlan0",6000,10000);
+    //you can even specify a port range
+    br.set_interface("wlan0",6000,10000);
 
-//set those to false if you don't want to parse the page and retrieve the forms and links
-br.fetch_forms(false);
-br.fetch_links(false);
+    //set those to false if you don't want to parse the page and retrieve the forms and links
+    br.fetch_forms(false);
+    br.fetch_links(false);
 
 
-//you can set a proxy this way:
-br.set_proxy("localhost", "socks5");
+    //you can set a proxy this way:
+    br.set_proxy("localhost", "socks5");
 
-//if you don't specify the type it automatically set it to http
-br.set_proxy("192.168.0.1");
+    //if you don't specify the type it automatically set it to http
+    br.set_proxy("192.168.0.1");
 
-//login to the proxy if you need to
-br.set_proxy_login("username", "passwd");
+    //login to the proxy if you need to
+    br.set_proxy_login("username", "passwd");
 
-//set an http tunnelling
-br.set_http_tunel(true);
+    //set an http tunnelling
+    br.set_http_tunel(true);
 
-//you can unset the proxy:
-br.set_proxy(false);
+    //you can unset the proxy:
+    br.set_proxy(false);
 
-//you can use http 1.0 instead of the default 1.1
-br.set_http_version_1_0(true);
+    //you can use http 1.0 instead of the default 1.1
+    br.set_http_version_1_0(true);
 
-//in case of congestion you can control the speed limit in kbs
-br.limit_speed(30);
-//you can even set the limit for how many time in seconds
-br.limit_time(10);
+    //in case of congestion you can control the speed limit in kbs
+    br.limit_speed(30);
+    //you can even set the limit for how many time in seconds
+    br.limit_time(10);
+    return 0;
+}
 ```
 
 * Open a page in multiple ways
@@ -345,57 +354,61 @@ br.limit_time(10);
 #include "Browser.hpp"
 #include <iostream>
 
-Browser br;
-
-//open a page right away
-br.open("http://www.page.com");
-
-//open a page with timeout or 40s
-br.open("http://www.page.com",40);
-
-//open a page to post something
-br.open("http://www.page.com","something=somethingelse");
-
-//same as above but with timeout in 2 ways
-br.open("http://www.page.com","something=somethingelse",40);
-br.open("http://www.page.com",40,"something=somethingelse");
-
-//open a page until some status comes true
-do
+int main()
 {
-    br.open("http://somepage.might.bug");
-}while( !br.viewing_html() || br.status() != "200" || br.error() );
+    Browser br;
 
-//refresh the current page
-br.reload();
+    //open a page right away
+    br.open("http://www.page.com");
 
-//go back in history - last page visited
-br.back();
-//same with 40s timeout
-br.back(40);
+    //open a page with timeout or 40s
+    br.open("http://www.page.com",40);
 
-//view this history
-std::cout<<br.history();
+    //open a page to post something
+    br.open("http://www.page.com","something=somethingelse");
 
-//clear it
-br.clear_history();
+    //same as above but with timeout in 2 ways
+    br.open("http://www.page.com","something=somethingelse",40);
+    br.open("http://www.page.com",40,"something=somethingelse");
 
-//do a header only request
-br.head_request(true);
-br.open("http://somepage.net");
+    //open a page until some status comes true
+    do
+    {
+        br.open("http://somepage.might.bug");
+    }while( !br.viewing_html() || br.status() != "200" || br.error() );
 
-//download something to some file
-br.write_bytes("/home/user/file.jpg");
-br.open("http://site.com/image.jpg");
+    //refresh the current page
+    br.reload();
 
-//when already on a page and don't want to loose forms
-//nor history nor anything else and you want to download something (like captchas)
-//use the following
-br.write_bytes("captcha.jpg");
-br.open_novisit("http://location_of_captcha_on_the_page.jpg");
+    //go back in history - last page visited
+    br.back();
+    //same with 40s timeout
+    br.back(40);
 
-//close our browser - not necessary if there's only 1 browser
-br.close();
+    //view this history
+    std::cout<<br.history();
+
+    //clear it
+    br.clear_history();
+
+    //do a header only request
+    br.head_request(true);
+    br.open("http://somepage.net");
+
+    //download something to some file
+    br.write_bytes("/home/user/file.jpg");
+    br.open("http://site.com/image.jpg");
+
+    //when already on a page and don't want to loose forms
+    //nor history nor anything else and you want to download something (like captchas)
+    //use the following
+    br.write_bytes("captcha.jpg");
+    br.open_novisit("http://location_of_captcha_on_the_page.jpg");
+
+    //close our browser - not necessary if there's only 1 browser
+    br.close();
+    return 0;
+}
 ```
 
 * Playing with the forms and links
@@ -404,57 +417,60 @@ br.close();
 #include "Browser.hpp"
 #include <iostream>
 
-//create the Browser instance
-Browser br;
-
-//open a page with some forms
-br.open("http://bughunters.addix.net/igbtest/formtest.php");
-
-//print all the forms in 1 shot
-cout<<br.forms.all();
-
-//loop through the forms
-for(int i =0;i<br.forms.size();i++)
+int main()
 {
-    //show some direct info about the form
-    std::cout<<br.forms[i]
-             <<"\n==========\n"
-             <<br.forms[i].url()
-             <<"\n==========\n"
-             <<br.forms[i].method()
-             <<"\n==========\n"
-             <<br.forms[i].multipart()
-             <<"\n==========\n";
+    //create the Browser instance
+    Browser br;
 
-    //show some more precise infos about the inside of the form
-    for(int j=0;j<br.forms[i].textarea.size();j++)
-    {
-        std::cout<<br.forms[i].textarea[j].name()
-                 <<"\n=============\n"
-                 <<br.forms[i].textarea[j].value()
-                 <<"\n=============\n";
-    }
+    //open a page with some forms
+    br.open("http://bughunters.addix.net/igbtest/formtest.php");
 
-    for(int j=0;j<br.forms[i].input.size();j++)
-    {
-        std::cout<<br.forms[i].input[j].name()
-                 <<"\n=============\n"
-                 <<br.forms[i].input[j].value()
-                 <<"\n=============\n"
-                 <<br.forms[i].input[j].type()
-                 <<"\n=============\n";
-    }
+    //print all the forms in 1 shot
+    cout<<br.forms.all();
 
-    for(int j=0;j<br.forms[i].select.size();j++)
+    //loop through the forms
+    for(int i =0;i<br.forms.size();i++)
     {
-        std::cout<<br.forms[i].select[j].name()
-                 <<"\n=============\n";
-        for(int k=0;k<br.forms[i].select[j].options.size())
+        //show some direct info about the form
+        std::cout<<br.forms[i]
+                 <<"\n==========\n"
+                 <<br.forms[i].url()
+                 <<"\n==========\n"
+                 <<br.forms[i].method()
+                 <<"\n==========\n"
+                 <<br.forms[i].multipart()
+                 <<"\n==========\n";
+
+        //show some more precise infos about the inside of the form
+        for(int j=0;j<br.forms[i].textarea.size();j++)
         {
-                std::cout<<br.forms[i].select[j].options[k].value()
-                         <<"\n=============\n"
-                         <<br.forms[i].select[j].options[k].selected()
-                         <<"\n=============\n";
+            std::cout<<br.forms[i].textarea[j].name()
+                     <<"\n=============\n"
+                     <<br.forms[i].textarea[j].value()
+                     <<"\n=============\n";
+        }
+
+        for(int j=0;j<br.forms[i].input.size();j++)
+        {
+            std::cout<<br.forms[i].input[j].name()
+                     <<"\n=============\n"
+                     <<br.forms[i].input[j].value()
+                     <<"\n=============\n"
+                     <<br.forms[i].input[j].type()
+                     <<"\n=============\n";
+        }
+
+        for(int j=0;j<br.forms[i].select.size();j++)
+        {
+            std::cout<<br.forms[i].select[j].name()
+                     <<"\n=============\n";
+            for(int k=0;k<br.forms[i].select[j].options.size())
+            {
+                    std::cout<<br.forms[i].select[j].options[k].value()
+                             <<"\n=============\n"
+                             <<br.forms[i].select[j].options[k].selected()
+                             <<"\n=============\n";
+            }
         }
     }
 
@@ -503,9 +519,42 @@ for(int i =0;i<br.forms.size();i++)
             /*this one is the same as br.links[i].url()*/
             <<br.links[i];
     }
+    return 0;
 }
 
 ```
+
+* Mini multiple image downloader example
+
+```c++
+#include "Browser.hpp"
+#include <iostream>
+#include <sstream>
+
+int main()
+{
+    Browser br;
+    //download 10 images;
+    std::ostringstream o;
+    int number = 10;
+    for(int i=1;i<number;i++)
+    {
+        o.str("");
+        o.clear()
+        o<<i;
+        do
+        {
+            br.write_bytes("/home/user/download/image"+o+".jpg");
+            //let's put a big timeout because we may have big images
+            br.open("http://www.imagessite.com/image"+o+"something.jpg",200);
+        }while(br.error);
+        std::cout<<"\nImage number "+o+" has been saved";
+    }
+
+    return 0;
+}
+```
+
 
 * What does each Regex do
 
