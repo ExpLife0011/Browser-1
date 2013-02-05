@@ -188,6 +188,7 @@ class forms_class
                 std::string url_;
                 std::string method_;
                 bool multipart_;
+                std::string against_error="";
             private:
         };
         class input_struct
@@ -507,6 +508,7 @@ std::string forms_class::all()
 }
 ///==================================================================================///
 
+
 ///================Overloading of the [ ] in form to fill by the name ===============///
 std::string *forms_class::form_class::operator[ ]  (std::string name)
 {
@@ -616,7 +618,11 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
 		return &input[input.size()-1].value_;
 	}
 
-    return NULL;
+	std::cout<<"\n_!_ No Such Name inside this form\n";
+	//pointer to zero instead of NULL, this is safer against buffer overflows
+	//or we can return a pointer to a temp string because we are doing that with an equal
+    //return 0;
+    return &against_error;
 }
 ///=================================================================================///
 
@@ -624,8 +630,9 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
 ///=====overloadind of operator [] to loop through forms(hopefully it will work)=====///
 forms_class::form_class forms_class::operator[ ]  (int ite)
 {
-    if( (unsigned int) ite>all_forms.size())
+    if( (unsigned int) ite>=all_forms.size() || ite<0)
     {
+    	std::cout<<"\n_!_ No Such form, using the first form as default\n";
         return all_forms[0];
     }
     return all_forms[ite];

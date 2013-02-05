@@ -180,7 +180,7 @@ link_struct links_class::operator[ ]  (int ite)
 		return (links_array[ite]);
 	else
 	{
-		std::cout<<"_!_ No Such link, using the last link as default";
+		std::cout<<"\n_!_ No Such link, using the last link as default\n";
 		return (links_array[links_array.size()-1]);
 	}
 }
