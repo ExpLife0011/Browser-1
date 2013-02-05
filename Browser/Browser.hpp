@@ -137,7 +137,6 @@ class Browser
         void history();
         void back(int timeout);
         bool viewing_html();
-        //void full_form(bool allow);
 };
 ///-------------------------///
 
