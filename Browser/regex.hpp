@@ -163,7 +163,6 @@ std::string get_after_equal(std::string html_response, std::string seeking)
     int position       = 0;
     unsigned int first_index;
     /*related to the end */
-    //bool found_end = false;
     int forward_ite;
     int last_index;
 
@@ -389,9 +388,7 @@ void get_between_two(std::string raw_input, std::string seeking, std::vector <st
     unsigned int position       = 0;
     unsigned int first_index;
     /*related to the end */
-    //bool found_end = false;
     int backward_ite;
-    //int last_index;
 
     while( STOP == false )
     {
@@ -474,7 +471,6 @@ std::string get_between_two_closed(std::string raw_input,std::string seeking)
     /*related to the start */
     int first_index;
     int backward_ite;
-    //int last_index;
 
     //find the first closing '>' saves it as the first index of the output string
     first_index = raw_lower.find('>',0)+1;
@@ -513,7 +509,6 @@ void get_from_intern(std::string raw_input, std::string word,std::string word2, 
     unsigned int position   = 0;
     int first_index;
     unsigned int middle_index;
-    //int last_index;
     int forward_ite;
     int backward_ite;
     bool have_found=false;
