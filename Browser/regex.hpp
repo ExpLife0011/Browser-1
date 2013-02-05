@@ -165,7 +165,6 @@ std::string get_after_equal(std::string html_response, std::string seeking)
     /*related to the end */
     int forward_ite;
     int last_index;
-
     while( STOP == false )
     {
         // we didn't find an end yet
@@ -476,18 +475,18 @@ std::string get_between_two_closed(std::string raw_input,std::string seeking)
     first_index = raw_lower.find('>',0)+1;
 
     if(first_index!=std::string::npos)
-	{
-		backward_ite = raw_lower.length()-1;
+    {
+        backward_ite = raw_lower.length()-1;
 
-		while(raw_lower[backward_ite]!='<')
-		{
-			backward_ite--;
-		}
-		return raw_input.substr(first_index,backward_ite-first_index);
-	}
-	else
-		//on error return empty string
-		return "";
+        while(raw_lower[backward_ite]!='<')
+        {
+            backward_ite--;
+        }
+        return raw_input.substr(first_index,backward_ite-first_index);
+    }
+    else
+        //on error return empty string
+        return "";
 
 }
 ///=================================================================================///
