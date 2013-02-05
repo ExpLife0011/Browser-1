@@ -38,8 +38,7 @@ in this Software without prior written authorization of the copyright holder.
 #include "forms.hpp"
 #include "links.hpp"
 
-
-///----THE BROWSER CLASS----///
+///==================================THE BROWSER CLASS==============================///
 class Browser
 {
     private:
@@ -138,10 +137,11 @@ class Browser
         void back(int timeout);
         bool viewing_html();
 };
-///-------------------------///
+///=================================================================================///
 
 
-///CONSTRUCTOR
+
+///==================================CONSTRUCTOR====================================///
 Browser::Browser()
 {
     //get a handler
@@ -165,9 +165,10 @@ Browser::Browser()
     curl_global_init(CURL_GLOBAL_WIN32);
     #endif
 }
+///=================================================================================///
 
 
-///DESTRUCTOR
+///====================================DESTRUCTOR===================================///
 Browser::~Browser()
 {
     curl_easy_reset(curl);
@@ -176,8 +177,10 @@ Browser::~Browser()
     init();
     curl_global_cleanup();
 }
+///=================================================================================///
 
-///Close the Browser
+
+///=================================Close the Browser===============================///
 void Browser::close()
 {
     history_.clear();
@@ -185,8 +188,10 @@ void Browser::close()
     curl_easy_cleanup(curl);
     init();
 }
+///=================================================================================///
 
-///INITIALIZE THE BROWSER AND VARIABLES
+
+///======================INITIALIZE THE BROWSER AND VARIABLES=======================///
 void Browser::init()
 {
     //maybe we'll loose the cookies if we do that
@@ -205,8 +210,10 @@ void Browser::init()
     form.clear();
     links.clear();
 }
+///=================================================================================///
 
-///CLEAN BEFORE CLOSING
+
+///============================CLEAN BEFORE CLOSING==================================///
 void Browser::clean()
 {
     init();
@@ -216,8 +223,10 @@ void Browser::clean()
     curl_easy_cleanup(curl);
     curl    = curl_easy_init();
 }
+///=================================================================================///
 
-///HANDLE THE ERROR OUTPUT
+
+///===========================HANDLE THE ERROR OUTPUT================================///
 bool Browser::error()
 {
     //Check the return code for errors
@@ -231,9 +240,10 @@ bool Browser::error()
         return false;
     return false;
 }
+///=================================================================================///
 
 
-///IF FALSE THEN NO FORMS OR LINKS ARE FETHED
+///=====================IF FALSE THEN NO FORMS OR LINKS ARE FETHED===================///
 void Browser::fetch_forms(bool allow)
 {
     fetching_forms = allow;
@@ -242,9 +252,10 @@ void Browser::fetch_links(bool allow)
 {
     fetching_links = allow;
 }
+///=================================================================================///
 
 
-///THE OPEN PAGE WITH THE OVERLOADING
+///==================THE OPEN PAGE WITH THE OVERLOADING=============================///
 void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
 {
     init();
@@ -443,8 +454,10 @@ void Browser::open_form(std::string url, int usertimeout=20)
     }
     history_.push_back(geturl());
 }
+///=================================================================================///
 
-///Select the form number to post later
+
+///=======================Select the form number to post later=======================///
 //I should not forget to reinit the form after submiting
 //or reopening another page
 void Browser::select_form(int number_start_from_zero)
@@ -466,8 +479,10 @@ void Browser::select_form(int number_start_from_zero)
 
     }
 }
+///=================================================================================///
 
-///take only the hidden fields
+
+///======================take only the hidden fields=================================///
 void Browser::take_hidden(forms_class::form_class form_work_on_first, forms_class::form_class &form_we_need)
 {
 	for(unsigned int ii=0;ii<form_work_on_first.input.size();ii++)
@@ -480,9 +495,10 @@ void Browser::take_hidden(forms_class::form_class form_work_on_first, forms_clas
 		}
 	}
 }
+///=================================================================================///
 
 
-///convert a second into a one
+///======================convert a second into a one=================================///
 void Browser::convert_1_to_2(forms_class::form_class form_work_on_first
                             ,forms_class::form_class2 &form_work_on_first2)
 {
@@ -494,9 +510,10 @@ void Browser::convert_1_to_2(forms_class::form_class form_work_on_first
         form_work_on_first2.method_   = form_work_on_first.method_;
         form_work_on_first2.multipart_= form_work_on_first.multipart_;
 }
+///=================================================================================///
 
 
-///submit the form depending on GET or POST
+///===================submit the form depending on GET or POST=======================///
 void Browser::submit(int timeout=30)
 {
     std::string temp_url="";
@@ -724,46 +741,55 @@ void Browser::submit(int timeout=30)
     }
 
 }
+///=================================================================================///
 
 
-
-///SAVE THE HTML OUTPUT INTO THE RESPONSE STRING
+///===============SAVE THE HTML OUTPUT INTO THE RESPONSE STRING=====================///
 size_t Browser::write_to_string(void *curl, size_t size, size_t count, void *response)
 {
   ((std::string*)response)->append((char*)curl, 0, size*count);
   return size*count;
 }
+///=================================================================================///
 
-///SAVE THE OUTPUT IN A BIN FILE
+
+///====================SAVE THE OUTPUT IN A BIN FILE================================///
 size_t Browser::write_data(void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
     size_t written;
     written = fwrite(ptr, size, nmemb, stream);
     return written;
 }
+///=================================================================================///
 
-///PREPARE FOR WRITING BYTES
+
+///===========================PREPARE FOR WRITING BYTES==============================///
 void Browser::write_bytes(std::string filename)
 {
     filepipe      = fopen(filename.c_str(),"wb");
     writing_bytes = true;
 }
+///=================================================================================///
 
-///LET US SEE THAT RESPONSE
+
+///=========================LET US SEE THAT RESPONSE=================================///
 ////THIS MIGHT BECOME A CLASS IN THE FUTURE////
 std::string Browser::response()
 {
     return html_response;
 }
+///=================================================================================///
 
-///SET A USER-AGENT FOR THE BROWSER
+
+///==========================SET A USER-AGENT FOR THE BROWSER========================///
 void Browser::adduseragent(std::string theuseragent)
 {
     curl_easy_setopt(curl, CURLOPT_USERAGENT, theuseragent.c_str());
 }
+///=================================================================================///
 
 
-///ADD HEADERS WITH OVERLOADING
+///========================ADD HEADERS WITH OVERLOADING==============================///
 void Browser::addheaders(std::string headers_to_add[2])
 {
     std::string toaddhead = headers_to_add[0]+":"+headers_to_add[1];
@@ -792,9 +818,10 @@ void Browser::addheaders(std::vector<std::string> Headers)
         headers = curl_slist_append(headers, toaddhead.c_str());
     }
 }
+///=================================================================================///
 
 
-///RETURN TRUE IF THE STRING IS IN REPSONSE
+///====================RETURN TRUE IF THE STRING IS IN REPSONSE=====================///
 bool Browser::inresponse(std::string str)
 {
     if (html_response.find (str) != std::string::npos)
@@ -806,9 +833,10 @@ bool Browser::inresponse(std::string str)
         return false;
     }
 }
+///=================================================================================///
 
 
-///return the title of the page <title>TITLE</title>
+///================return the title of the page <title>TITLE</title>=================///
 std::string Browser::title()
 {
     std::vector <std::string> title_container;
@@ -822,8 +850,10 @@ std::string Browser::title()
     }
     return "";
 }
+///=================================================================================///
 
-///return true if a string is in the title
+
+///======================return true if a string is in the title=====================///
 bool Browser::intitle(std::string str)
 {
     std::string current_title = title();
@@ -836,8 +866,10 @@ bool Browser::intitle(std::string str)
         return false;
     }
 }
+///=================================================================================///
 
-///get all the cookies received in a string
+
+///=======================get all the cookies received in a string===================///
 std::string Browser::getcookies()
 {
     std::string allcookies = "";
@@ -852,24 +884,28 @@ std::string Browser::getcookies()
     curl_slist_free_all(cookies);
     return allcookies;
 }
+///=================================================================================///
 
 
-///allow redirection
+///==========================allow redirection======================================///
 void Browser::set_handle_redirect(bool allow)
 {
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, allow);
     curl_easy_setopt(curl, CURLOPT_AUTOREFERER, allow);
 }
+///=================================================================================///
 
 
-///set verbose to true
+///============================set verbose to true==================================///
 void Browser::set_verbose(bool allow)
 {
     curl_easy_setopt(curl, CURLOPT_VERBOSE, allow);
 }
+///=================================================================================///
 
 
-///set gzip encoding to true
+
+///============================set gzip encoding to true=============================///
 void Browser::set_handle_gzip(bool allow)
 {
     if(allow)
@@ -882,16 +918,18 @@ void Browser::set_handle_gzip(bool allow)
     }
     curl_easy_setopt(curl, CURLOPT_TRANSFER_ENCODING, allow);
 }
+///=================================================================================///
 
 
-///add cookies to the browser
+///==========================add cookies to the browser==============================///
 void Browser::set_cookie(std::string cookies)
 {
     curl_easy_setopt(curl, CURLOPT_COOKIE, cookies.c_str());
 }
+///=================================================================================///
 
 
-///set the output of the cookies
+///========================set the output of the cookies=============================///
 void Browser::set_cookiejar(std::string cookiejar)
 {
     curl_easy_setopt(curl, CURLOPT_COOKIEJAR, cookiejar.c_str());
@@ -900,33 +938,38 @@ void Browser::set_cookiejar()
 {
     curl_easy_setopt(curl, CURLOPT_COOKIEJAR, "-");
 }
+///=================================================================================///
 
 
-///simply reload the page
+///========================simply reload the page===================================///
 void Browser::reload()
 {
     std::string current_page = geturl();
     open(current_page);
 }
+///=================================================================================///
 
 
-///to set the verify peer to false
+///=========================to set the verify peer to false=========================///
 void Browser::set_handle_ssl(bool allow)
 {
     if(!allow)
         curl_easy_setopt(curl, CURLOPT_USE_SSL, CURLUSESSL_NONE);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, allow);
 }
+///=================================================================================///
 
 
-///Set a custom dns server
+///============================Set a custom dns server===============================///
 void Browser::set_dns(std::string dns_server)
 {
     curl_easy_setopt(curl, CURLOPT_DNS_SERVERS, dns_server.c_str());
 }
+///=================================================================================///
 
 
-///Set a proxy (proxy:port) or unset it with the bool false
+
+///================Set a proxy (proxy:port) or unset it with the bool false=========///
 void Browser::set_proxy(std::string proxy, std::string type="http")
 {
     if(type=="http")
@@ -954,22 +997,27 @@ void Browser::set_proxy(bool allow)
     if(!allow)
         curl_easy_setopt(curl, CURLOPT_PROXY, "" );
 }
+///=================================================================================///
 
-///HTTP tunneling through http proxy
+
+///======================HTTP tunneling through http proxy===========================///
 void Browser::set_http_tunel(bool allow)
 {
     curl_easy_setopt(curl, CURLOPT_HTTPPROXYTUNNEL, allow);
 }
+///=================================================================================///
 
-///proxy Login identification
+
+///======================proxy Login identification=================================///
 void Browser::set_proxy_login(std::string username, std::string passwd)
 {
     std::string concat = username+":"+passwd;
     curl_easy_setopt(curl, CURLOPT_PROXYUSERPWD, concat.c_str());
 }
+///=================================================================================///
 
 
-///Set the interface to use with a port or maybe a port range
+///===========Set the interface to use with a port or maybe a port range============///
 void Browser::set_interface(std::string interface_name, long int port=80, long int max_port=80)
 {
         curl_easy_setopt(curl, CURLOPT_INTERFACE, interface_name.c_str() );
@@ -977,9 +1025,10 @@ void Browser::set_interface(std::string interface_name, long int port=80, long i
         max_port = 1 + port-max_port;
         curl_easy_setopt(curl, CURLOPT_LOCALPORTRANGE, max_port );
 }
+///=================================================================================///
 
 
-///get the status response code
+///========================get the status response code=============================///
 std::string Browser::status()
 {
     int response_int;
@@ -988,9 +1037,10 @@ std::string Browser::status()
     response_str<<response_int;
     return response_str.str();
 }
+///=================================================================================///
 
 
-///OPTIONS RELATED TO THE CONGESTION
+///======================OPTIONS RELATED TO THE CONGESTION==========================///
 //in bytes normally, now * 1000 so in kbs
 void Browser::limit_speed(int limit)
 {
@@ -1005,9 +1055,10 @@ void Browser::limit_time(int limit)
 {
     curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, limit);
 }
+///=================================================================================///
 
 
-///Escape/Unescape strings
+///=============================Escape/Unescape strings==============================///
 std::string Browser::escape(std::string the_string)
 {
     std::string output;
@@ -1020,23 +1071,26 @@ std::string Browser::unescape(std::string the_string)
     output = curl_easy_escape( curl, the_string.c_str(), 0 );
     return output;
 }
+///=================================================================================///
 
 
-///do a header only request
+///===========================do a header only request===============================///
 void Browser::head_request(bool allow)
 {
     curl_easy_setopt(curl, CURLOPT_NOBODY, allow);
 }
+///=================================================================================///
 
 
-///return a curl handle to use outside of the class
+///===========return a curl handle to use outside of the class======================///
 CURL *Browser::get_handle()
 {
     return &curl;
 }
+///=================================================================================///
 
-///Use this function to directly create a
-///form out of the blue to post it
+
+///====Use this function to directly create a form out of the blue to post it=======///
 void Browser::set_direct_form_post(bool direct,std::string url = "")
 {
     if(url=="")
@@ -1051,8 +1105,10 @@ void Browser::set_direct_form_post(bool direct,std::string url = "")
         form.method_ = "POST";
     }
 }
+///=================================================================================///
 
-///Use HTTP 1.0 instead of 1.1
+
+///===========================Use HTTP 1.0 instead of 1.1===========================///
 void Browser::set_http_version_1_0(bool set_it)
 {
     if(set_it)
@@ -1060,14 +1116,18 @@ void Browser::set_http_version_1_0(bool set_it)
     else
         curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 }
+///=================================================================================///
 
-///Clear the history accumulated over time
+
+///=========================Clear the history accumulated over time==================///
 void Browser::clear_history()
 {
     history_.clear();
 }
+///=================================================================================///
 
-///Show the current history
+
+///===========================Show the current history===============================///
 void Browser::history()
 {
     for(unsigned int ii=0;ii<history_.size();ii++)
@@ -1075,17 +1135,20 @@ void Browser::history()
         std::cout<<history_[ii]<<"\n";
     }
 }
+///=================================================================================///
 
 
-///return the current url
+///==============================return the current url=============================///
 std::string Browser::geturl()
 {
     char * current_url;
     curl_easy_getinfo(curl,CURLINFO_EFFECTIVE_URL, &current_url);
     return current_url;
 }
+///=================================================================================///
 
-///check if in url
+
+///==============================check if in url====================================///
 bool Browser::inurl(std::string str)
 {
     std::string current_url = geturl();
@@ -1098,9 +1161,10 @@ bool Browser::inurl(std::string str)
         return false;
     }
 }
+///=================================================================================///
 
 
-///Go back in history
+///============================Go back in history===================================///
 void Browser::back(int timeout=20)
 {
     //remove the last page
@@ -1110,8 +1174,10 @@ void Browser::back(int timeout=20)
     open(history_[history_.size()-1],timeout,false);
 
 }
+///=================================================================================///
 
-///return true if html response is not empty
+
+///===========return true if html response is not empty=============================///
 bool Browser::viewing_html()
 {
     if(response()!="")
@@ -1119,5 +1185,6 @@ bool Browser::viewing_html()
     else
         return false;
 }
+///=================================================================================///
 
 #endif // MECHANIZE_HPP_INCLUDED
