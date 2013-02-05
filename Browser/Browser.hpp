@@ -161,8 +161,8 @@ Browser::Browser()
     curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "");
     curl_easy_setopt(curl, CURLOPT_POSTREDIR, CURL_REDIR_POST_ALL);
     #ifdef windows
-    //For W$ -- init winsock
-    curl_global_init(CURL_GLOBAL_WIN32);
+		//For W$ -- init winsock
+		curl_global_init(CURL_GLOBAL_WIN32);
     #endif
 }
 ///=================================================================================///
@@ -195,7 +195,7 @@ void Browser::close()
 void Browser::init()
 {
     //maybe we'll loose the cookies if we do that
-    //curl                 = curl_easy_init();
+    //curl                   = curl_easy_init();
     direct_form_post_        = false;
     curl_formfree(formpost);
     headers              = curl_slist_append(headers, "Accept:");
@@ -236,8 +236,6 @@ bool Browser::error()
                     curl_easy_strerror(res));
         return true;
     }
-    if(res == CURLE_OK)
-        return false;
     return false;
 }
 ///=================================================================================///
@@ -262,8 +260,6 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
     timeout = usertimeout;
     //set the url in the options
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str() );
-    // this line makes it work under https
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1);
     //Handle the response
     if(writing_bytes==false)
     {
@@ -303,8 +299,6 @@ void Browser::open_novisit(std::string url, int usertimeout=20)
     timeout = usertimeout;
     //set the url in the options
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str() );
-    // this line makes it work under https
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1);
     //Handle the response
     if(writing_bytes==false)
     {
@@ -339,8 +333,6 @@ void Browser::open(std::string url, std::string post_data, int usertimeout=20)
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str() );
     //and set it as the options for curl
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post_data.c_str());
-    // this line makes it work under https
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1);
     //Handle the response
     if(writing_bytes==false)
     {
@@ -381,8 +373,6 @@ void Browser::open(std::string url, int usertimeout,std::string post_data)
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str() );
     //and set it as the options for curl
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post_data.c_str());
-    // this line makes it work under https
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1);
     //Handle the response
     if(writing_bytes==false)
     {
@@ -420,8 +410,6 @@ void Browser::open_form(std::string url, int usertimeout=20)
     timeout = usertimeout;
     //set the url in the options
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str() );
-    // this line makes it work under https
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1);
     //Handle the response
     if(writing_bytes==false)
     {
@@ -872,7 +860,8 @@ bool Browser::intitle(std::string str)
 std::string Browser::getcookies()
 {
     std::string allcookies = "";
-    curl_slist * cookies=NULL;
+    //set to 0 and not to NULL
+    curl_slist * cookies   = 0 ;
     curl_easy_getinfo(curl,CURLINFO_COOKIELIST, &cookies);
     curl_slist * cur = cookies;
     while(cur)
@@ -943,8 +932,13 @@ void Browser::set_cookiejar()
 ///========================simply reload the page===================================///
 void Browser::reload()
 {
-    std::string current_page = geturl();
-    open(current_page);
+	if(geturl().length()>4)
+	{
+		std::string current_page = geturl();
+		open(current_page);
+	}
+	else
+		std::cout<<"\n_!_ No pages have been opened yet\n";
 }
 ///=================================================================================///
 
@@ -965,7 +959,6 @@ void Browser::set_dns(std::string dns_server)
     curl_easy_setopt(curl, CURLOPT_DNS_SERVERS, dns_server.c_str());
 }
 ///=================================================================================///
-
 
 
 ///================Set a proxy (proxy:port) or unset it with the bool false=========///
@@ -990,6 +983,11 @@ void Browser::set_proxy(std::string proxy, std::string type="http")
     {
         curl_easy_setopt(curl, CURLOPT_PROXY, CURLPROXY_SOCKS4A );
     }
+    else
+	{
+		curl_easy_setopt(curl, CURLOPT_PROXY, proxy.c_str());
+        curl_easy_setopt(curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP );
+	}
 }
 void Browser::set_proxy(bool allow)
 {
@@ -1034,6 +1032,8 @@ std::string Browser::status()
     std::ostringstream response_str;
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_int);
     response_str<<response_int;
+    response_str.str()="";
+    response_str.clear();
     return response_str.str();
 }
 ///=================================================================================///
@@ -1044,15 +1044,29 @@ std::string Browser::status()
 void Browser::limit_speed(int limit)
 {
     limit = limit *1000;
-    curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, limit);
-    curl_easy_setopt(curl, CURLOPT_MAX_SEND_SPEED_LARGE, limit);
-    curl_easy_setopt(curl, CURLOPT_MAX_RECV_SPEED_LARGE, limit);
+    if(limit>0)
+	{
+		curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, limit);
+		curl_easy_setopt(curl, CURLOPT_MAX_SEND_SPEED_LARGE, limit);
+		curl_easy_setopt(curl, CURLOPT_MAX_RECV_SPEED_LARGE, limit);
+	}
+	else
+	{
+		std::cout<<"\n_!_ Can't set the time limit \n";
+	}
 }
 //relevant only if limit_speed is set up
 //in seconds
 void Browser::limit_time(int limit)
 {
-    curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, limit);
+	if(limit>0)
+	{
+		curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, limit);
+	}
+	else
+	{
+		std::cout<<"\n_!_ Can't set the limit \n";
+	}
 }
 ///=================================================================================///
 
@@ -1179,7 +1193,7 @@ void Browser::back(int timeout=20)
 ///===========return true if html response is not empty=============================///
 bool Browser::viewing_html()
 {
-    if(response()!="")
+    if(response().length()>12)
         return true;
     else
         return false;
