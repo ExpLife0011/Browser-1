@@ -2,14 +2,14 @@ Browser
 =======
 
 <pre>
-Now not only curl has a cool ascii-art
+Now not only curl has a cool(shitty) ascii-art
 
 █▐ ▀▄                   ▅▂  |▄▄  __
 █▐ ▄▄▄▄ |█▀▄  ▄▄ |▄   ▌▐__   ▌▄  █ ▚
 █▐▓░ |▐  █   ▐▓░▌ ▐|▓| _  ▍ ▒▌▄  █
 █▐▄▄▄▄▐  ▀ ░  ▀▀        ▔        ▀
 
-?no utf-8 support?
+?no utf-8 support?(damn it!)
 </pre>
 
 License (unixhub)
