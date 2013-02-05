@@ -232,7 +232,7 @@ bool Browser::error()
     //Check the return code for errors
     if(res != CURLE_OK)
     {
-        fprintf(stderr, "\n//!\\\\ There was an error while opening the page : %s\n",
+        fprintf(stderr, "\n_!_ There was an error while opening the page : %s\n",
                     curl_easy_strerror(res));
         return true;
     }
@@ -845,8 +845,7 @@ std::string Browser::title()
     {
         int start = title_container[0].find(">")+1;
         int stop  = title_container[0].find("<");
-        std::string the_tile = title_container[0].substr(start,stop-start);
-        return the_tile;
+        return title_container[0].substr(start,stop-start);
     }
     return "";
 }

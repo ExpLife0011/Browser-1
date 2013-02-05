@@ -138,10 +138,10 @@ void remove_html_comments(std::string & html_response)
 }
 ///=================================================================================///
 
-////WHAT IF WE HAVE FIND SOMETHING VALUABLE BUT THAT IS BETWEEN QUOTES "" ??? PROBLEMS
+////WHAT IF WE HAVE FOUND SOMETHING VALUABLE BUT THAT IS BETWEEN QUOTES "" ??? PROBLEMS
 ////A BUG WILL CERTAINLLY HAPPENS BECAUSE WE BREAK THE HTML WHERE WE SHOULDN"T
 ////EVERYTHING DEPENDS ON IF THE HTML HAS "<" or ">" BETWEEN SOME QUOTES SOMEWHERE
-////BUT WHO"S THE DUMBASS WHO WILL WRITE HTML LIKE THAT???
+////BUT WHO'S THE DUMBASS WHO WILL WRITE HTML LIKE THAT???
 ///========================RETURN "seeking *= *\"(.*)\""============================///
 std::string get_after_equal(std::string html_response, std::string seeking)
 {
@@ -249,7 +249,7 @@ std::string get_after_equal(std::string html_response, std::string seeking)
         }
     }
     //in case of errors
-    return " ";
+    return "";
 }
 ///=================================================================================///
 
@@ -345,7 +345,7 @@ void get_after_delimiter(std::string html_response, std::string seeking, std::ve
                     position = last_index + seeking.length();
 
                     if(html_lower[last_index-backward_ite] == '/' ||
-                       html_lower[last_index-backward_ite] == '//')
+                       html_lower[last_index-backward_ite] == '\\')
                     //6- if there's a / or \\ then we go backward again ignoring spaces
                     {
                         backward_ite++;
@@ -469,18 +469,25 @@ std::string get_between_two_closed(std::string raw_input,std::string seeking)
 
     /* some variables we'll use */
     /*related to the start */
-    int first_index;
-    int backward_ite;
+    unsigned int first_index;
+    unsigned int backward_ite;
 
     //find the first closing '>' saves it as the first index of the output string
     first_index = raw_lower.find('>',0)+1;
-    backward_ite = raw_lower.length()-1;
 
-    while(raw_lower[backward_ite]!='<')
-    {
-        backward_ite--;
-    }
-    return raw_input.substr(first_index,backward_ite-first_index);
+    if(first_index!=std::string::npos)
+	{
+		backward_ite = raw_lower.length()-1;
+
+		while(raw_lower[backward_ite]!='<')
+		{
+			backward_ite--;
+		}
+		return raw_input.substr(first_index,backward_ite-first_index);
+	}
+	else
+		//on error return empty string
+		return "";
 
 }
 ///=================================================================================///
@@ -507,9 +514,9 @@ void get_from_intern(std::string raw_input, std::string word,std::string word2, 
     //position is the variable that
     //decides from where the search are done
     unsigned int position   = 0;
-    int first_index;
+    unsigned int first_index;
     unsigned int middle_index;
-    int forward_ite;
+    unsigned int forward_ite;
     int backward_ite;
     bool have_found=false;
 

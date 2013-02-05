@@ -176,7 +176,13 @@ int links_class::size()
 link_struct links_class::operator[ ]  (int ite)
 {
     //return the link which has a url, name, title, target
-    return (links_array[ite]);
+    if((unsigned int)ite<links_array.size() && ite>-1)
+		return (links_array[ite]);
+	else
+	{
+		std::cout<<"_!_ No Such link, using the last link as default";
+		return (links_array[links_array.size()-1]);
+	}
 }
 ///==================================================================================///
 
