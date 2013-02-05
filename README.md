@@ -7,7 +7,7 @@ Now not only curl has a cool ascii-art
 █▐ ▀▄                   ▅▂  |▄▄  __
 █▐ ▄▄▄▄ |█▀▄  ▄▄ |▄   ▌▐__   ▌▄  █ ▚
 █▐▓░ |▐  █   ▐▓░▌ ▐|▓| _  ▍ ▒▌▄  █
-█▐▄▄▄▄▐  ▀ ░  ▀▀        ▔            ▀
+█▐▄▄▄▄▐  ▀ ░  ▀▀        ▔        ▀
 
 ?no utf-8 support?
 </pre>
