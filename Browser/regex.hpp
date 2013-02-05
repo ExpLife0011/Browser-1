@@ -160,7 +160,7 @@ std::string get_after_equal(std::string html_response, std::string seeking)
     /* some variables we'll use */
     /*related to the start */
     bool STOP      = false;
-    int position       = 0;
+    int position   = 0;
     unsigned int first_index;
     /*related to the end */
     int forward_ite;

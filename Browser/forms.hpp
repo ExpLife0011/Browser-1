@@ -524,133 +524,98 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
     //textarea :name(), value()
     //bytes    :strings...
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //if we already have all the infos inside form
-    //and only need to change them
-    /*
-    if(fully_copied)
+	if(direct_post==false)
 	{
-		for(int ii=0;ii<input.size();ii++)
+		if(url_=="")
 		{
-			if(input[ii].name()==name)
+			url_=form_work_on.url();
+		}
+		if(method_=="")
+		{
+			method_=form_work_on.method();
+		}
+
+		for(unsigned int ii=0;ii<form_work_on.input.size();ii++)
+		{
+			if(form_work_on.input[ii].name()==name)
 			{
-				//it is an input, we return a pointer to the value
-				//PROBLEM: we can have 2 inputs we the same name
-				//ex: input like checkboxes
+				//it is an input, we need to push_back an input
+				//with the same name and infos
+				input_struct temp_input;
+				temp_input.name_ = name;
+				temp_input.type_ = form_work_on.input[ii].type();
+				temp_input.value_ = "";
+				input.push_back(temp_input);
+				//return a pointer to the value of the input we just pushed
+				return &input[input.size()-1].value_;
+			}
+		}
+		for(unsigned int ii=0;ii<form_work_on.textarea.size();ii++)
+		{
+			if(form_work_on.textarea[ii].name()==name)
+			{
+				//it is a textarea, we need to push_back a textarea
+				//with the same name and infos
+				textarea_struct temp_text;
+				temp_text.name_=form_work_on.textarea[ii].name();
+				temp_text.value_="";
+				textarea.push_back(temp_text);
+				//return a pointer to the value of the textarea we just pushed
+				return &textarea[textarea.size()-1].value_;
+			}
+		}
 
-				//if type == "text" then it takes only 1 value, we change the one we have in form
-				//if type == "radio" then it also takes 1 value, we change the one we have in form
-				//if type == "checkbox" then it can take multiple values
-				// we can remove all checkboxes except 1 and when we want to add the first time
-				//we overwrite this checkbox , all the other time we add new checkboxes
+		for(unsigned int ii=0;ii<form_work_on.select.size();ii++)
+		{
+			if(form_work_on.select[ii].name()==name)
+			{
+				//it is a select, we need to push_back a
+				//select if the select doesn't exist,
+				//otherwise we only push_back the option
 
-				//we also must only have 1 submit, so we need to only keep one and remove the others
-
-				if(word_in(input[ii].type(),"text") || word_in(input[ii].type(),"radio"))
+				//loop inside to see if we already have this select
+				for(unsigned int loop_in=0;loop_in<select.size();loop_in++)
 				{
-					//temp_input.value_ = "";
-					//return a pointer to the value of the input with the same name
-					//return &input[ii].value_;
+					//we already have it so we only need to
+					//push_back a new option to it
+					if(select[loop_in].name()==name)
+					{
+						option temp_option;
+						temp_option.selected_ = true;
+						temp_option.value_    = "";
+						select[loop_in].options.push_back(temp_option);
+						return &select[loop_in].options[   select[loop_in].options.size()-1  ].value_;
+					}
 				}
+				//if we don't have it we create on with the info of
+				//the form we are working on
+				select_struct temp_select;
+				temp_select.name_ = name;
+				//set the options
+				option temp_option;
+				temp_option.selected_ = true;
+				temp_option.value_    = "";
+				//add our option to the new select
+				temp_select.options.push_back(temp_option);
+				//push_back the new select
+				select.push_back(temp_select);
+				return &select[select.size()-1].options[   select[select.size()-1].options.size()-1  ].value_;
 			}
 		}
 
 	}
+	//if it's a direct post we consider everything as an input
 	else
 	{
-	*/
-		if(direct_post==false)
-		{
-			if(url_=="")
-			{
-				url_=form_work_on.url();
-			}
-			if(method_=="")
-			{
-				method_=form_work_on.method();
-			}
+		input_struct temp_input;
+		temp_input.name_ = name;
+		temp_input.type_ = "text";
+		temp_input.value_ = "";
+		input.push_back(temp_input);
+		//return a pointer to the value of the input we just pushed
+		return &input[input.size()-1].value_;
+	}
 
-			for(unsigned int ii=0;ii<form_work_on.input.size();ii++)
-			{
-				if(form_work_on.input[ii].name()==name)
-				{
-					//it is an input, we need to push_back an input
-					//with the same name and infos
-					input_struct temp_input;
-					temp_input.name_ = name;
-					temp_input.type_ = form_work_on.input[ii].type();
-					temp_input.value_ = "";
-					input.push_back(temp_input);
-					//return a pointer to the value of the input we just pushed
-					return &input[input.size()-1].value_;
-				}
-			}
-			for(unsigned int ii=0;ii<form_work_on.textarea.size();ii++)
-			{
-				if(form_work_on.textarea[ii].name()==name)
-				{
-					//it is a textarea, we need to push_back a textarea
-					//with the same name and infos
-					textarea_struct temp_text;
-					temp_text.name_=form_work_on.textarea[ii].name();
-					temp_text.value_="";
-					textarea.push_back(temp_text);
-					//return a pointer to the value of the textarea we just pushed
-					return &textarea[textarea.size()-1].value_;
-				}
-			}
-
-			for(unsigned int ii=0;ii<form_work_on.select.size();ii++)
-			{
-				if(form_work_on.select[ii].name()==name)
-				{
-					//it is a select, we need to push_back a
-					//select if the select doesn't exist,
-					//otherwise we only push_back the option
-
-					//loop inside to see if we already have this select
-					for(unsigned int loop_in=0;loop_in<select.size();loop_in++)
-					{
-						//we already have it so we only need to
-						//push_back a new option to it
-						if(select[loop_in].name()==name)
-						{
-							option temp_option;
-							temp_option.selected_ = true;
-							temp_option.value_    = "";
-							select[loop_in].options.push_back(temp_option);
-							return &select[loop_in].options[   select[loop_in].options.size()-1  ].value_;
-						}
-					}
-					//if we don't have it we create on with the info of
-					//the form we are working on
-					select_struct temp_select;
-					temp_select.name_ = name;
-					//set the options
-					option temp_option;
-					temp_option.selected_ = true;
-					temp_option.value_    = "";
-					//add our option to the new select
-					temp_select.options.push_back(temp_option);
-					//push_back the new select
-					select.push_back(temp_select);
-					return &select[select.size()-1].options[   select[select.size()-1].options.size()-1  ].value_;
-				}
-			}
-
-		}
-		//if it's a direct post we consider everything as an input
-		else
-		{
-			input_struct temp_input;
-			temp_input.name_ = name;
-			temp_input.type_ = "text";
-			temp_input.value_ = "";
-			input.push_back(temp_input);
-			//return a pointer to the value of the input we just pushed
-			return &input[input.size()-1].value_;
-		}
-	/*}*/
     return NULL;
 }
 ///=================================================================================///

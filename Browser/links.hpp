@@ -97,7 +97,7 @@ void links_class::clear()
 ///=========================Return all the links=====================================///
 std::string links_class::all()
 {
-	std::string output;
+	std::string output="";
 	for(int i=0;i<size();i++)
 	{
 		output+=links_array[i].url();
@@ -155,8 +155,7 @@ void link_struct::clear_link()
 //return simply the url, the part the most used of a link
 void link_struct::stream_it(std::ostream & flux) const
 {
-    std::string output = url_;
-    flux << output;
+    flux << url_;
 }
 std::ostream &operator<<( std::ostream &flux, link_struct const& link_to_display  )
 {
