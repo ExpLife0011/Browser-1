@@ -1,6 +1,17 @@
 Browser
 =======
 
+<pre>
+Now not only curl has a cool ascii-art
+
+█▐ ▀▄                   ▅▂ |▄▄  __
+█▐ ▄▄▄▄ |█▀▄  ▄▄ |▄   ▌▐_  |▌▄ |█ ▚
+█▐▓░ |▐ |█   ▐▓░▌ ▚|▓▞ _ ▚ ▒▌▄ |█
+█▐▄▄▄▄▐  ▀ ░  ▀▀         ▔         ▀
+
+?no utf-8 support?
+</pre>
+
 License (unixhub)
 -----------------
 
