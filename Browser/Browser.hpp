@@ -455,22 +455,15 @@ void Browser::select_form(int number_start_from_zero)
     	//if we want to have the whole form copied
     	//we will already have all the infos inside form
     	//so no need for an intermediate form
-    	/*if(form.fully_copied)
-		{
-			form = forms[number_start_from_zero];
-			form.fully_copied = true;
-		}
-		else
-		{*/
-			forms_class::form_class form_work_on_first  = forms[number_start_from_zero];
-			//now convert this forms_class::form_class into a forms_class::form_class2
-			forms_class::form_class2 form_work_on_first2;
-			convert_1_to_2(form_work_on_first,form_work_on_first2);
-			//place it in the form so it can know which one we are working with now
-			form.form_work_on = form_work_on_first2;
-			//copy nly the hidden part of the form selected, the other parts must be selected by the user
-			take_hidden(form_work_on_first,form);
-		/*}*/
+		forms_class::form_class form_work_on_first  = forms[number_start_from_zero];
+		//now convert this forms_class::form_class into a forms_class::form_class2
+		forms_class::form_class2 form_work_on_first2;
+		convert_1_to_2(form_work_on_first,form_work_on_first2);
+		//place it in the form so it can know which one we are working with now
+		form.form_work_on = form_work_on_first2;
+		//copy nly the hidden part of the form selected, the other parts must be selected by the user
+		take_hidden(form_work_on_first,form);
+
     }
 }
 
@@ -1126,12 +1119,5 @@ bool Browser::viewing_html()
     else
         return false;
 }
-
-
-///Set this to copy all the selected form into form
-//void Browser::full_form(bool allow)
-//{
-	//form.fully_copied = allow;
-//}
 
 #endif // MECHANIZE_HPP_INCLUDED
