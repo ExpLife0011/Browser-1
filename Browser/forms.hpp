@@ -243,6 +243,7 @@ class forms_class
 
     private:
     protected:
+    	form_class against_error_form;
         void filter_inside_form();
         void get_raw_inputs(std::string raw_form, std::vector <std::string> &raw_inputs_container);
         form_class crack(std::string form_part);
@@ -618,7 +619,7 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
 		return &input[input.size()-1].value_;
 	}
 
-	std::cout<<"\n_!_ No Such Name inside this form\n";
+	std::cerr<<"\n_!_ No Such Name inside this form\n";
 	//pointer to zero instead of NULL, this is safer against buffer overflows
 	//or we can return a pointer to a temp string because we are doing that with an equal
     //return 0;
@@ -632,8 +633,16 @@ forms_class::form_class forms_class::operator[ ]  (int ite)
 {
     if( (unsigned int) ite>=all_forms.size() || ite<0)
     {
-    	std::cout<<"\n_!_ No Such form, using the first form as default\n";
-        return all_forms[0];
+    	if(all_forms.size()!=0)
+		{
+			std::cerr<<"\n_!_ No Such form, using the first form as default\n";
+			return all_forms[0];
+		}
+		else
+		{
+			std::cerr<<"\n_!_ No form at all seen\n";
+			return against_error_form;
+		}
     }
     return all_forms[ite];
 }

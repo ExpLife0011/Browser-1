@@ -1,4 +1,4 @@
-* By hand:
+#!/bin/bash
 
 g++ -Wall -s -march=i686 \
           -O3 -fexpensive-optimizations \

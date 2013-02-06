@@ -278,7 +278,7 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
     res = curl_easy_perform(curl);
     if(error())
     {
-        std::cout<<"\n";
+        std::cerr<<"\n";
     }
     if(writing_bytes==true)
         fclose(filepipe);
@@ -317,7 +317,7 @@ void Browser::open_novisit(std::string url, int usertimeout=20)
     res = curl_easy_perform(curl);
     if(error())
     {
-        std::cout<<"\n";
+        std::cerr<<"\n";
     }
     if(writing_bytes==true)
 	{
@@ -351,7 +351,7 @@ void Browser::open(std::string url, std::string post_data, int usertimeout=20)
     res = curl_easy_perform(curl);
     if(error())
     {
-        std::cout<<"\n===============================================\n";
+        std::cerr<<"\n===============================================\n";
     }
     if(writing_bytes==true)
         fclose(filepipe);
@@ -391,7 +391,7 @@ void Browser::open(std::string url, int usertimeout,std::string post_data)
     res = curl_easy_perform(curl);
     if(error())
     {
-        std::cout<<"\n===============================================\n";
+        std::cerr<<"\n===============================================\n";
     }
     if(writing_bytes==true)
         fclose(filepipe);
@@ -428,7 +428,7 @@ void Browser::open_form(std::string url, int usertimeout=20)
     res = curl_easy_perform(curl);
     if(error())
     {
-        std::cout<<"\n";
+        std::cerr<<"\n";
     }
     if(writing_bytes==true)
         fclose(filepipe);
@@ -938,7 +938,7 @@ void Browser::reload()
 		open(current_page);
 	}
 	else
-		std::cout<<"\n_!_ No pages have been opened yet\n";
+		std::cerr<<"\n_!_ No pages have been opened yet\n";
 }
 ///=================================================================================///
 
@@ -1052,7 +1052,7 @@ void Browser::limit_speed(int limit)
 	}
 	else
 	{
-		std::cout<<"\n_!_ Can't set the time limit \n";
+		std::cerr<<"\n_!_ Can't set the time limit \n";
 	}
 }
 //relevant only if limit_speed is set up
@@ -1065,7 +1065,7 @@ void Browser::limit_time(int limit)
 	}
 	else
 	{
-		std::cout<<"\n_!_ Can't set the limit \n";
+		std::cerr<<"\n_!_ Can't set the limit \n";
 	}
 }
 ///=================================================================================///
