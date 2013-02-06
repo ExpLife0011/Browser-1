@@ -1,5 +1,14 @@
 * By hand:
 
-g++ -Wall -s -march=i686 -O3 -fexpensive-optimizations -fdelete-null-pointer-checks -std=c++11 -Wstrict-overflow=2 -fno-builtin -fno-operator-names -mtune=i686 main.cpp -I/usr/include -I/home/raptor/mechanize_plus_plus/mechanize -lcurl -o mechanize_test
+g++ -Wall -s -march=i686 \
+          -O3 -fexpensive-optimizations \
+          -fdelete-null-pointer-checks \
+          -std=c++11 -Wstrict-overflow=2 \ 
+          -fno-builtin -fno-operator-names \
+          -mtune=i686 main.cpp -I/usr/include \
+          -I/home/raptor/mechanize_plus_plus/mechanize \
+          -mtune=generic -pipe -fstack-protector \
+          --param=ssp-buffer-size=4 -D_FORTIFY_SOURCE=2 \
+          -lcurl -o mechanize_test
 
 
