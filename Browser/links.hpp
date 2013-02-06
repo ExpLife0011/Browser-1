@@ -59,6 +59,16 @@ class link_struct
         {
             return target_;
         }
+
+        std::string clas()
+        {
+            return class_;
+        }
+
+        std::string id()
+        {
+            return id_;
+        }
     friend links_class;
     friend std::ostream &operator<<( std::ostream &flux, link_struct const& link_to_display  );
     private:
@@ -67,6 +77,8 @@ class link_struct
         std::string name_;
         std::string title_;
         std::string target_;
+        std::string class_;
+        std::string id_;
         void clear_link();
         void stream_it(std::ostream & flux) const;
 };
@@ -130,6 +142,8 @@ void links_class::getlinks(std::string raw_input)
     {
         temp_link.clear_link();
         temp_link.target_ = get_after_equal(temp_raw_links_container[ii], "target");
+        temp_link.id_     = get_after_equal(temp_raw_links_container[ii], "id");
+        temp_link.class_     = get_after_equal(temp_raw_links_container[ii], "class");
         temp_link.title_  = get_after_equal(temp_raw_links_container[ii], "title");
         temp_link.url_    = get_after_equal(temp_raw_links_container[ii], "href");
         temp_link.name_   = get_between_two_closed(temp_raw_links_container[ii],"a");
@@ -147,6 +161,8 @@ void link_struct::clear_link()
     name_  = "";
     title_ = "";
     target_= "";
+    id_    = "";
+    class_ = "";
 }
 ///==================================================================================///
 

@@ -148,6 +148,8 @@ std::string name();
 std::string title();
 std::string target();
 std::string all()
+std::string clas()
+std::string id()
 
 **forms**
 std::vector <std::string> form_raw_container;
@@ -527,6 +529,10 @@ int main()
             <<br.links[i].title()
             <<"\n=================\n"
             <<br.links[i].target()
+            <<"\n=================\n"
+            <<br.links[i].clas()
+            <<"\n=================\n"
+            <<br.links[i].id()
             <<"\n=================\n"
             /*this one is the same as br.links[i].url()*/
             <<br.links[i];
