@@ -263,6 +263,8 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
     //Handle the response
     if(writing_bytes==false)
     {
+    	addheaders({"Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"});
+		addheaders({"Connection" ,"keep-alive"});
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_string );
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &html_response);
         curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header_);
@@ -302,6 +304,8 @@ void Browser::open_novisit(std::string url, int usertimeout=20)
     //Handle the response
     if(writing_bytes==false)
     {
+    	addheaders({"Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"});
+		addheaders({"Connection" ,"keep-alive"});
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_string );
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &html_response);
         curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header_);
@@ -336,6 +340,8 @@ void Browser::open(std::string url, std::string post_data, int usertimeout=20)
     //Handle the response
     if(writing_bytes==false)
     {
+    	addheaders({"Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"});
+		addheaders({"Connection" ,"keep-alive"});
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_string );
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &html_response);
         curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header_);
@@ -376,6 +382,8 @@ void Browser::open(std::string url, int usertimeout,std::string post_data)
     //Handle the response
     if(writing_bytes==false)
     {
+    	addheaders({"Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"});
+		addheaders({"Connection" ,"keep-alive"});
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_string );
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &html_response);
         curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header_);
@@ -413,6 +421,8 @@ void Browser::open_form(std::string url, int usertimeout=20)
     //Handle the response
     if(writing_bytes==false)
     {
+    	addheaders({"Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"});
+		addheaders({"Connection" ,"keep-alive"});
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_string );
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &html_response);
         curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header_);
@@ -948,6 +958,8 @@ void Browser::set_handle_ssl(bool allow)
 {
     if(!allow)
         curl_easy_setopt(curl, CURLOPT_USE_SSL, CURLUSESSL_NONE);
+	else
+		curl_easy_setopt(curl, CURLOPT_USE_SSL, CURLUSESSL_TRY);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, allow);
 }
 ///=================================================================================///
@@ -1019,8 +1031,11 @@ void Browser::set_interface(std::string interface_name, long int port=80, long i
 {
         curl_easy_setopt(curl, CURLOPT_INTERFACE, interface_name.c_str() );
         curl_easy_setopt(curl, CURLOPT_LOCALPORT, port );
-        max_port = 1 + port-max_port;
-        curl_easy_setopt(curl, CURLOPT_LOCALPORTRANGE, max_port );
+        if(max_port>80)
+        {
+        	max_port = port + max_port-port+1;
+			curl_easy_setopt(curl, CURLOPT_LOCALPORTRANGE, max_port );
+        }
 }
 ///=================================================================================///
 
