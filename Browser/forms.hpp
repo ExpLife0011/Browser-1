@@ -266,7 +266,6 @@ void forms_class::initialize(std::string whole_html)
     all_forms.clear();
     //we get the raw forms inside the class
     get_after_delimiter(whole_html,"form",form_raw_container);
-    //for(int i=0;i<form_raw_container.size();i++)
     filter_inside_form();
 }
 forms_class::forms_class()
@@ -654,6 +653,7 @@ void forms_class::filter_inside_form()
 {
     for(unsigned int ii=0; ii < form_raw_container.size(); ii++)
     {
+    	///maybe we can fork those in the background... or make it multithreaded
         form_class cracked_form  = crack(form_raw_container[ii]);
         all_forms.push_back(cracked_form);
     }
@@ -667,7 +667,9 @@ forms_class::form_class forms_class::crack(std::string form_part)
     form_class my_new_form;
 
     //get the basic stuff of a form
+    ///we can fork that
     my_new_form.url_    = get_after_equal(form_part,"action");
+    ///we can fork that
     std::string temp_en= get_after_equal(form_part,"enctype");
     if(temp_en=="multipart/form-data")
         my_new_form.multipart_=true;
@@ -681,6 +683,7 @@ forms_class::form_class forms_class::crack(std::string form_part)
     //filter the rest in a foo -- get the name
     if( word_in(form_part,"textarea ") )
     {
+    	///we can fork that
         //we need to store all the textarea in an array of struct
         //containing the name and an empty value so we
         //can fill them up later
