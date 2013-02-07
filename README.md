@@ -61,6 +61,13 @@ I made this library to make it easier to translate my python script that use mec
 I might soon write the whole the cheat sheet of the equivalence of the python mechanize.Browser into the C++ Browser. <br>
 You can take a look at this example of the python library called mechanize.Browser() which inspired me http://stockrt.github.com/p/emulating-a-browser-in-python-with-mechanize/ , imagine doing a simple thing like that in C++ and that's what the library does. <br>
 
+Install
+-------
+
+Browser is easy to use if you already have the libcurl library on your computer. <br>
+It's a header only library so you'll only have to include the headers in your project. <br>
+To get libcurl for your machine:  http://curl.haxx.se/download.html <br>
+
 Missing
 -------
 
