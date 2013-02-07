@@ -95,6 +95,7 @@ class Browser
 
         std::string escape(std::string the_string);
         std::string unescape(std::string the_string);
+        std::string get_root();
         void limit_speed(int limit);
         void limit_time(int limit);
         void set_http_tunel(bool allow);
@@ -507,6 +508,67 @@ void Browser::convert_1_to_2(forms_class::form_class form_work_on_first
         form_work_on_first2.url_      = form_work_on_first.url_;
         form_work_on_first2.method_   = form_work_on_first.method_;
         form_work_on_first2.multipart_= form_work_on_first.multipart_;
+}
+///=================================================================================///
+
+
+///==================Get the first root of the current  url=========================///
+std::string Browser::get_root()
+{
+	std::string temp_url="";
+    int backward_it     = 1;
+
+	temp_url = geturl();
+	bool https = false;
+	//remove the http:// to not confuse the slashes
+	replaceAll(temp_url,"http://","");
+	if( word_in(temp_url,"https://") )
+		https = true;
+	if(https)
+		replaceAll(temp_url,"https://","");
+
+	//now test if we are in a directory
+	//meaning something like:
+	//www.something.com/   or
+	//www.somthing.com/blah.php or
+	//www.something.com/else/somthing.php
+	if( word_in(temp_url,"/"))
+	{
+		while(temp_url[temp_url.size()-backward_it]!='/')
+		{
+			backward_it++;
+		}
+		//here we are on the last slash
+		if(form.url_[0]!='/')
+		{
+			if(!https)
+				temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it+1);
+			else
+				temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it+1);
+		}
+		else
+		{
+			if(!https)
+				temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it);
+			else
+				temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it);
+		}
+	}
+	//meaning we don't have any slash, we are in the top
+	//dir , so something like:
+	//www.blahblah.com
+	else
+	{
+		//here we concatenate all we need in this way:
+		//http://www.blahblah.com/formurl.php
+		if(!https)
+			temp_url = "http://" + temp_url + "/";
+		else
+			temp_url = "https://" + temp_url + "/";
+	}
+
+    return temp_url;
+
 }
 ///=================================================================================///
 
