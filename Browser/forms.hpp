@@ -653,7 +653,7 @@ void forms_class::filter_inside_form()
 {
     for(unsigned int ii=0; ii < form_raw_container.size(); ii++)
     {
-    	///maybe we can fork those in the background... or make it multithreaded
+    	///maybe we can fork those in the background... or make it multithreaded but it will not be multiplatform
         form_class cracked_form  = crack(form_raw_container[ii]);
         all_forms.push_back(cracked_form);
     }
