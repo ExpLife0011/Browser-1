@@ -153,8 +153,6 @@ Browser::Browser()
     //for ssl
     curl_global_init(CURL_GLOBAL_SSL);
     curl_easy_setopt(curl, CURLOPT_USE_SSL, CURLUSESSL_TRY);
-    //curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-    //curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
     curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
     //for authentification
     curl_easy_setopt(curl, CURLOPT_HTTPAUTH,  CURLAUTH_DIGEST|CURLAUTH_BASIC|CURLAUTH_ANYSAFE);
@@ -162,8 +160,8 @@ Browser::Browser()
     curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "");
     curl_easy_setopt(curl, CURLOPT_POSTREDIR, CURL_REDIR_POST_ALL);
     #ifdef windows
-		//For W$ -- init winsock
-		curl_global_init(CURL_GLOBAL_WIN32);
+        //For W$ -- init winsock
+        curl_global_init(CURL_GLOBAL_WIN32);
     #endif
 }
 ///=================================================================================///
@@ -264,8 +262,8 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
     //Handle the response
     if(writing_bytes==false)
     {
-    	addheaders("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-		addheaders("Connection" ,"keep-alive");
+        addheaders("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        addheaders("Connection" ,"keep-alive");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_string );
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &html_response);
         curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header_);
@@ -305,8 +303,8 @@ void Browser::open_novisit(std::string url, int usertimeout=20)
     //Handle the response
     if(writing_bytes==false)
     {
-    	addheaders("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-		addheaders("Connection" ,"keep-alive");
+        addheaders("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        addheaders("Connection" ,"keep-alive");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_string );
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &html_response);
         curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header_);
@@ -325,10 +323,10 @@ void Browser::open_novisit(std::string url, int usertimeout=20)
         std::cerr<<"\n";
     }
     if(writing_bytes==true)
-	{
+    {
         fclose(filepipe);
         writing_bytes=false;
-	}
+    }
 }
 void Browser::open(std::string url, std::string post_data, int usertimeout=20)
 {
@@ -341,8 +339,8 @@ void Browser::open(std::string url, std::string post_data, int usertimeout=20)
     //Handle the response
     if(writing_bytes==false)
     {
-    	addheaders("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-		addheaders("Connection" ,"keep-alive");
+        addheaders("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        addheaders("Connection" ,"keep-alive");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_string );
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &html_response);
         curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header_);
@@ -383,8 +381,8 @@ void Browser::open(std::string url, int usertimeout,std::string post_data)
     //Handle the response
     if(writing_bytes==false)
     {
-    	addheaders("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-		addheaders("Connection" ,"keep-alive");
+        addheaders("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        addheaders("Connection" ,"keep-alive");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_string );
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &html_response);
         curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header_);
@@ -422,8 +420,8 @@ void Browser::open_form(std::string url, int usertimeout=20)
     //Handle the response
     if(writing_bytes==false)
     {
-    	addheaders("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-		addheaders("Connection" ,"keep-alive");
+        addheaders("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        addheaders("Connection" ,"keep-alive");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_string );
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &html_response);
         curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header_);
@@ -464,17 +462,17 @@ void Browser::select_form(int number_start_from_zero)
     //starting from 0
     if(forms.size()>=number_start_from_zero-1)
     {
-    	//if we want to have the whole form copied
-    	//we will already have all the infos inside form
-    	//so no need for an intermediate form
-		forms_class::form_class form_work_on_first  = forms[number_start_from_zero];
-		//now convert this forms_class::form_class into a forms_class::form_class2
-		forms_class::form_class2 form_work_on_first2;
-		convert_1_to_2(form_work_on_first,form_work_on_first2);
-		//place it in the form so it can know which one we are working with now
-		form.form_work_on = form_work_on_first2;
-		//copy nly the hidden part of the form selected, the other parts must be selected by the user
-		take_hidden(form_work_on_first,form);
+        //if we want to have the whole form copied
+        //we will already have all the infos inside form
+        //so no need for an intermediate form
+        forms_class::form_class form_work_on_first  = forms[number_start_from_zero];
+        //now convert this forms_class::form_class into a forms_class::form_class2
+        forms_class::form_class2 form_work_on_first2;
+        convert_1_to_2(form_work_on_first,form_work_on_first2);
+        //place it in the form so it can know which one we are working with now
+        form.form_work_on = form_work_on_first2;
+        //copy nly the hidden part of the form selected, the other parts must be selected by the user
+        take_hidden(form_work_on_first,form);
 
     }
 }
@@ -484,15 +482,15 @@ void Browser::select_form(int number_start_from_zero)
 ///======================take only the hidden fields=================================///
 void Browser::take_hidden(forms_class::form_class form_work_on_first, forms_class::form_class &form_we_need)
 {
-	for(unsigned int ii=0;ii<form_work_on_first.input.size();ii++)
-	{
-		//if we have the type hidden we save it in form by default
-		if( word_in(form_work_on_first.input[ii].type(),"hidden") )
-		{
-			forms_class::input_struct temp = form_work_on_first.input[ii];
-			form_we_need.input.push_back(temp);
-		}
-	}
+    for(unsigned int ii=0;ii<form_work_on_first.input.size();ii++)
+    {
+        //if we have the type hidden we save it in form by default
+        if( word_in(form_work_on_first.input[ii].type(),"hidden") )
+        {
+            forms_class::input_struct temp = form_work_on_first.input[ii];
+            form_we_need.input.push_back(temp);
+        }
+    }
 }
 ///=================================================================================///
 
@@ -515,57 +513,57 @@ void Browser::convert_1_to_2(forms_class::form_class form_work_on_first
 ///==================Get the first root of the current  url=========================///
 std::string Browser::get_root()
 {
-	std::string temp_url="";
+    std::string temp_url="";
     int backward_it     = 1;
 
-	temp_url = geturl();
-	bool https = false;
-	//remove the http:// to not confuse the slashes
-	replaceAll(temp_url,"http://","");
-	if( word_in(temp_url,"https://") )
-		https = true;
-	if(https)
-		replaceAll(temp_url,"https://","");
+    temp_url = geturl();
+    bool https = false;
+    //remove the http:// to not confuse the slashes
+    replaceAll(temp_url,"http://","");
+    if( word_in(temp_url,"https://") )
+        https = true;
+    if(https)
+        replaceAll(temp_url,"https://","");
 
-	//now test if we are in a directory
-	//meaning something like:
-	//www.something.com/   or
-	//www.somthing.com/blah.php or
-	//www.something.com/else/somthing.php
-	if( word_in(temp_url,"/"))
-	{
-		while(temp_url[temp_url.size()-backward_it]!='/')
-		{
-			backward_it++;
-		}
-		//here we are on the last slash
-		if(form.url_[0]!='/')
-		{
-			if(!https)
-				temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it+1);
-			else
-				temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it+1);
-		}
-		else
-		{
-			if(!https)
-				temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it);
-			else
-				temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it);
-		}
-	}
-	//meaning we don't have any slash, we are in the top
-	//dir , so something like:
-	//www.blahblah.com
-	else
-	{
-		//here we concatenate all we need in this way:
-		//http://www.blahblah.com/formurl.php
-		if(!https)
-			temp_url = "http://" + temp_url + "/";
-		else
-			temp_url = "https://" + temp_url + "/";
-	}
+    //now test if we are in a directory
+    //meaning something like:
+    //www.something.com/   or
+    //www.somthing.com/blah.php or
+    //www.something.com/else/somthing.php
+    if( word_in(temp_url,"/"))
+    {
+        while(temp_url[temp_url.size()-backward_it]!='/')
+        {
+            backward_it++;
+        }
+        //here we are on the last slash
+        if(form.url_[0]!='/')
+        {
+            if(!https)
+                temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it+1);
+            else
+                temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it+1);
+        }
+        else
+        {
+            if(!https)
+                temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it);
+            else
+                temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it);
+        }
+    }
+    //meaning we don't have any slash, we are in the top
+    //dir , so something like:
+    //www.blahblah.com
+    else
+    {
+        //here we concatenate all we need in this way:
+        //http://www.blahblah.com/formurl.php
+        if(!https)
+            temp_url = "http://" + temp_url + "/";
+        else
+            temp_url = "https://" + temp_url + "/";
+    }
 
     return temp_url;
 
@@ -594,9 +592,9 @@ void Browser::submit(int timeout=30)
         //remove the http:// to not confuse the slashes
         replaceAll(temp_url,"http://","");
         if( word_in(temp_url,"https://") )
-			https = true;
-		if(https)
-			replaceAll(temp_url,"https://","");
+            https = true;
+        if(https)
+            replaceAll(temp_url,"https://","");
 
         //now test if we are in a directory
         //meaning something like:
@@ -611,19 +609,19 @@ void Browser::submit(int timeout=30)
             }
             //here we are on the last slash
             if(form.url_[0]!='/')
-			{
-				if(!https)
-					temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it+1)+form.url();
-				else
-					temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it+1)+form.url();
-			}
-			else
-			{
-				if(!https)
-					temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it)+form.url();
-				else
-					temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it)+form.url();
-			}
+            {
+                if(!https)
+                    temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it+1)+form.url();
+                else
+                    temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it+1)+form.url();
+            }
+            else
+            {
+                if(!https)
+                    temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it)+form.url();
+                else
+                    temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it)+form.url();
+            }
         }
         //meaning we don't have any slash, we are in the top
         //dir , so something like:
@@ -633,9 +631,9 @@ void Browser::submit(int timeout=30)
             //here we concatenate all we need in this way:
             //http://www.blahblah.com/formurl.php
             if(!https)
-				temp_url = "http://" + temp_url + "/" + form.url();
-			else
-				temp_url = "https://" + temp_url + "/" + form.url();
+                temp_url = "http://" + temp_url + "/" + form.url();
+            else
+                temp_url = "https://" + temp_url + "/" + form.url();
         }
     }
 
@@ -1004,13 +1002,13 @@ void Browser::set_cookiejar()
 ///========================simply reload the page===================================///
 void Browser::reload()
 {
-	if(geturl().length()>4)
-	{
-		std::string current_page = geturl();
-		open(current_page);
-	}
-	else
-		std::cerr<<"\n_!_ No pages have been opened yet\n";
+    if(geturl().length()>4)
+    {
+        std::string current_page = geturl();
+        open(current_page);
+    }
+    else
+        std::cerr<<"\n_!_ No pages have been opened yet\n";
 }
 ///=================================================================================///
 
@@ -1020,9 +1018,10 @@ void Browser::set_handle_ssl(bool allow)
 {
     if(!allow)
         curl_easy_setopt(curl, CURLOPT_USE_SSL, CURLUSESSL_NONE);
-	else
-		curl_easy_setopt(curl, CURLOPT_USE_SSL, CURLUSESSL_TRY);
+    else
+        curl_easy_setopt(curl, CURLOPT_USE_SSL, CURLUSESSL_TRY);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, allow);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, allow);
 }
 ///=================================================================================///
 
@@ -1058,10 +1057,10 @@ void Browser::set_proxy(std::string proxy, std::string type="http")
         curl_easy_setopt(curl, CURLOPT_PROXY, CURLPROXY_SOCKS4A );
     }
     else
-	{
-		curl_easy_setopt(curl, CURLOPT_PROXY, proxy.c_str());
+    {
+        curl_easy_setopt(curl, CURLOPT_PROXY, proxy.c_str());
         curl_easy_setopt(curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP );
-	}
+    }
 }
 void Browser::set_proxy(bool allow)
 {
@@ -1095,8 +1094,8 @@ void Browser::set_interface(std::string interface_name, long int port=80, long i
         curl_easy_setopt(curl, CURLOPT_LOCALPORT, port );
         if(max_port>80)
         {
-        	max_port = port + max_port-port+1;
-			curl_easy_setopt(curl, CURLOPT_LOCALPORTRANGE, max_port );
+            max_port = port + max_port-port+1;
+            curl_easy_setopt(curl, CURLOPT_LOCALPORTRANGE, max_port );
         }
 }
 ///=================================================================================///
@@ -1122,28 +1121,28 @@ void Browser::limit_speed(int limit)
 {
     limit = limit *1000;
     if(limit>0)
-	{
-		curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, limit);
-		curl_easy_setopt(curl, CURLOPT_MAX_SEND_SPEED_LARGE, limit);
-		curl_easy_setopt(curl, CURLOPT_MAX_RECV_SPEED_LARGE, limit);
-	}
-	else
-	{
-		std::cerr<<"\n_!_ Can't set the time limit \n";
-	}
+    {
+        curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, limit);
+        curl_easy_setopt(curl, CURLOPT_MAX_SEND_SPEED_LARGE, limit);
+        curl_easy_setopt(curl, CURLOPT_MAX_RECV_SPEED_LARGE, limit);
+    }
+    else
+    {
+        std::cerr<<"\n_!_ Can't set the time limit \n";
+    }
 }
 //relevant only if limit_speed is set up
 //in seconds
 void Browser::limit_time(int limit)
 {
-	if(limit>0)
-	{
-		curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, limit);
-	}
-	else
-	{
-		std::cerr<<"\n_!_ Can't set the limit \n";
-	}
+    if(limit>0)
+    {
+        curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, limit);
+    }
+    else
+    {
+        std::cerr<<"\n_!_ Can't set the limit \n";
+    }
 }
 ///=================================================================================///
 
