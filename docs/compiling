@@ -1,9 +1,10 @@
 #!/bin/bash
 
+#use -DNDEBUG to remove all assert and make it more efficient
 g++ -Wall -s -march=i686 \
           -O3 -fexpensive-optimizations \
           -fdelete-null-pointer-checks \
-          -std=c++11 -Wstrict-overflow=2 \ 
+          -std=c++11 -Wstrict-overflow=2 \
           -fno-builtin -fno-operator-names \
           -mtune=i686 main.cpp -I/usr/include \
           -I/home/raptor/mechanize_plus_plus/mechanize \
