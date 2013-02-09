@@ -32,6 +32,7 @@ in this Software without prior written authorization of the copyright holder.
 
 #include <curl/curl.h>
 #include <cstring>
+#include <assert.h>
 #include <vector>
 #include <sstream>
 #include <map>
@@ -257,6 +258,7 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
 {
     init();
     timeout = usertimeout;
+    assert(timeout>0);
     //set the url in the options
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str() );
     //Handle the response
@@ -270,6 +272,7 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
     }
     else
     {
+    	assert(filepipe!=NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
@@ -298,6 +301,7 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
 void Browser::open_novisit(std::string url, int usertimeout=20)
 {
     timeout = usertimeout;
+    assert(timeout>0);
     //set the url in the options
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str() );
     //Handle the response
@@ -311,6 +315,7 @@ void Browser::open_novisit(std::string url, int usertimeout=20)
     }
     else
     {
+    	assert(filepipe!=NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
@@ -332,6 +337,7 @@ void Browser::open(std::string url, std::string post_data, int usertimeout=20)
 {
     init();
     timeout = usertimeout;
+    assert(timeout>0);
     //set the url in the options
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str() );
     //and set it as the options for curl
@@ -347,6 +353,7 @@ void Browser::open(std::string url, std::string post_data, int usertimeout=20)
     }
     else
     {
+    	assert(filepipe!=NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
@@ -374,6 +381,7 @@ void Browser::open(std::string url, int usertimeout,std::string post_data)
 {
     init();
     timeout = usertimeout;
+    assert(timeout>0);
     //set the url in the options
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str() );
     //and set it as the options for curl
@@ -389,6 +397,7 @@ void Browser::open(std::string url, int usertimeout,std::string post_data)
     }
     else
     {
+    	assert(filepipe!=NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
@@ -415,6 +424,7 @@ void Browser::open(std::string url, int usertimeout,std::string post_data)
 void Browser::open_form(std::string url, int usertimeout=20)
 {
     timeout = usertimeout;
+    assert(timeout>0);
     //set the url in the options
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str() );
     //Handle the response
@@ -428,6 +438,7 @@ void Browser::open_form(std::string url, int usertimeout=20)
     }
     else
     {
+    	assert(filepipe!=NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
@@ -466,12 +477,15 @@ void Browser::select_form(int number_start_from_zero)
         //we will already have all the infos inside form
         //so no need for an intermediate form
         forms_class::form_class form_work_on_first  = forms[number_start_from_zero];
+
         //now convert this forms_class::form_class into a forms_class::form_class2
         forms_class::form_class2 form_work_on_first2;
         convert_1_to_2(form_work_on_first,form_work_on_first2);
+
         //place it in the form so it can know which one we are working with now
         form.form_work_on = form_work_on_first2;
-        //copy nly the hidden part of the form selected, the other parts must be selected by the user
+
+        //copy only the hidden part of the form selected, the other parts must be selected by the user
         take_hidden(form_work_on_first,form);
 
     }
@@ -576,6 +590,8 @@ void Browser::submit(int timeout=30)
 {
     std::string temp_url="";
     int backward_it     = 1;
+    //get out of the program if we don't have a post or a get in the form
+    assert(word_in(form.method_,"get")|| word_in(form.method_,"post") );
 
     //if the url is already complete
     if( word_in(form.url_,"http://"))
@@ -825,6 +841,7 @@ size_t Browser::write_data(void *ptr, size_t size, size_t nmemb, FILE *stream)
 void Browser::write_bytes(std::string filename)
 {
     filepipe      = fopen(filename.c_str(),"wb");
+    assert(filepipe!=NULL);
     writing_bytes = true;
 }
 ///=================================================================================///
@@ -962,7 +979,6 @@ void Browser::set_verbose(bool allow)
 ///=================================================================================///
 
 
-
 ///============================set gzip encoding to true=============================///
 void Browser::set_handle_gzip(bool allow)
 {
@@ -1005,6 +1021,8 @@ void Browser::reload()
     if(geturl().length()>4)
     {
         std::string current_page = geturl();
+        //don't reload a page that isn't a page
+        assert(current_page.length()>7);
         open(current_page);
     }
     else
@@ -1119,6 +1137,7 @@ std::string Browser::status()
 //in bytes normally, now * 1000 so in kbs
 void Browser::limit_speed(int limit)
 {
+	assert(limit>0);
     limit = limit *1000;
     if(limit>0)
     {
@@ -1135,6 +1154,7 @@ void Browser::limit_speed(int limit)
 //in seconds
 void Browser::limit_time(int limit)
 {
+	assert(limit>0);
     if(limit>0)
     {
         curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, limit);
@@ -1256,6 +1276,7 @@ bool Browser::inurl(std::string str)
 ///============================Go back in history===================================///
 void Browser::back(int timeout=20)
 {
+	assert(history_.size()>0);
     //remove the last page
     //visit the page before the last page we opened
     //but don't save that we visited it
