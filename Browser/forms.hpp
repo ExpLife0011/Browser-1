@@ -548,6 +548,7 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
 				temp_input.value_ = "";
 				input.push_back(temp_input);
 				//return a pointer to the value of the input we just pushed
+				assert(&input[input.size()-1].value_!=NULL);
 				return &input[input.size()-1].value_;
 			}
 		}
@@ -562,6 +563,7 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
 				temp_text.value_="";
 				textarea.push_back(temp_text);
 				//return a pointer to the value of the textarea we just pushed
+				assert(&textarea[textarea.size()-1].value_!=NULL);
 				return &textarea[textarea.size()-1].value_;
 			}
 		}
@@ -585,6 +587,7 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
 						temp_option.selected_ = true;
 						temp_option.value_    = "";
 						select[loop_in].options.push_back(temp_option);
+						assert(&select[loop_in].options[   select[loop_in].options.size()-1  ].value_!=NULL);
 						return &select[loop_in].options[   select[loop_in].options.size()-1  ].value_;
 					}
 				}
@@ -600,6 +603,7 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
 				temp_select.options.push_back(temp_option);
 				//push_back the new select
 				select.push_back(temp_select);
+				assert(&select[select.size()-1].options[   select[select.size()-1].options.size()-1  ].value_!=NULL);
 				return &select[select.size()-1].options[   select[select.size()-1].options.size()-1  ].value_;
 			}
 		}
@@ -614,6 +618,7 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
 		temp_input.value_ = "";
 		input.push_back(temp_input);
 		//return a pointer to the value of the input we just pushed
+		assert(&input[input.size()-1].value_!=NULL);
 		return &input[input.size()-1].value_;
 	}
 
