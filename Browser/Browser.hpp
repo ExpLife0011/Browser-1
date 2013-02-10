@@ -841,7 +841,13 @@ size_t Browser::write_data(void *ptr, size_t size, size_t nmemb, FILE *stream)
 void Browser::write_bytes(std::string filename)
 {
     filepipe      = fopen(filename.c_str(),"wb");
+
     assert(filepipe!=NULL);
+    //an error occured when opening the file for writting
+    if(filepipe==NULL)
+	{
+		fprintf (stderr, "[!] error writting the file: %s\n", strerror (errno));
+	}
     writing_bytes = true;
 }
 ///=================================================================================///
