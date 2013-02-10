@@ -1137,9 +1137,9 @@ std::string Browser::status()
 //in bytes normally, now * 1000 so in kbs
 void Browser::limit_speed(int limit)
 {
-	assert(limit>0);
+	assert(limit>0 && limit<30000);
     limit = limit *1000;
-    if(limit>0)
+    if(limit>0 && limit<30000)
     {
         curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, limit);
         curl_easy_setopt(curl, CURLOPT_MAX_SEND_SPEED_LARGE, limit);
