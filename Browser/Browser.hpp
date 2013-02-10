@@ -232,7 +232,7 @@ bool Browser::error()
     //Check the return code for errors
     if(res != CURLE_OK)
     {
-        fprintf(stderr, "\n_!_ There was an error while opening the page : %s\n",
+        fprintf(stderr, "\n[!] There was an error while opening the page : %s\n",
                     curl_easy_strerror(res));
         return true;
     }
@@ -1026,7 +1026,7 @@ void Browser::reload()
         open(current_page);
     }
     else
-        std::cerr<<"\n_!_ No pages have been opened yet\n";
+        std::cerr<<"\n[!] No pages have been opened yet\n";
 }
 ///=================================================================================///
 
@@ -1147,7 +1147,7 @@ void Browser::limit_speed(int limit)
     }
     else
     {
-        std::cerr<<"\n_!_ Can't set the time limit \n";
+        std::cerr<<"\n[!] Can't set the time limit \n";
     }
 }
 //relevant only if limit_speed is set up
@@ -1161,7 +1161,7 @@ void Browser::limit_time(int limit)
     }
     else
     {
-        std::cerr<<"\n_!_ Can't set the limit \n";
+        std::cerr<<"\n[!] Can't set the limit \n";
     }
 }
 ///=================================================================================///

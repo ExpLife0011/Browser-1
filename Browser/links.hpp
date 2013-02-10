@@ -197,7 +197,7 @@ link_struct links_class::operator[ ]  (int ite)
 		return (links_array[ite]);
 	else
 	{
-		std::cerr<<"\n_!_ No Such link, using the last link as default\n";
+		std::cerr<<"\n[!] No Such link, using the last link as default\n";
 		return (links_array[links_array.size()-1]);
 	}
 }
