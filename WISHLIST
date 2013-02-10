@@ -17,6 +17,8 @@ curl_multi using this for multiple handle at the same time and pipelining
 
 check the $(curl-config --feature) to know with which feature the cULR library was built
 
+Convert it to a static and shared library for multiple OS
+
 change br.response into a class like in python:
 >>> dir(br.response())
 ['__copy__', '__doc__', '__getattr__', '__init__', '__iter__', '__module__', '__repr__', '__setattr__', '_headers', '_seek_wrapper__cache', '_seek_wrapper__have_readline', '_seek_wrapper__is_

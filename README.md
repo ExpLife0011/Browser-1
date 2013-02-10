@@ -79,6 +79,7 @@ Missing
 * br.encoding() for utf-8 and others
 * curl_multi   using this for multiple handle at the same time and pipelining
 * check the $(curl-config --feature) to know with which feature the cULR library was built
+* Convert it to a static and shared library for multiple OS
 * change br.response into a class like in python: <br>
 <pre>
 >>> dir(br.response())
