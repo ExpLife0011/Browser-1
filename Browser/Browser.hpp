@@ -92,7 +92,7 @@ class Browser
         void set_direct_form_post(bool direct,std::string url);
         std::string escape(std::string the_string);
         std::string unescape(std::string the_string);
-        std::string get_root();
+        std::string get_first_root();
         void limit_speed(int limit);
         void limit_time(int limit);
         void set_http_tunel(bool allow);
@@ -1113,6 +1113,10 @@ void Browser::set_interface(std::string interface_name, long int port=80, long i
 {
         curl_easy_setopt(curl, CURLOPT_INTERFACE, interface_name.c_str() );
         curl_easy_setopt(curl, CURLOPT_LOCALPORT, port );
+        if(port<80)
+		{
+			std::cerr<<"\n[!] Remember: With great power comes great responsabilities\n";
+		}
         if(max_port>80)
         {
             max_port = port + max_port-port+1;
