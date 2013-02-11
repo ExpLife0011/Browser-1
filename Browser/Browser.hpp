@@ -988,6 +988,7 @@ void Browser::set_handle_gzip(bool allow)
     }
     else
     {
+    	//remember that this one needs curl to be compiled with zlib
         curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "deflate");
     }
     curl_easy_setopt(curl, CURLOPT_TRANSFER_ENCODING, allow);
@@ -1082,6 +1083,8 @@ void Browser::set_proxy(std::string proxy, std::string type="http")
 }
 void Browser::set_proxy(bool allow)
 {
+	if(allow)
+		std::cerr<<"\n[!] Need to pass the arguments \n";
     if(!allow)
         curl_easy_setopt(curl, CURLOPT_PROXY, "" );
 }
