@@ -67,6 +67,7 @@ Install
 Browser is easy to use if you already have the libcurl library on your computer. <br>
 It's a header only library so you'll only have to include the headers in your project. <br>
 To get libcurl for your machine:  http://curl.haxx.se/download.html <br>
+You can check what dependencies and features you want with libcurl here: http://curl.haxx.se/docs/libs.html <br>
 
 Missing
 -------
@@ -80,6 +81,7 @@ Missing
 * curl_multi   using this for multiple handle at the same time and pipelining
 * check the $(curl-config --feature) to know with which feature the cULR library was built
 * Convert it to a static and shared library for multiple OS
+* Handle more of the curl features: http://curl.haxx.se/docs/libs.html
 * change br.response into a class like in python: <br>
 <pre>
 >>> dir(br.response())

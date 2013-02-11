@@ -57,7 +57,8 @@ class Browser
         struct curl_httppost *formpost= NULL;
         struct curl_httppost *lastptr = NULL;
         //might use that instead of always initializing the forms when opening the page
-        bool form_is_initialized      = false;
+        //bool form_is_initialized      = false;
+
         void open_form(std::string url, int usertimeout);
         bool direct_form_post_        = false;
         void convert_1_to_2(forms_class::form_class form_work_on_first
@@ -81,10 +82,6 @@ class Browser
         {
             return header_;
         }
-
-        //by default when a page is opened the browser
-        //will automatically parse for links
-        //and for forms
         forms_class forms;
         forms_class::form_class form;
         links_class links;
@@ -93,7 +90,6 @@ class Browser
         void fetch_links(bool allow);
         void submit(int timeout);
         void set_direct_form_post(bool direct,std::string url);
-
         std::string escape(std::string the_string);
         std::string unescape(std::string the_string);
         std::string get_root();
@@ -466,8 +462,6 @@ void Browser::open_form(std::string url, int usertimeout=20)
 
 
 ///=======================Select the form number to post later=======================///
-//I should not forget to reinit the form after submiting
-//or reopening another page
 void Browser::select_form(int number_start_from_zero)
 {
     //starting from 0
@@ -525,7 +519,7 @@ void Browser::convert_1_to_2(forms_class::form_class form_work_on_first
 
 
 ///==================Get the first root of the current  url=========================///
-std::string Browser::get_root()
+std::string Browser::get_first_root()
 {
     std::string temp_url="";
     int backward_it     = 1;
@@ -1032,7 +1026,7 @@ void Browser::reload()
         open(current_page);
     }
     else
-        std::cerr<<"\n[!] No pages have been opened yet\n";
+        std::cerr<<"\n[!] No page has been open yet\n";
 }
 ///=================================================================================///
 
