@@ -1,7 +1,7 @@
 -*- WISHLST -*-
 
 
-nice Error handling (to not make the browser suddenly crash in case of errors)
+Smoother Error handling
 
 proxy auth type and http auth type for this: http://user:password@www.example.com
 

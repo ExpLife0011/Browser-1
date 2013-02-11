@@ -72,7 +72,7 @@ You can check what dependencies and features you want with libcurl here: http://
 Missing
 -------
 
-* nice Error handling (to not make the browser suddenly crash in case of errors)
+* Smoother Error handling 
 * proxy auth type and http auth type for this: http://user:password@www.example.com
 * ssl 3.0 and tls 1.0 same as a real browser but might add dependencies
 * threaded ssl openssl gnuTLS
