@@ -1268,6 +1268,8 @@ std::string Browser::geturl()
 bool Browser::inurl(std::string str)
 {
     std::string current_url = geturl();
+    if(current_url=="")
+		std::cerr<<"\n[!] No page in history\n";
     if (current_url.find (str) != std::string::npos)
     {
         return true;
