@@ -167,6 +167,8 @@ Browser::Browser()
 ///====================================DESTRUCTOR===================================///
 Browser::~Browser()
 {
+	if(headers)
+		curl_slist_free_all(headers);
     curl_easy_reset(curl);
     curl_easy_cleanup(curl);
     history_.clear();
@@ -180,9 +182,8 @@ Browser::~Browser()
 void Browser::close()
 {
     history_.clear();
-    curl_easy_reset(curl);
-    curl_easy_cleanup(curl);
     init();
+    curl_easy_reset(curl);
 }
 ///=================================================================================///
 
@@ -192,8 +193,10 @@ void Browser::init()
 {
     //maybe we'll loose the cookies if we do that
     //curl                   = curl_easy_init();
-    direct_form_post_        = false;
-    curl_formfree(formpost);
+    //headers            = NULL;
+    direct_form_post_    = false;
+    if(formpost!=NULL)
+		curl_formfree(formpost);
     headers              = curl_slist_append(headers, "Accept:");
     html_response        = "";
     header_              = "";
