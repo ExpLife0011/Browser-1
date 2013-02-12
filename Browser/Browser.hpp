@@ -49,7 +49,6 @@ class Browser
         static size_t write_to_string(void *curl, size_t size, size_t count, void *response);
         static size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream);
         /* init to NULL is important */
-        struct curl_slist *headers    = NULL;
         bool writing_bytes            = false;
         int  timeout                  = 20;
         bool fetching_links           = true;
@@ -167,8 +166,6 @@ Browser::Browser()
 ///====================================DESTRUCTOR===================================///
 Browser::~Browser()
 {
-	if(headers)
-		curl_slist_free_all(headers);
     curl_easy_reset(curl);
     curl_easy_cleanup(curl);
     history_.clear();
@@ -193,16 +190,19 @@ void Browser::init()
 {
     //maybe we'll loose the cookies if we do that
     //curl                   = curl_easy_init();
-    //headers            = NULL;
     direct_form_post_    = false;
     if(formpost!=NULL)
 		curl_formfree(formpost);
-    headers              = curl_slist_append(headers, "Accept:");
-    html_response        = "";
-    header_              = "";
-    full_form_           = false;
-    writing_bytes        = false;
-    timeout              = 20;
+
+    struct curl_slist *headers  = NULL;
+    headers                     = curl_slist_append(headers, "Accept:");
+    curl_slist_free_all(headers);
+
+    html_response               = "";
+    header_                     = "";
+    full_form_                  = false;
+    writing_bytes               = false;
+    timeout                     = 20;
 
     forms.form_raw_container.clear();
     forms.all_forms.clear();
@@ -218,7 +218,11 @@ void Browser::clean()
     init();
     curl_easy_reset(curl);
     history_.clear();
+
+    struct curl_slist *headers    = NULL;
     headers = curl_slist_append(headers, "Accept:");
+    curl_slist_free_all(headers);
+
     curl_easy_cleanup(curl);
     curl    = curl_easy_init();
 }
@@ -275,8 +279,6 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
-    //pass our list of custom made headers
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT,   timeout );
     res = curl_easy_perform(curl);
     if(error())
@@ -318,8 +320,6 @@ void Browser::open_novisit(std::string url, int usertimeout=20)
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
-    //pass our list of custom made headers
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT,   timeout );
     res = curl_easy_perform(curl);
     if(error())
@@ -356,8 +356,6 @@ void Browser::open(std::string url, std::string post_data, int usertimeout=20)
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
-    //pass our list of custom made headers
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT,   timeout );
     res = curl_easy_perform(curl);
     if(error())
@@ -400,8 +398,6 @@ void Browser::open(std::string url, int usertimeout,std::string post_data)
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
-    //pass our list of custom made headers
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT,   timeout );
     res = curl_easy_perform(curl);
     if(error())
@@ -441,8 +437,6 @@ void Browser::open_form(std::string url, int usertimeout=20)
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
-    //pass our list of custom made headers
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT,   timeout );
     res = curl_easy_perform(curl);
     if(error())
@@ -871,30 +865,38 @@ void Browser::adduseragent(std::string theuseragent)
 void Browser::addheaders(std::string headers_to_add[2])
 {
     std::string toaddhead = headers_to_add[0]+":"+headers_to_add[1];
+    struct curl_slist *headers    = NULL;
     headers = curl_slist_append(headers, toaddhead.c_str());
+    curl_slist_free_all(headers);
 }
 void Browser::addheaders(std::string header_to_add,std::string second_header_to_add)
 {
     std::string toaddhead = header_to_add+":"+second_header_to_add;
+    struct curl_slist *headers    = NULL;
     headers = curl_slist_append(headers, toaddhead.c_str());
+    curl_slist_free_all(headers);
 }
 void Browser::addheaders(std::map<std::string, std::string> Headers)
 {
     std::string toaddhead;
+    struct curl_slist *headers    = NULL;
     for( std::map<std::string,std::string>::iterator ii=Headers.begin(); ii!=Headers.end(); ++ii)
     {
         toaddhead =  (*ii).first+ ":" + (*ii).second;
         headers = curl_slist_append(headers, toaddhead.c_str());
     }
+    curl_slist_free_all(headers);
 }
 void Browser::addheaders(std::vector<std::string> Headers)
 {
     std::string toaddhead;
+    struct curl_slist *headers    = NULL;
     for(unsigned int i=0; i < Headers.size(); i+=2)
     {
         toaddhead =  Headers[i]+ ":" + Headers[i+1];
         headers = curl_slist_append(headers, toaddhead.c_str());
     }
+    curl_slist_free_all(headers);
 }
 ///=================================================================================///
 
