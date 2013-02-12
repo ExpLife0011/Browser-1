@@ -960,6 +960,7 @@ std::string Browser::getcookies()
         cur        = cur->next;
     }
     curl_slist_free_all(cookies);
+    curl_slist_free_all(cur);
     return allcookies;
 }
 ///=================================================================================///
