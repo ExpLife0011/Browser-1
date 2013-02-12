@@ -72,6 +72,7 @@ You can check what dependencies and features you want with libcurl here: http://
 Missing
 -------
 
+* create a new *nix only posix thread branch which will be faster (adds pthread as dependency only on this branch)
 * Smoother Error handling 
 * proxy auth type and http auth type for this: http://user:password@www.example.com
 * ssl 3.0 and tls 1.0 same as a real browser but might add dependencies
