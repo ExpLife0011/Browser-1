@@ -31,6 +31,7 @@ in this Software without prior written authorization of the copyright holder.
 #define MECHANIZE_HPP_INCLUDED
 
 #include <curl/curl.h>
+#include <iostream>
 #include <cstring>
 #include <assert.h>
 #include <vector>

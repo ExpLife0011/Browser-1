@@ -60,16 +60,6 @@ void upper_it(std::string income, std::string & outcome)
 }
 ///=================================================================================///
 
-///===============================SEARCH FOR A WORD (any)===========================///
-bool word_in(std::string the_string, std::string to_search)
-{
-    std::string temp;
-    lower_it(the_string,temp);
-    return (  temp.find(to_search)!=std::string::npos ||
-              the_string.find(to_search)!=std::string::npos);
-}
-///=================================================================================///
-
 ///==============================LOWER IT FROM STRING===============================///
 void lower_it(std::string income, std::string & outcome)
 {
@@ -81,6 +71,16 @@ void lower_it(std::string income, std::string & outcome)
         outcome += tolower(c);
         i++;
     }
+}
+///=================================================================================///
+
+///===============================SEARCH FOR A WORD (any)===========================///
+bool word_in(std::string the_string, std::string to_search)
+{
+    std::string temp;
+    lower_it(the_string,temp);
+    return (  temp.find(to_search)!=std::string::npos ||
+              the_string.find(to_search)!=std::string::npos);
 }
 ///=================================================================================///
 
@@ -106,7 +106,6 @@ bool remove_html_comment(std::string & html_response)
     //save the start position of the start of a comment
     unsigned int position_start         = html_response.find ("<!--");
     unsigned int position_stop          = html_response.find ("-->");
-    int response_total_length  = html_response.length();
     if (position_start != std::string::npos)
     {
         //now we need to check for the end of it
@@ -118,7 +117,7 @@ bool remove_html_comment(std::string & html_response)
         }
         else
         {
-            html_response.erase (position_start,response_total_length);
+            html_response.erase (position_start,html_response.length());
         }
         return true;
     }
@@ -138,10 +137,10 @@ void remove_html_comments(std::string & html_response)
 }
 ///=================================================================================///
 
-////WHAT IF WE HAVE FOUND SOMETHING VALUABLE BUT THAT IS BETWEEN QUOTES "" ??? PROBLEMS
-////A BUG WILL CERTAINLLY HAPPENS BECAUSE WE BREAK THE HTML WHERE WE SHOULDN"T
-////EVERYTHING DEPENDS ON IF THE HTML HAS "<" or ">" BETWEEN SOME QUOTES SOMEWHERE
-////BUT WHO'S THE DUMBASS WHO WILL WRITE HTML LIKE THAT???
+//WHAT IF WE HAVE FOUND SOMETHING VALUABLE BUT THAT IS BETWEEN QUOTES "" ??? PROBLEMS
+//A BUG WILL CERTAINLLY HAPPENS BECAUSE WE BREAK THE HTML WHERE WE SHOULDN"T
+//EVERYTHING DEPENDS ON IF THE HTML HAS "<" or ">" BETWEEN SOME QUOTES SOMEWHERE
+//BUT WHO'S THE DUMBASS WHO WILL WRITE HTML LIKE THAT???
 ///========================RETURN "seeking *= *\"(.*)\""============================///
 std::string get_after_equal(std::string html_response, std::string seeking)
 {
@@ -153,7 +152,9 @@ std::string get_after_equal(std::string html_response, std::string seeking)
     lower_it(html_response,html_lower);
     replaceAll(html_lower,"\n"," ");
     replaceAll(html_response,"\n"," ");
+    //replace single quote with double quote to make the search easier/faster
     replaceAll(html_lower,"'","\"");
+
     //2- start the search at 0 for the begining of a form
     //   until we reach stage 3 which will turn STOP
     //   to TRUE
@@ -164,7 +165,6 @@ std::string get_after_equal(std::string html_response, std::string seeking)
     unsigned int first_index;
     /*related to the end */
     int forward_ite;
-    int last_index;
     while( STOP == false )
     {
         // we didn't find an end yet
@@ -220,8 +220,7 @@ std::string get_after_equal(std::string html_response, std::string seeking)
                             forward_ite++;
                         }
                         //we found the end of the string
-                        last_index = first_index+forward_ite;
-                        return html_response.substr(position,last_index-position);
+                        return html_response.substr(position,first_index+forward_ite-position);
                     }
                     ///MALFORMED HTML BUT WE SHOULD RETURN WHAT IS AFTER THE =
                     // we have "seeking *= *" not followed by a '"'
@@ -235,8 +234,7 @@ std::string get_after_equal(std::string html_response, std::string seeking)
                             forward_ite++;
                         }
                         //we found the end of the string
-                        last_index = first_index+forward_ite;
-                        return html_response.substr(position,last_index-position);
+                        return html_response.substr(position,first_index+forward_ite-position);
                     }
                 }
             }
@@ -454,9 +452,9 @@ void get_between_two(std::string raw_input, std::string seeking, std::vector <st
 ///=================================================================================///
 
 ///=====================GET ">(.*)< *[/|\] *seeking[ |>]" and throws a string============================///
-///////// search for the first '>' from beg
-///////// search for the first '<' from the end
-///////// that's it! return :)
+// search for the first '>' from beg
+// search for the first '<' from the end
+//that's it! return :)
 std::string get_between_two_closed(std::string raw_input,std::string seeking)
 {
     //0- Remove all comments because we don't want to search inside of them
