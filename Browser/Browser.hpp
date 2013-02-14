@@ -106,6 +106,7 @@ class Browser
         void open(std::string url, std::string post_data, int usertimeout);
         void open(std::string url, int usertimeout,std::string post_data);
         void open_novisit(std::string url, int usertimeout);
+        void follow_link(std::string name_of_link_to_follow,int usertimeout);
         void set_handle_redirect(bool allow);
         void set_handle_gzip(bool allow);
         void set_handle_ssl(bool allow);
@@ -901,6 +902,48 @@ void Browser::addheaders(std::vector<std::string> Headers)
 }
 ///=================================================================================///
 
+///===============Follow a link in the page based on the name=======================///
+void Browser::follow_link(std::string name_of_link_to_follow, int usertimeout=20)
+{
+	if(links.size()==0)
+	{
+		std::cerr<<"\n[!] No links found\n";
+		return;
+	}
+	std::string to_follow="";
+	for(int i=0;i<links.size();i++)
+	{
+		if(links[i].name()==name_of_link_to_follow)
+		{
+			to_follow=links[i].url();
+			break;
+		}
+	}
+	if(to_follow=="")
+	{
+		std::cerr<<"\n[!] No such link in the page found\n";
+		return;
+	}
+	//if the link is already a complete one we open it directly else we add the site root
+	if(word_in(to_follow,"http://"))
+	{
+		open(to_follow,usertimeout);
+	}
+	else
+	{
+		std::string now_on = get_first_root();
+		//here we are on the last slash
+		if(to_follow[0]!='/')
+		{
+			open(now_on+to_follow);
+		}
+		else
+		{
+			open(now_on.substr(0,now_on.size()-1)+to_follow);
+		}
+	}
+}
+///=================================================================================///
 
 ///====================RETURN TRUE IF THE STRING IS IN REPSONSE=====================///
 bool Browser::inresponse(std::string str)
