@@ -73,7 +73,7 @@ Missing
 -------
 
 * create a new *nix only posix thread branch which will be faster (adds pthread as dependency only on this branch)
-* Smoother Error handling 
+* Smoother Error handling
 * proxy auth type and http auth type for this: http://user:password@www.example.com
 * ssl 3.0 and tls 1.0 same as a real browser but might add dependencies
 * threaded ssl openssl gnuTLS
@@ -96,11 +96,13 @@ ________________________________________________________________________________
 
 <pre>
 **BROWSER**
+Browser();
+~Browser();
 void init();
 void clean();
 bool error();
 std::string status();
-std::string info()
+std::string info();
 forms_class forms;
 forms_class::form_class form;
 links_class links;
@@ -111,6 +113,7 @@ void submit(int timeout);
 void set_direct_form_post(bool direct,std::string url);
 std::string escape(std::string the_string);
 std::string unescape(std::string the_string);
+std::string get_first_root();
 void limit_speed(int limit);
 void limit_time(int limit);
 void set_http_tunel(bool allow);
@@ -124,6 +127,7 @@ void open(std::string url, int usertimeout,bool save_history);
 void open(std::string url, std::string post_data, int usertimeout);
 void open(std::string url, int usertimeout,std::string post_data);
 void open_novisit(std::string url, int usertimeout);
+void follow_link(std::string name_of_link_to_follow,int usertimeout);
 void set_handle_redirect(bool allow);
 void set_handle_gzip(bool allow);
 void set_handle_ssl(bool allow);
@@ -153,16 +157,24 @@ void history();
 void back(int timeout);
 bool viewing_html();
 
-**links**
-std::string url();
-std::string name();
-std::string title();
-std::string target();
-std::string all()
-std::string clas()
-std::string id()
+**links_class**
+int size();
+std::string all();
+std::vector <link_struct> links_array;
+link_struct operator[ ]  (int ite);
+void getlinks(std::string raw_input);
+void clear();
+    **link_struct**
+        std::string url();
+        std::string name();
+        std::string title();
+        std::string target();
+        std::string clas();
+        std::string id();
+        friend links_class;
+        friend std::ostream &operator<<( std::ostream &flux, link_struct const& link_to_display  );
 
-**forms**
+**forms_class**
 std::vector <std::string> form_raw_container;
 forms_class(std::string whole_html);
 forms_class();
@@ -173,11 +185,11 @@ int size();
 std::vector <form_class> all_forms;
 form_class operator[ ]  (int ite);
 
-    **textarea**
+    **textarea_struct**
     std::string value();
     std::string name();
 
-    **select**
+    **select_struct**
     std::vector <option> options;
     void change_name(std::string new_name);
     std::string name();
@@ -187,7 +199,7 @@ form_class operator[ ]  (int ite);
         bool selected();
         std::string value();
 
-    **input**
+    **input_struct**
     std::string name();
     std::string type();
     std::string value();
@@ -195,7 +207,7 @@ form_class operator[ ]  (int ite);
     void change_type(std::string new_type);
     void change_value(std::string new_value);
 
-    **form**
+    **form_class**
     std::vector < select_struct > select;
     std::vector < input_struct  > input;
     std::vector <textarea_struct> textarea;
