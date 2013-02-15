@@ -22,5 +22,5 @@ ll', 'wrapped', 'xreadlines']
 
 Review the whole code to make it more clean and more efficient
 
-use StringPoolL instead of cstring for real efficiency (long string accessed many times is cpu and ram intensive)
+use StringPoolL or better algorithm instead of cstring for real efficiency (long string accessed many times is cpu and ram intensive)
 
