@@ -7,3 +7,4 @@
  * Link the curl library to the project with g++ : -lcurl
  * add the headers or link directly to the precompiled Browser library
  * compile
+ * don't forget that if you create an installer and you dynamically linked to curl (or Browser) you must assure that the end-users have the curl library already. Otherwise do a static link.
