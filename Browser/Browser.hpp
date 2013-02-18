@@ -50,26 +50,26 @@ class Browser
         static size_t write_to_string(void *curl, size_t size, size_t count, void *response);
         static size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream);
         /* init to NULL is important */
-        bool writing_bytes            = false;
-        int  timeout                  = 20;
-        bool fetching_links           = true;
-        bool fetching_forms           = true;
-        struct curl_httppost *formpost= NULL;
-        struct curl_httppost *lastptr = NULL;
+        bool writing_bytes            ;
+        int  timeout                  ;
+        bool fetching_links           ;
+        bool fetching_forms           ;
+        struct curl_httppost *formpost;
+        struct curl_httppost *lastptr ;
         //might use that instead of always initializing the forms when opening the page
         //bool form_is_initialized      = false;
 
         void open_form(std::string url, int usertimeout);
-        bool direct_form_post_        = false;
+        bool direct_form_post_        ;
         void convert_1_to_2(forms_class::form_class form_work_on_first
                             ,forms_class::form_class2 &form_work_on_first2);
         std::vector <std::string> history_;
-        bool full_form_               = false;
+        bool full_form_               ;
         void take_hidden(forms_class::form_class form_work_on_first,forms_class::form_class &form_we_need);
 
     protected:
-        std::string header_      ="";
-        std::string html_response="";
+        std::string header_      ;
+        std::string html_response;
 
     public:
         Browser();
@@ -143,6 +143,17 @@ class Browser
 ///==================================CONSTRUCTOR====================================///
 Browser::Browser()
 {
+    header_      ="";
+    html_response="";
+    full_form_               = false;
+    direct_form_post_        = false;
+    writing_bytes            = false;
+    timeout                  = 20;
+    fetching_links           = true;
+    fetching_forms           = true;
+    curl_httppost *formpost= NULL;
+    curl_httppost *lastptr = NULL;
+
     //get a handler
     curl_global_cleanup();
     curl = curl_easy_init();
@@ -194,7 +205,7 @@ void Browser::init()
     //curl                   = curl_easy_init();
     direct_form_post_    = false;
     if(formpost!=NULL)
-		curl_formfree(formpost);
+        curl_formfree(formpost);
 
     struct curl_slist *headers  = NULL;
     headers                     = curl_slist_append(headers, "Accept:");
@@ -277,7 +288,7 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
     }
     else
     {
-    	assert(filepipe!=NULL);
+        assert(filepipe!=NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
@@ -318,7 +329,7 @@ void Browser::open_novisit(std::string url, int usertimeout=20)
     }
     else
     {
-    	assert(filepipe!=NULL);
+        assert(filepipe!=NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
@@ -354,7 +365,7 @@ void Browser::open(std::string url, std::string post_data, int usertimeout=20)
     }
     else
     {
-    	assert(filepipe!=NULL);
+        assert(filepipe!=NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
@@ -396,7 +407,7 @@ void Browser::open(std::string url, int usertimeout,std::string post_data)
     }
     else
     {
-    	assert(filepipe!=NULL);
+        assert(filepipe!=NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
@@ -435,7 +446,7 @@ void Browser::open_form(std::string url, int usertimeout=20)
     }
     else
     {
-    	assert(filepipe!=NULL);
+        assert(filepipe!=NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
@@ -838,9 +849,9 @@ void Browser::write_bytes(std::string filename)
     assert(filepipe!=NULL);
     //an error occured when opening the file for writting
     if(filepipe==NULL)
-	{
-		fprintf (stderr, "[!] error writting the file: %s\n", strerror (errno));
-	}
+    {
+        fprintf (stderr, "[!] error writting the file: %s\n", strerror (errno));
+    }
     writing_bytes = true;
 }
 ///=================================================================================///
@@ -905,43 +916,43 @@ void Browser::addheaders(std::vector<std::string> Headers)
 ///===============Follow a link in the page based on the name=======================///
 void Browser::follow_link(std::string name_of_link_to_follow, int usertimeout=20)
 {
-	if(links.size()==0)
-	{
-		std::cerr<<"\n[!] No links found\n";
-		return;
-	}
-	std::string to_follow="";
-	for(int i=0;i<links.size();i++)
-	{
-		if(links[i].name()==name_of_link_to_follow)
-		{
-			to_follow=links[i].url();
-			break;
-		}
-	}
-	if(to_follow=="")
-	{
-		std::cerr<<"\n[!] No such link in the page found\n";
-		return;
-	}
-	//if the link is already a complete one we open it directly else we add the site root
-	if(word_in(to_follow,"http://"))
-	{
-		open(to_follow,usertimeout);
-	}
-	else
-	{
-		std::string now_on = get_first_root();
-		//here we are on the last slash
-		if(to_follow[0]!='/')
-		{
-			open(now_on+to_follow);
-		}
-		else
-		{
-			open(now_on.substr(0,now_on.size()-1)+to_follow);
-		}
-	}
+    if(links.size()==0)
+    {
+        std::cerr<<"\n[!] No links found\n";
+        return;
+    }
+    std::string to_follow="";
+    for(int i=0;i<links.size();i++)
+    {
+        if(links[i].name()==name_of_link_to_follow)
+        {
+            to_follow=links[i].url();
+            break;
+        }
+    }
+    if(to_follow=="")
+    {
+        std::cerr<<"\n[!] No such link in the page found\n";
+        return;
+    }
+    //if the link is already a complete one we open it directly else we add the site root
+    if(word_in(to_follow,"http://"))
+    {
+        open(to_follow,usertimeout);
+    }
+    else
+    {
+        std::string now_on = get_first_root();
+        //here we are on the last slash
+        if(to_follow[0]!='/')
+        {
+            open(now_on+to_follow);
+        }
+        else
+        {
+            open(now_on.substr(0,now_on.size()-1)+to_follow);
+        }
+    }
 }
 ///=================================================================================///
 
@@ -1038,7 +1049,7 @@ void Browser::set_handle_gzip(bool allow)
     }
     else
     {
-    	//remember that this one needs curl to be compiled with zlib
+        //remember that this one needs curl to be compiled with zlib
         curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "deflate");
     }
     curl_easy_setopt(curl, CURLOPT_TRANSFER_ENCODING, allow);
@@ -1133,8 +1144,8 @@ void Browser::set_proxy(std::string proxy, std::string type="http")
 }
 void Browser::set_proxy(bool allow)
 {
-	if(allow)
-		std::cerr<<"\n[!] Need to pass the arguments \n";
+    if(allow)
+        std::cerr<<"\n[!] Need to pass the arguments \n";
     if(!allow)
         curl_easy_setopt(curl, CURLOPT_PROXY, "" );
 }
@@ -1164,9 +1175,9 @@ void Browser::set_interface(std::string interface_name, long int port=80, long i
         curl_easy_setopt(curl, CURLOPT_INTERFACE, interface_name.c_str() );
         curl_easy_setopt(curl, CURLOPT_LOCALPORT, port );
         if(port<80)
-		{
-			std::cerr<<"\n[!] Remember: With great power comes great responsabilities\n";
-		}
+        {
+            std::cerr<<"\n[!] Remember: With great power comes great responsabilities\n";
+        }
         if(max_port>80)
         {
             max_port = port + max_port-port+1;
@@ -1194,7 +1205,7 @@ std::string Browser::status()
 //in bytes normally, now * 1000 so in kbs
 void Browser::limit_speed(int limit)
 {
-	assert(limit>0 && limit<30000);
+    assert(limit>0 && limit<30000);
     limit = limit *1000;
     if(limit>0 && limit<30000)
     {
@@ -1211,7 +1222,7 @@ void Browser::limit_speed(int limit)
 //in seconds
 void Browser::limit_time(int limit)
 {
-	assert(limit>0);
+    assert(limit>0);
     if(limit>0)
     {
         curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, limit);
@@ -1319,7 +1330,7 @@ bool Browser::inurl(std::string str)
 {
     std::string current_url = geturl();
     if(current_url=="")
-		std::cerr<<"\n[!] No page in history\n";
+        std::cerr<<"\n[!] No page in history\n";
     if (current_url.find (str) != std::string::npos)
     {
         return true;
@@ -1335,7 +1346,7 @@ bool Browser::inurl(std::string str)
 ///============================Go back in history===================================///
 void Browser::back(int timeout=20)
 {
-	assert(history_.size()>0);
+    assert(history_.size()>0);
     //remove the last page
     //visit the page before the last page we opened
     //but don't save that we visited it
