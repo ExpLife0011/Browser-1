@@ -54,8 +54,8 @@ class Browser
         int  timeout                  ;
         bool fetching_links           ;
         bool fetching_forms           ;
-        struct curl_httppost *formpost;
-        struct curl_httppost *lastptr ;
+        struct curl_httppost *formpost=NULL;
+        struct curl_httppost *lastptr =NULL;
         //might use that instead of always initializing the forms when opening the page
         //bool form_is_initialized      = false;
 
@@ -151,8 +151,6 @@ Browser::Browser()
     timeout                  = 20;
     fetching_links           = true;
     fetching_forms           = true;
-    curl_httppost *formpost= NULL;
-    curl_httppost *lastptr = NULL;
 
     //get a handler
     curl_global_cleanup();
