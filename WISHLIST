@@ -4,6 +4,8 @@ proxy auth type and http auth type for this: http://user:password@www.example.co
 
 ssl 3.0 and tls 1.0 same as a real browser but might add dependencies
 
+Cheatsheet of the python/cpp comparison
+
 threaded ssl openssl gnuTLS
 
 br.encoding() for utf-8 and others
