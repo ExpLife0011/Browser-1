@@ -10,6 +10,8 @@ threaded ssl openssl gnuTLS
 
 br.encoding() for utf-8 and others
 
+Function to grab all emails in a page, similar to the links grabber.
+
 curl_multi using this for multiple handle at the same time and pipelining
 
 check the $(curl-config --feature) to know with which feature the cULR library was built
