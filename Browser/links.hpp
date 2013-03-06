@@ -36,6 +36,7 @@ in this Software without prior written authorization of the copyright holder.
 #include <map>
 #include "regex.hpp"
 
+
 class links_class;
 class link_struct;
 std::ostream &operator<<( std::ostream &flux, link_struct const& link_to_display  );
@@ -96,7 +97,6 @@ class links_class
         void clear();
     private:
     protected:
-
 };
 
 ///===============================clear the links array==============================///

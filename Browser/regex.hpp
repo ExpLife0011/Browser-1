@@ -34,6 +34,7 @@ in this Software without prior written authorization of the copyright holder.
 #include <vector>
 #include <map>
 
+
 bool remove_html_comment(std::string & html_response);
 void remove_html_comments(std::string & html_response);
 void lower_it(std::string income, std::string & outcome);
