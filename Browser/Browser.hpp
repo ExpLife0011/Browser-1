@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013, Patrick Louis <patrick@unixhub.net>
+Copyright (c) 2013, Patrick Louis <patrick at unixhub.net>
 All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -68,21 +68,21 @@ class Browser
         void take_hidden(forms_class::form_class form_work_on_first,forms_class::form_class &form_we_need);
 
         class emails_class
-		{
-			public:
-				//emails_class();
-				//~emails_class();
-				std::string operator[ ]  (int ite);
-				int size()
-				{
-					return all_emails.size();
-				}
-				void init(links_class links);
-				std::string all();
-			private:
-				std::vector <std::string> all_emails;
-			protected:
-		};
+        {
+            public:
+                //emails_class();
+                //~emails_class();
+                std::string operator[ ]  (int ite);
+                int size()
+                {
+                    return all_emails.size();
+                }
+                void init(links_class links);
+                std::string all();
+            private:
+                std::vector <std::string> all_emails;
+            protected:
+        };
 
     protected:
         std::string header_      ;
@@ -322,10 +322,10 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
         if(fetching_forms == true)
             forms.initialize(html_response);
         if(fetching_links == true)
-		{
+        {
             links.getlinks(html_response);
             emails.init(links);
-		}
+        }
     }
     //add current url to the history
     if(save_history)
@@ -402,10 +402,10 @@ void Browser::open(std::string url, std::string post_data, int usertimeout=20)
         if(fetching_forms == true)
             forms.initialize(html_response);
         if(fetching_links == true)
-		{
+        {
             links.getlinks(html_response);
             emails.init(links);
-		}
+        }
     }
     history_.push_back(geturl());
 }
@@ -447,10 +447,10 @@ void Browser::open(std::string url, int usertimeout,std::string post_data)
         if(fetching_forms == true)
             forms.initialize(html_response);
         if(fetching_links == true)
-		{
+        {
             links.getlinks(html_response);
             emails.init(links);
-		}
+        }
     }
     history_.push_back(geturl());
 }
@@ -489,10 +489,10 @@ void Browser::open_form(std::string url, int usertimeout=20)
         if(fetching_forms == true)
             forms.initialize(html_response);
         if(fetching_links == true)
-		{
+        {
             links.getlinks(html_response);
             emails.init(links);
-		}
+        }
     }
     history_.push_back(geturl());
 }
@@ -1398,48 +1398,48 @@ bool Browser::viewing_html()
 ///===============Init the emails from the links already fetched====================///
 void Browser::emails_class::init(links_class links)
 {
-	//clear all the emails in the page before adding the new ones
-	all_emails.clear();
+    //clear all the emails in the page before adding the new ones
+    all_emails.clear();
 
-	//loop through the links to see if there's contact informations
-	for(int i=0; i<links.size(); i++)
-	{
-		//search for the word : "mailto:"
-		if(word_in(links[i].url(), "mailto:"))
-		{
-			std::string fake_temp_shit = links[i].url();
-			replaceAll(fake_temp_shit,"mailto:","");
-			all_emails.push_back(fake_temp_shit);
-		}
-	}
+    //loop through the links to see if there's contact informations
+    for(int i=0; i<links.size(); i++)
+    {
+        //search for the word : "mailto:"
+        if(word_in(links[i].url(), "mailto:"))
+        {
+            std::string fake_temp_shit = links[i].url();
+            replaceAll(fake_temp_shit,"mailto:","");
+            all_emails.push_back(fake_temp_shit);
+        }
+    }
 }
 ///=================================================================================///
 
 ///==========================return the contact information=========================///
 std::string Browser::emails_class::operator[ ]  (int ite)
 {
-	if(ite>size())
-	{
-		std::cerr<<"\n[!] No Such Email in the page\n";
-		return "";
-	}
-	return all_emails[ite];
+    if(ite>size())
+    {
+        std::cerr<<"\n[!] No Such Email in the page\n";
+        return "";
+    }
+    return all_emails[ite];
 }
 ///=================================================================================///
 
 std::string Browser::emails_class::all()
 {
-	std::string output="";
-	for(int kk=0;kk<size();kk++)
-	{
-		output+=all_emails[kk];
-		output+= "\n";
-	}
-	if(output=="")
-	{
-		std::cerr<<"\n[!] No Emails in the page\n";
-	}
-	return output;
+    std::string output="";
+    for(int kk=0;kk<size();kk++)
+    {
+        output+=all_emails[kk];
+        output+= "\n";
+    }
+    if(output=="")
+    {
+        std::cerr<<"\n[!] No Emails in the page\n";
+    }
+    return output;
 }
 
 #endif // MECHANIZE_HPP_INCLUDED

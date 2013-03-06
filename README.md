@@ -15,7 +15,7 @@ Now not only curl has a cool(shitty) ascii-art
 License (unixhub)
 -----------------
 
-    Copyright (c) 2013, Patrick Louis <patrick@unixhub.net>
+    Copyright (c) 2013, Patrick Louis <patrick at unixhub.net>
 
     All rights reserved.
 

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013, Patrick Louis <patrick@unixhub.net>
+Copyright (c) 2013, Patrick Louis <patrick at unixhub.net>
 All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -109,13 +109,13 @@ void links_class::clear()
 ///=========================Return all the links=====================================///
 std::string links_class::all()
 {
-	std::string output="";
-	for(int i=0;i<size();i++)
-	{
-		output+=links_array[i].url();
-		output+="\n";
-	}
-	return output;
+    std::string output="";
+    for(int i=0;i<size();i++)
+    {
+        output+=links_array[i].url();
+        output+="\n";
+    }
+    return output;
 }
 ///==================================================================================///
 
@@ -194,12 +194,12 @@ link_struct links_class::operator[ ]  (int ite)
 {
     //return the link which has a url, name, title, target
     if((unsigned int)ite<links_array.size() && ite>-1)
-		return (links_array[ite]);
-	else
-	{
-		std::cerr<<"\n[!] No Such link, using the last link as default\n";
-		return (links_array[links_array.size()-1]);
-	}
+        return (links_array[ite]);
+    else
+    {
+        std::cerr<<"\n[!] No Such link, using the last link as default\n";
+        return (links_array[links_array.size()-1]);
+    }
 }
 ///==================================================================================///
 

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013, Patrick Louis <patrick@unixhub.net>
+Copyright (c) 2013, Patrick Louis <patrick at unixhub.net>
 All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -243,7 +243,7 @@ class forms_class
 
     private:
     protected:
-    	form_class against_error_form;
+        form_class against_error_form;
         void filter_inside_form();
         void get_raw_inputs(std::string raw_form, std::vector <std::string> &raw_inputs_container);
         form_class crack(std::string form_part);
@@ -525,106 +525,106 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
     //textarea :name(), value()
     //bytes    :strings...
 
-	if(direct_post==false)
-	{
-		if(url_=="")
-		{
-			url_=form_work_on.url();
-		}
-		if(method_=="")
-		{
-			method_=form_work_on.method();
-		}
+    if(direct_post==false)
+    {
+        if(url_=="")
+        {
+            url_=form_work_on.url();
+        }
+        if(method_=="")
+        {
+            method_=form_work_on.method();
+        }
 
-		for(unsigned int ii=0;ii<form_work_on.input.size();ii++)
-		{
-			if(form_work_on.input[ii].name()==name)
-			{
-				//it is an input, we need to push_back an input
-				//with the same name and infos
-				input_struct temp_input;
-				temp_input.name_ = name;
-				temp_input.type_ = form_work_on.input[ii].type();
-				temp_input.value_ = "";
-				input.push_back(temp_input);
-				//return a pointer to the value of the input we just pushed
-				assert(&input[input.size()-1].value_!=NULL);
-				return &input[input.size()-1].value_;
-			}
-		}
-		for(unsigned int ii=0;ii<form_work_on.textarea.size();ii++)
-		{
-			if(form_work_on.textarea[ii].name()==name)
-			{
-				//it is a textarea, we need to push_back a textarea
-				//with the same name and infos
-				textarea_struct temp_text;
-				temp_text.name_=form_work_on.textarea[ii].name();
-				temp_text.value_="";
-				textarea.push_back(temp_text);
-				//return a pointer to the value of the textarea we just pushed
-				assert(&textarea[textarea.size()-1].value_!=NULL);
-				return &textarea[textarea.size()-1].value_;
-			}
-		}
+        for(unsigned int ii=0;ii<form_work_on.input.size();ii++)
+        {
+            if(form_work_on.input[ii].name()==name)
+            {
+                //it is an input, we need to push_back an input
+                //with the same name and infos
+                input_struct temp_input;
+                temp_input.name_ = name;
+                temp_input.type_ = form_work_on.input[ii].type();
+                temp_input.value_ = "";
+                input.push_back(temp_input);
+                //return a pointer to the value of the input we just pushed
+                assert(&input[input.size()-1].value_!=NULL);
+                return &input[input.size()-1].value_;
+            }
+        }
+        for(unsigned int ii=0;ii<form_work_on.textarea.size();ii++)
+        {
+            if(form_work_on.textarea[ii].name()==name)
+            {
+                //it is a textarea, we need to push_back a textarea
+                //with the same name and infos
+                textarea_struct temp_text;
+                temp_text.name_=form_work_on.textarea[ii].name();
+                temp_text.value_="";
+                textarea.push_back(temp_text);
+                //return a pointer to the value of the textarea we just pushed
+                assert(&textarea[textarea.size()-1].value_!=NULL);
+                return &textarea[textarea.size()-1].value_;
+            }
+        }
 
-		for(unsigned int ii=0;ii<form_work_on.select.size();ii++)
-		{
-			if(form_work_on.select[ii].name()==name)
-			{
-				//it is a select, we need to push_back a
-				//select if the select doesn't exist,
-				//otherwise we only push_back the option
+        for(unsigned int ii=0;ii<form_work_on.select.size();ii++)
+        {
+            if(form_work_on.select[ii].name()==name)
+            {
+                //it is a select, we need to push_back a
+                //select if the select doesn't exist,
+                //otherwise we only push_back the option
 
-				//loop inside to see if we already have this select
-				for(unsigned int loop_in=0;loop_in<select.size();loop_in++)
-				{
-					//we already have it so we only need to
-					//push_back a new option to it
-					if(select[loop_in].name()==name)
-					{
-						option temp_option;
-						temp_option.selected_ = true;
-						temp_option.value_    = "";
-						select[loop_in].options.push_back(temp_option);
-						assert(&select[loop_in].options[   select[loop_in].options.size()-1  ].value_!=NULL);
-						return &select[loop_in].options[   select[loop_in].options.size()-1  ].value_;
-					}
-				}
-				//if we don't have it we create on with the info of
-				//the form we are working on
-				select_struct temp_select;
-				temp_select.name_ = name;
-				//set the options
-				option temp_option;
-				temp_option.selected_ = true;
-				temp_option.value_    = "";
-				//add our option to the new select
-				temp_select.options.push_back(temp_option);
-				//push_back the new select
-				select.push_back(temp_select);
-				assert(&select[select.size()-1].options[   select[select.size()-1].options.size()-1  ].value_!=NULL);
-				return &select[select.size()-1].options[   select[select.size()-1].options.size()-1  ].value_;
-			}
-		}
+                //loop inside to see if we already have this select
+                for(unsigned int loop_in=0;loop_in<select.size();loop_in++)
+                {
+                    //we already have it so we only need to
+                    //push_back a new option to it
+                    if(select[loop_in].name()==name)
+                    {
+                        option temp_option;
+                        temp_option.selected_ = true;
+                        temp_option.value_    = "";
+                        select[loop_in].options.push_back(temp_option);
+                        assert(&select[loop_in].options[   select[loop_in].options.size()-1  ].value_!=NULL);
+                        return &select[loop_in].options[   select[loop_in].options.size()-1  ].value_;
+                    }
+                }
+                //if we don't have it we create on with the info of
+                //the form we are working on
+                select_struct temp_select;
+                temp_select.name_ = name;
+                //set the options
+                option temp_option;
+                temp_option.selected_ = true;
+                temp_option.value_    = "";
+                //add our option to the new select
+                temp_select.options.push_back(temp_option);
+                //push_back the new select
+                select.push_back(temp_select);
+                assert(&select[select.size()-1].options[   select[select.size()-1].options.size()-1  ].value_!=NULL);
+                return &select[select.size()-1].options[   select[select.size()-1].options.size()-1  ].value_;
+            }
+        }
 
-	}
-	//if it's a direct post we consider everything as an input
-	else
-	{
-		input_struct temp_input;
-		temp_input.name_ = name;
-		temp_input.type_ = "text";
-		temp_input.value_ = "";
-		input.push_back(temp_input);
-		//return a pointer to the value of the input we just pushed
-		assert(&input[input.size()-1].value_!=NULL);
-		return &input[input.size()-1].value_;
-	}
+    }
+    //if it's a direct post we consider everything as an input
+    else
+    {
+        input_struct temp_input;
+        temp_input.name_ = name;
+        temp_input.type_ = "text";
+        temp_input.value_ = "";
+        input.push_back(temp_input);
+        //return a pointer to the value of the input we just pushed
+        assert(&input[input.size()-1].value_!=NULL);
+        return &input[input.size()-1].value_;
+    }
 
-	std::cerr<<"\n[!] No Such Name inside this form\n";
-	//pointer to zero instead of NULL, this is safer against buffer overflows
-	//or we can return a pointer to a temp string because we are doing that with an equal
+    std::cerr<<"\n[!] No Such Name inside this form\n";
+    //pointer to zero instead of NULL, this is safer against buffer overflows
+    //or we can return a pointer to a temp string because we are doing that with an equal
     //return 0;
     return &against_error;
 }
@@ -636,16 +636,16 @@ forms_class::form_class forms_class::operator[ ]  (int ite)
 {
     if( (unsigned int) ite>=all_forms.size() || ite<0)
     {
-    	if(all_forms.size()!=0)
-		{
-			std::cerr<<"\n[!] No Such form, using the first form as default\n";
-			return all_forms[0];
-		}
-		else
-		{
-			std::cerr<<"\n[!] No form at all seen\n";
-			return against_error_form;
-		}
+        if(all_forms.size()!=0)
+        {
+            std::cerr<<"\n[!] No Such form, using the first form as default\n";
+            return all_forms[0];
+        }
+        else
+        {
+            std::cerr<<"\n[!] No form at all seen\n";
+            return against_error_form;
+        }
     }
     return all_forms[ite];
 }
@@ -657,7 +657,7 @@ void forms_class::filter_inside_form()
 {
     for(unsigned int ii=0; ii < form_raw_container.size(); ii++)
     {
-    	///maybe we can fork those in the background... or make it multithreaded but it will not be multiplatform
+        ///maybe we can fork those in the background... or make it multithreaded but it will not be multiplatform
         form_class cracked_form  = crack(form_raw_container[ii]);
         all_forms.push_back(cracked_form);
     }
@@ -687,7 +687,7 @@ forms_class::form_class forms_class::crack(std::string form_part)
     //filter the rest in a foo -- get the name
     if( word_in(form_part,"textarea ") )
     {
-    	///we can fork that
+        ///we can fork that
         //we need to store all the textarea in an array of struct
         //containing the name and an empty value so we
         //can fill them up later
