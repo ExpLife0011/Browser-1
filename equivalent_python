@@ -38,10 +38,27 @@ dir(Browser)
 'find_link',
 'follow_link'                                                                     = void follow_link(std::string name_of_link_to_follow,int usertimeout);
 'forms'                                                                           = forms_class forms;
+std::vector <std::string> forms.form_raw_container;
+void forms.initialize(std::string whole_html);
+std::string forms.all()
+int forms.size()
+std::vector <form_class> forms.all_forms;
+form_class forms.operator[ ] (int ite);
+*form[something] = something;
 'geturl'                                                                          = std::string geturl();
 'global_form',
 'handler_classes',
 'links'                                                                           = links_class links;
+int links.size();
+std::string links.all();
+std::vector <link_struct> links.links_array;
+void links.clear();
+link.url();
+link.name();
+link.title();
+link.target;
+link.clas();
+link.id();
 'open',
 'open_local_file',
 'open_novisit'                                                                    = void open_novisit(std::string url, int usertimeout);
