@@ -155,7 +155,6 @@ void history();
 void back(int timeout);
 bool viewing_html();
     **emails**
-        all()
         std::string operator[ ]  (int ite);
         int size();
         void init(links_class links);

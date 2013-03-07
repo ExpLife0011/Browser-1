@@ -1,0 +1,107 @@
+from mechanize import Browser
+dir(Browser)
+[
+'BLOCK_SIZE',
+'__doc__',
+'__getattr__',
+'__init__'                                                                        = void init();
+'__module__',
+'__str__',
+'_add_referer_header',
+'_call_chain',
+'_filter_links',
+'_maybe_reindex_handlers',
+'_mech_open',
+'_open'                                                                           = void open(std::string url, int timeout, bool save_history);
+                                                                                  = void open(std::string url, std::string post_data, int usertimeout);
+                                                                                  = void open(std::string url, int usertimeout, std::string post_data);
+'_replace_handler',
+'_request',
+'_set_handler',
+'_set_response',
+'_visit_request',
+'add_client_certificate',
+'add_handler',
+'add_password',
+'add_proxy_password'                                                              = void set_proxy_login(std::string username, std::stirng passwd);
+'back'                                                                            = void back(int timeout);
+'clear_history'                                                                   = void clear_history();
+'click',
+'click_link',
+'close'                                                                           = void clean();
+                                                                                  = void close();
+'default_features',
+'default_others',
+'default_schemes',
+'encoding',
+'error'                                                                           = bool error();
+'find_link',
+'follow_link'                                                                     = void follow_link(std::string name_of_link_to_follow,int usertimeout);
+'forms'                                                                           = forms_class forms;
+'geturl'                                                                          = std::string geturl();
+'global_form',
+'handler_classes',
+'links'                                                                           = links_class links;
+'open',
+'open_local_file',
+'open_novisit'                                                                    = void open_novisit(std::string url, int usertimeout);
+'reload'                                                                          = void reload();
+'response'                                                                        = std::string response();
+'retrieve',
+'select_form'                                                                     = void select_form(int number_start_from_zero);
+'set_client_cert_manager',
+'set_cookie'                                                                      = void set_cookie(std::string cookies);
+'set_cookiejar'                                                                   = void set_cookiejar(std::string cookiejar);
+                                                                                  = void set_cookiejar();
+'set_debug_http'                                                                  = void set_verbose(bool allow);
+'set_debug_redirects',
+'set_debug_responses',
+'set_handle_equiv',
+'set_handle_gzip'                                                                 = void set_handl_gzip(bool allow);
+'set_handle_redirect'                                                             = void set_handle_redirect(bool allow);
+'set_handle_referer',
+'set_handle_refresh',
+'set_handle_robots',
+'set_handled_schemes',
+'set_password_manager',
+'set_proxies'                                                                     = void set_proxy(bool allow)
+                                                                                  = void set_proxy(std::string proxy, std::string type);
+'set_proxy_password_manager',
+'set_response',
+'submit'                                                                          = void submit(int timeout);
+'title'                                                                           = std::string title();
+'viewing_html'                                                                    = bool viewing_html();
+'visit_response'
+]
+std::string status();
+std::string info();
+void fetch_forms(bool allow);
+void fetch_links(bool allow);
+void set_direct_form_post(bool direct, std::string url);
+std::string escape(std::string the_string);
+std::string unescape(std::string the_string);
+std::string get_first_root();
+void limit_speed(int limit);
+void limit_time(int limit);
+void set_http_tunel(bool allow);
+void addheaders(std::string headers_to_add[2]);
+void addheaders(std::string headers_to_add, std::string second_header_to_add);
+void addheaders(std::map<std::string> Headers);
+void addheaders(std::map<std:string, std::string> Headers);
+void adduseragent(std::string theuseragent);
+void set_handle_ss;(bool allow);
+void set_dns(std::string dns_server);
+void set_interface(std::string interface_name, long int port, long int max_port);
+void set_http_version_1_0(bool set_it);
+void write_bytes(std::string filename);
+std::string getcookies();
+bool intitle(std::string str);
+bool inresponse(std::string str);
+bool inurl(std::string str);
+void head_request(bool allow);
+CURL *get_handle();
+void history();
+std::string emails.all();
+std::string emails.openrator[ ] (int ite);
+int emails.size();
+void emails.init(links_class links);
