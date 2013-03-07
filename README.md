@@ -452,7 +452,7 @@ int main()
 }
 ```
 
-* Playing with the forms and links
+* Playing with the forms, links and emails
 
 ```c++
 #include "Browser.hpp"
@@ -564,6 +564,18 @@ int main()
             /*this one is the same as br.links[i].url()*/
             <<br.links[i];
     }
+
+    //The Emails -- contact informations
+    //Remember that emails are considered links too 
+    //if you disable to links then you also disable the emails grabbing
+    
+    //display all the emails in one single string
+    std::cout<<br.emails.all();
+    
+    //display the emails one by one
+    for(int i=0;i<br.emails.size();i++)
+        std::cout<<br.emails[i];
+
     return 0;
 }
 
