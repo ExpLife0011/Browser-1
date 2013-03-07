@@ -9,7 +9,7 @@ Now not only curl has a cool(shitty) ascii-art
 █▐▓░ |▐  █   ▐▓░▌ ▐|▓| _  ▍ ▒▌▄  █
 █▐▄▄▄▄▐  ▀ ░  ▀▀        ▔        ▀
 
-?no utf-8 support?(damn it!)
+No utf-8 support? (damn it!)
 </pre>
 
 License (unixhub)
@@ -154,12 +154,12 @@ void clear_history();
 void history();
 void back(int timeout);
 bool viewing_html();
-*emails
-    all()
-    std::string operator[ ]  (int ite);
-    int size();
-    void init(links_class links);
-    std::string all();
+    **emails**
+        all()
+        std::string operator[ ]  (int ite);
+        int size();
+        void init(links_class links);
+        std::string all();
 
 **links_class**
 int size();
