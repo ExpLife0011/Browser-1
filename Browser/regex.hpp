@@ -37,9 +37,9 @@ in this Software without prior written authorization of the copyright holder.
 
 bool remove_html_comment(std::string & html_response);
 void remove_html_comments(std::string & html_response);
-void lower_it(std::string income, std::string & outcome);
-void upper_it(std::string income, std::string & outcome);
-bool word_in(std::string the_string, std::string to_search);
+void lower_it(const std::string &income, std::string & outcome);
+void upper_it(const std::string &income, std::string & outcome);
+bool word_in(const std::string &the_string, const std::string &to_search);
 std::string get_after_equal(std::string html_response, std::string seeking);
 void replaceAll(std::string& str, const std::string& from, const std::string& to);
 std::string get_between_two_closed(std::string raw_input,std::string seeking);
@@ -48,7 +48,7 @@ void get_after_delimiter(std::string html_response, std::string seeking, std::ve
 void get_from_intern(std::string raw_input, std::string word,std::string word2, std::vector <std::string> & container);
 
 ///==============================UPPER IT FROM STRING===============================///
-void upper_it(std::string income, std::string & outcome)
+void upper_it(const std::string &income, std::string & outcome)
 {
     char c;
     int i=0;
@@ -62,7 +62,7 @@ void upper_it(std::string income, std::string & outcome)
 ///=================================================================================///
 
 ///==============================LOWER IT FROM STRING===============================///
-void lower_it(std::string income, std::string & outcome)
+void lower_it(const std::string &income, std::string & outcome)
 {
     char c;
     int i=0;
@@ -76,7 +76,7 @@ void lower_it(std::string income, std::string & outcome)
 ///=================================================================================///
 
 ///===============================SEARCH FOR A WORD (any)===========================///
-bool word_in(std::string the_string, std::string to_search)
+bool word_in(const std::string &the_string, const std::string &to_search)
 {
     std::string temp;
     lower_it(the_string,temp);
