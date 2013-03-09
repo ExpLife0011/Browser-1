@@ -8,8 +8,9 @@ g++ -Wall -s -march=i686 \
           -fno-builtin -fno-operator-names \
           -mtune=i686 main.cpp -I/usr/include \
           -I/home/raptor/mechanize_plus_plus/mechanize \
-          -mtune=generic -pipe -fstack-protector \
+          -pipe -fstack-protector \
           --param=ssp-buffer-size=4 -D_FORTIFY_SOURCE=2 \
           -lcurl -o mechanize_test
 
+clang++ -march=i686 -Wall -O3 -pipe -mtune=i686 -I/usr/include -I/home/user/location/something -lcurl main.cpp -o the_output_here
 
