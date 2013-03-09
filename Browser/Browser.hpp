@@ -39,6 +39,7 @@ in this Software without prior written authorization of the copyright holder.
 #include <map>
 #include "forms.hpp"
 #include "links.hpp"
+#include <errno.h>
 
 ///==================================THE BROWSER CLASS==============================///
 class Browser

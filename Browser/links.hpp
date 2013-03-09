@@ -70,7 +70,7 @@ class link_struct
         {
             return id_;
         }
-    friend links_class;
+    friend class links_class;
     friend std::ostream &operator<<( std::ostream &flux, link_struct const& link_to_display  );
     private:
     protected:

@@ -56,8 +56,8 @@ class forms_class
             public:
 
                 std::string value_;
-                friend forms_class;
-                friend form_class;
+                friend class forms_class;
+                friend class form_class;
                 std::string value()
                 {
                     return value_;
@@ -82,10 +82,10 @@ class forms_class
                 {
                     return value_;
                 }
-                friend select_struct;
-                friend form_class;
-                friend form_class2;
-                friend forms_class;
+                friend class select_struct;
+                friend class form_class;
+                friend class form_class2;
+                friend class forms_class;
             protected:
                 std::string value_;
 
@@ -104,8 +104,8 @@ class forms_class
                 {
                     return name_;
                 }
-                friend form_class;
-                friend form_class2;
+                friend class form_class;
+                friend class form_class2;
             protected:
                 std::string name_;
             private:
@@ -135,9 +135,9 @@ class forms_class
                 }
                 void clear();
                 friend std::ostream &operator<<( std::ostream &flux, form_class2 const& form_to_display  );
-                friend input_struct;
-                friend forms_class;
-                friend Browser;
+                friend class input_struct;
+                friend class forms_class;
+                friend class Browser;
             protected:
                 void stream_it(std::ostream & flux) const;
                 std::string url_;
@@ -148,14 +148,18 @@ class forms_class
         class form_class: protected form_class2
         {
             public:
-                //form_class();
+                bool direct_post;
+                form_class()
+                {
+                    direct_post   = false;
+                    against_error = "";
+                }
                 //~form_class();
                 // bytes tell the form which part is
                 // suppose to be written as bytes
                 std::vector < select_struct > select;
                 std::vector < input_struct  > input;
                 std::vector <textarea_struct> textarea;
-                bool direct_post = false;
                 //bool fully_copied= false;
                 std::map <std::string, std::string> bytes_;
                 void bytes(std::string name, std::string content_type="")
@@ -179,16 +183,16 @@ class forms_class
                 void clear();
                 std::string *operator[ ]  (std::string name);
                 friend std::ostream &operator<<( std::ostream &flux, form_class const& form_to_display  );
-                friend input_struct;
-                friend forms_class;
-                friend Browser;
+                friend class input_struct;
+                friend class forms_class;
+                friend class Browser;
             protected:
                 form_class2 form_work_on;
                 void stream_it(std::ostream & flux) const;
                 std::string url_;
                 std::string method_;
                 bool multipart_;
-                std::string against_error="";
+                std::string against_error;
             private:
         };
         class input_struct
