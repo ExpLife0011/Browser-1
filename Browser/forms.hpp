@@ -45,16 +45,14 @@ class Browser;
 
 
 ///======================The class containing all forms in general===================///
-class forms_class
-{
+class forms_class {
     public:
         class form_class;
         class form_class2;
         class input_struct;
         class select_struct;
         ///=========================class containing the inside of a form=====================///
-        class textarea_struct
-        {
+        class textarea_struct {
             public:
 
                 std::string value_;
@@ -72,8 +70,7 @@ class forms_class
                 std::string name_;
 
         };
-        class option
-        {
+        class option {
             public:
                 bool     selected_;
                 bool selected()
@@ -92,8 +89,7 @@ class forms_class
                 std::string value_;
 
         };
-        class select_struct
-        {
+        class select_struct {
             public:
                 //select_struct();
                 //~select_struct();
@@ -112,8 +108,7 @@ class forms_class
                 std::string name_;
             private:
         };
-        class form_class2
-        {
+        class form_class2 {
             public:
                 //form_class();
                 //~form_class();
@@ -147,8 +142,7 @@ class forms_class
                 bool multipart_;
             private:
         };
-        class form_class: protected form_class2
-        {
+        class form_class: protected form_class2 {
             public:
                 bool direct_post;
                 form_class()
@@ -197,8 +191,7 @@ class forms_class
                 std::string against_error;
             private:
         };
-        class input_struct
-        {
+        class input_struct {
             protected:
                 std::string type_;
                 std::string name_;
@@ -325,20 +318,17 @@ void forms_class::form_class::stream_it(std::ostream & flux) const
     output +="\"\n";
     if(multipart_==true)
             output+="--- type: multipart form upload\n";
-    for(unsigned int j=0;j<textarea.size();j++)
-    {
+    for(unsigned int j=0;j<textarea.size();j++) {
         output+="Textarea: NAME=\"";
         output+=textarea[j].name_;
         output+="\"\n";
     }
 
-    for(unsigned int j=0;j<select.size();j++)
-    {
+    for(unsigned int j=0;j<select.size();j++) {
         output+="Select: NAME=\"";
         output+=select[j].name_;
         output+="\"\n";
-        for(unsigned int jj=0;jj<select[j].options.size();jj++)
-        {
+        for(unsigned int jj=0;jj<select[j].options.size();jj++) {
             output+="    Option VALUE=\"";
             output+=select[j].options[jj].value_;
             output+="\" ";
@@ -351,16 +341,13 @@ void forms_class::form_class::stream_it(std::ostream & flux) const
     if(select.size()>0)
         output+="[end of select]\n";
 
-    for(unsigned int j=0;j<input.size();j++)
-    {
-        if( input[j].name_ == " " ||  input[j].name_ == "" )
-        {
+    for(unsigned int j=0;j<input.size();j++) {
+        if( input[j].name_ == " " ||  input[j].name_ == "" ) {
                 output +="Button: \"";
                 output += input[j].value_;
                 output +="\"";
         }
-        else
-        {
+        else {
                 output +="Input: NAME=\""+ input[j].name_;
                 if(input[j].value_!="")
                     output +="\" VALUE=\"" + input[j].value_;
@@ -384,20 +371,17 @@ void forms_class::form_class2::stream_it(std::ostream & flux) const
     output +="\"\n";
     if(multipart_==true)
             output+="--- type: multipart form upload\n";
-    for(unsigned int j=0;j<textarea.size();j++)
-    {
+    for(unsigned int j=0;j<textarea.size();j++) {
         output+="Textarea: NAME=\"";
         output+=textarea[j].name_;
         output+="\"\n";
     }
 
-    for(unsigned int j=0;j<select.size();j++)
-    {
+    for(unsigned int j=0;j<select.size();j++) {
         output+="Select: NAME=\"";
         output+=select[j].name_;
         output+="\"\n";
-        for(unsigned int jj=0;jj<select[j].options.size();jj++)
-        {
+        for(unsigned int jj=0;jj<select[j].options.size();jj++) {
             output+="    Option VALUE=\"";
             output+=select[j].options[jj].value_;
             output+="\" ";
@@ -410,16 +394,13 @@ void forms_class::form_class2::stream_it(std::ostream & flux) const
     if(select.size()>0)
         output+="[end of select]\n";
 
-    for(unsigned int j=0;j<input.size();j++)
-    {
-        if( input[j].name_ == " " ||  input[j].name_ == "" )
-        {
+    for(unsigned int j=0;j<input.size();j++) {
+        if( input[j].name_ == " " ||  input[j].name_ == "" ) {
                 output +="Button: \"";
                 output += input[j].value_;
                 output +="\"";
         }
-        else
-        {
+        else {
                 output +="Input: NAME=\""+ input[j].name_;
                 if(input[j].value_!="")
                     output +="\" VALUE=\"" + input[j].value_;
@@ -450,8 +431,7 @@ std::ostream &operator<<( std::ostream &flux, forms_class::form_class2 const& fo
 std::string forms_class::all()
 {
     std::string output = "";
-    for(unsigned int i =0;i<all_forms.size();i++)
-    {
+    for(unsigned int i =0;i<all_forms.size();i++) {
         output +="--- FORM report. Uses ";
         output +=all_forms[i].method_;
         output +=" to URL \"";
@@ -461,20 +441,17 @@ std::string forms_class::all()
         if(all_forms[i].multipart_==true)
             output+="--- type: multipart form upload\n";
 
-        for(unsigned int j=0;j<all_forms[i].textarea.size();j++)
-        {
+        for(unsigned int j=0;j<all_forms[i].textarea.size();j++) {
             output+="Textarea: NAME=\"";
             output+=all_forms[i].textarea[j].name();
             output+="\"\n";
         }
 
-        for(unsigned int j=0;j<all_forms[i].select.size();j++)
-        {
+        for(unsigned int j=0;j<all_forms[i].select.size();j++) {
             output+="Select: NAME=\"";
             output+=all_forms[i].select[j].name();
             output+="\"\n";
-            for(unsigned int jj=0;jj<all_forms[i].select[j].options.size();jj++)
-            {
+            for(unsigned int jj=0;jj<all_forms[i].select[j].options.size();jj++) {
                 output+="    Option VALUE=\"";
                 output+=all_forms[i].select[j].options[jj].value();
                 output+="\" ";
@@ -487,17 +464,13 @@ std::string forms_class::all()
         if(all_forms[i].select.size()>0)
             output+="[end of select]\n";
 
-        for(unsigned int j=0;j<all_forms[i].input.size();j++)
-        {
-
-            if( all_forms[i].input[j].name() == " " ||  all_forms[i].input[j].name() == "" )
-            {
+        for(unsigned int j=0;j<all_forms[i].input.size();j++) {
+            if( all_forms[i].input[j].name() == " " ||  all_forms[i].input[j].name() == "" ) {
                 output +="Button: \"";
                 output += all_forms[i].input[j].value();
                 output +="\"";
             }
-            else
-            {
+            else {
                 output +="Input: NAME=\""+ all_forms[i].input[j].name();
                 if(all_forms[i].input[j].value()!="" && all_forms[i].input[j].value()!=" ")
                     output +="\" VALUE=\"" + all_forms[i].input[j].value();
@@ -531,21 +504,14 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
     //textarea :name(), value()
     //bytes    :strings...
 
-    if(direct_post==false)
-    {
+    if(direct_post==false) {
         if(url_=="")
-        {
             url_=form_work_on.url();
-        }
         if(method_=="")
-        {
             method_=form_work_on.method();
-        }
 
         for(unsigned int ii=0;ii<form_work_on.input.size();ii++)
-        {
-            if(form_work_on.input[ii].name()==name)
-            {
+            if(form_work_on.input[ii].name()==name) {
                 //it is an input, we need to push_back an input
                 //with the same name and infos
                 input_struct temp_input;
@@ -557,11 +523,9 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
                 assert(&input[input.size()-1].value_!=NULL);
                 return &input[input.size()-1].value_;
             }
-        }
+
         for(unsigned int ii=0;ii<form_work_on.textarea.size();ii++)
-        {
-            if(form_work_on.textarea[ii].name()==name)
-            {
+            if(form_work_on.textarea[ii].name()==name) {
                 //it is a textarea, we need to push_back a textarea
                 //with the same name and infos
                 textarea_struct temp_text;
@@ -572,23 +536,18 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
                 assert(&textarea[textarea.size()-1].value_!=NULL);
                 return &textarea[textarea.size()-1].value_;
             }
-        }
 
         for(unsigned int ii=0;ii<form_work_on.select.size();ii++)
-        {
-            if(form_work_on.select[ii].name()==name)
-            {
+            if(form_work_on.select[ii].name()==name) {
                 //it is a select, we need to push_back a
                 //select if the select doesn't exist,
                 //otherwise we only push_back the option
 
                 //loop inside to see if we already have this select
-                for(unsigned int loop_in=0;loop_in<select.size();loop_in++)
-                {
+                for(unsigned int loop_in=0;loop_in<select.size();loop_in++) {
                     //we already have it so we only need to
                     //push_back a new option to it
-                    if(select[loop_in].name()==name)
-                    {
+                    if(select[loop_in].name()==name) {
                         option temp_option;
                         temp_option.selected_ = true;
                         temp_option.value_    = "";
@@ -612,12 +571,10 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
                 assert(&select[select.size()-1].options[   select[select.size()-1].options.size()-1  ].value_!=NULL);
                 return &select[select.size()-1].options[   select[select.size()-1].options.size()-1  ].value_;
             }
-        }
 
     }
     //if it's a direct post we consider everything as an input
-    else
-    {
+    else {
         input_struct temp_input;
         temp_input.name_ = name;
         temp_input.type_ = "text";
@@ -640,15 +597,12 @@ std::string *forms_class::form_class::operator[ ]  (std::string name)
 ///=====overloadind of operator [] to loop through forms(hopefully it will work)=====///
 forms_class::form_class forms_class::operator[ ]  (int ite)
 {
-    if( (unsigned int) ite>=all_forms.size() || ite<0)
-    {
-        if(all_forms.size()!=0)
-        {
+    if( (unsigned int) ite>=all_forms.size() || ite<0) {
+        if(all_forms.size()!=0) {
             std::cerr<<"\n[!] No Such form, using the first form as default\n";
             return all_forms[0];
         }
-        else
-        {
+        else {
             std::cerr<<"\n[!] No form at all seen\n";
             return against_error_form;
         }
@@ -661,8 +615,7 @@ forms_class::form_class forms_class::operator[ ]  (int ite)
 ///=================fill the class form_class with all the data=====================///
 void forms_class::filter_inside_form()
 {
-    for(unsigned int ii=0; ii < form_raw_container.size(); ii++)
-    {
+    for(unsigned int ii=0; ii < form_raw_container.size(); ii++) {
         ///maybe we can fork those in the background... or make it multithreaded but it will not be multiplatform
         form_class cracked_form  = crack(form_raw_container[ii]);
         all_forms.push_back(cracked_form);
@@ -691,8 +644,7 @@ forms_class::form_class forms_class::crack(std::string form_part)
 
     //search for textarea if the keyword "textarea " is there
     //filter the rest in a foo -- get the name
-    if( word_in(form_part,"textarea ") )
-    {
+    if( word_in(form_part,"textarea ") ) {
         ///we can fork that
         //we need to store all the textarea in an array of struct
         //containing the name and an empty value so we
@@ -700,8 +652,7 @@ forms_class::form_class forms_class::crack(std::string form_part)
         std::vector <std::string> textarea_raw_container;
         std::string temporary_str;
         get_after_delimiter(form_part,"textarea", textarea_raw_container);
-        for(unsigned int ii=0;ii<textarea_raw_container.size();ii++)
-        {
+        for(unsigned int ii=0;ii<textarea_raw_container.size();ii++) {
             temporary_str = get_after_equal(textarea_raw_container[ii],"name");
             textarea_struct temporary_textarea;
             temporary_textarea.name_ = temporary_str;
@@ -712,15 +663,13 @@ forms_class::form_class forms_class::crack(std::string form_part)
 
     //get the SELECT only if the keyword "select " is there
     //filter inside select in a foo -- name,options(value,selected)
-    if( word_in(form_part,"select ") )
-    {
+    if( word_in(form_part,"select ") ) {
         //we need to have what is between < *select(.*) < */ * select *>
         //and store it in a raw container
         std::vector <std::string> select_raw_container;
         std::string temporary_str2;
         get_after_delimiter(form_part,"select", select_raw_container);
-        for(unsigned int ii=0;ii<select_raw_container.size();ii++)
-        {
+        for(unsigned int ii=0;ii<select_raw_container.size();ii++) {
             temporary_str2 = get_after_equal(select_raw_container[ii],"name");
             select_struct temporary_select;
             temporary_select.change_name(temporary_str2);
@@ -733,18 +682,14 @@ forms_class::form_class forms_class::crack(std::string form_part)
 
             //we need to get each options
             option temporary_options;
-            for(unsigned int jj=0;jj<select_options_container.size();jj++)
-            {
+            for(unsigned int jj=0;jj<select_options_container.size();jj++) {
                 //if the word " selected" is inside we consider that this option is
                 //selected
                 if(word_in(select_options_container[jj]," selected"))
-                {
                     temporary_options.selected_ = true;
-                }
                 else
-                {
                     temporary_options.selected_ = false;
-                }
+
                 temporary_options.value_ = get_after_equal(select_options_container[jj],"value");
                 temporary_select.options.push_back(temporary_options);
             }
@@ -758,8 +703,7 @@ forms_class::form_class forms_class::crack(std::string form_part)
     std::vector < std::string > temp_raw_input_container;
     //split all input and store them inside temp_raw_input_container
     get_raw_inputs(form_part, temp_raw_input_container);
-    for(unsigned int i=0;i<temp_raw_input_container.size();i++)
-    {
+    for(unsigned int i=0;i<temp_raw_input_container.size();i++) {
         std::string Name  = get_after_equal(temp_raw_input_container[i],"name");
         std::string Value = get_after_equal(temp_raw_input_container[i],"value");
         std::string Type  = get_after_equal(temp_raw_input_container[i],"type");
@@ -792,42 +736,30 @@ void forms_class::get_raw_inputs(std::string raw_form, std::vector <std::string>
     bool find_first_index = false;
 
     //save the index of the first input
-    while(find_first_index ==false && first_index!=std::string::npos)
-    {
+    while(find_first_index ==false && first_index!=std::string::npos) {
         first_index = raw_form_lower.find("input ",first_index);
         backward_ite= 1;
         //we go backward after the word input ignoring spaces
         while(raw_form_lower[first_index-backward_ite]==' ')
-        {
             backward_ite++;
-        }
         //the first char before input must be '<'
         if(raw_form_lower[first_index-backward_ite]=='<')
-        {
             find_first_index = true;
-        }
     }
 
     //more then one input
-    while(raw_form_lower.find("input ",first_index+3)!= std::string::npos)
-    {
-
+    while(raw_form_lower.find("input ",first_index+3)!= std::string::npos) {
         find_first_index = false;
         backward_ite     = 1;
         loop_index       = first_index;
-        while(find_first_index==false  && last_index!=std::string::npos)
-        {
+        while(find_first_index==false  && last_index!=std::string::npos) {
             //save the last index
             last_index       = raw_form_lower.find("input ",loop_index+3);
             while(raw_form_lower[last_index-backward_ite]==' ')
-            {
                 backward_ite++;
-            }
             //the first char before input must be '<'
             if(raw_form_lower[last_index-backward_ite]=='<')
-            {
                 find_first_index = true;
-            }
             loop_index = last_index+3;
         }
 
@@ -841,9 +773,7 @@ void forms_class::get_raw_inputs(std::string raw_form, std::vector <std::string>
     //there was only one input -- eliminating the form that has
     //no inputs at all
     if(first_index!=std::string::npos)
-    {
         raw_inputs_container.push_back(raw_form.substr(first_index,raw_form.length()-first_index));
-    }
 }
 ///=================================================================================///
 

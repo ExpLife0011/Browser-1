@@ -111,8 +111,7 @@ void links_class::clear()
 std::string links_class::all()
 {
     std::string output="";
-    for(int i=0;i<size();i++)
-    {
+    for(int i=0;i<size();i++) {
         output+=links_array[i].url();
         output+="\n";
     }
@@ -139,8 +138,7 @@ void links_class::getlinks(std::string raw_input)
     get_from_intern(raw_input, "href","a", temp_raw_links_container);
 
     link_struct temp_link;
-    for(unsigned int ii=0;ii<temp_raw_links_container.size();ii++)
-    {
+    for(unsigned int ii=0;ii<temp_raw_links_container.size();ii++) {
         temp_link.clear_link();
         temp_link.target_ = get_after_equal(temp_raw_links_container[ii], "target");
         temp_link.id_     = get_after_equal(temp_raw_links_container[ii], "id");
@@ -196,8 +194,7 @@ link_struct links_class::operator[ ]  (int ite)
     //return the link which has a url, name, title, target
     if((unsigned int)ite<links_array.size() && ite>-1)
         return (links_array[ite]);
-    else
-    {
+    else {
         std::cerr<<"\n[!] No Such link, using the last link as default\n";
         return (links_array[links_array.size()-1]);
     }

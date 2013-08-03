@@ -43,8 +43,7 @@ in this Software without prior written authorization of the copyright holder.
 
 
 ///==================================THE BROWSER CLASS==============================///
-class Browser
-{
+class Browser {
     private:
         CURL *curl;
         FILE *filepipe;
@@ -56,21 +55,19 @@ class Browser
         int  timeout                  ;
         bool fetching_links           ;
         bool fetching_forms           ;
+        bool direct_form_post_        ;
+        bool full_form_               ;
         struct curl_httppost *formpost=NULL;
         struct curl_httppost *lastptr =NULL;
+        std::vector <std::string> history_;
         //might use that instead of always initializing the forms when opening the page
         //bool form_is_initialized      = false;
-
         void open_form(std::string url, int usertimeout);
-        bool direct_form_post_        ;
-        void convert_1_to_2(forms_class::form_class form_work_on_first
-                            ,forms_class::form_class2 &form_work_on_first2);
-        std::vector <std::string> history_;
-        bool full_form_               ;
-        void take_hidden(forms_class::form_class form_work_on_first,forms_class::form_class &form_we_need);
-
-        class emails_class
-        {
+        void convert_1_to_2(forms_class::form_class form_work_on_first,
+                            forms_class::form_class2 &form_work_on_first2);
+        void take_hidden(   forms_class::form_class form_work_on_first,
+                            forms_class::form_class &form_we_need);
+        class emails_class {
             public:
                 //emails_class();
                 //~emails_class();
@@ -87,8 +84,8 @@ class Browser
         };
 
     protected:
-        std::string header_      ;
-        std::string html_response;
+        std::string header_           ;
+        std::string html_response     ;
 
     public:
         Browser();
@@ -168,7 +165,7 @@ Browser::Browser()
     full_form_               = false;
     direct_form_post_        = false;
     writing_bytes            = false;
-    timeout                  = 20;
+    timeout                  = 30;
     fetching_links           = true;
     fetching_forms           = true;
 
@@ -210,7 +207,6 @@ void Browser::close()
 {
     history_.clear();
     init();
-    curl_easy_reset(curl);
 }
 ///=================================================================================///
 
@@ -220,7 +216,6 @@ void Browser::init()
 {
     //maybe we'll loose the cookies if we do that
     //curl                   = curl_easy_init();
-
     if(formpost!=NULL)
         curl_formfree(formpost);
 
@@ -244,7 +239,6 @@ void Browser::init()
 void Browser::clean()
 {
     init();
-    curl_easy_reset(curl);
     history_.clear();
 
     struct curl_slist *headers    = NULL;
@@ -261,8 +255,7 @@ void Browser::clean()
 bool Browser::error()
 {
     //Check the return code for errors
-    if(res != CURLE_OK)
-    {
+    if(res != CURLE_OK) {
         fprintf(stderr, "\n[!] There was an error while opening the page : %s\n",
                     curl_easy_strerror(res));
         return true;
@@ -523,8 +516,7 @@ void Browser::open_form(std::string url, int usertimeout=20)
 void Browser::select_form(int number_start_from_zero)
 {
     //starting from 0
-    if(forms.size()>=number_start_from_zero-1)
-    {
+    if(forms.size()>=number_start_from_zero-1) {
         //if we want to have the whole form copied
         //we will already have all the infos inside form
         //so no need for an intermediate form
@@ -539,7 +531,6 @@ void Browser::select_form(int number_start_from_zero)
 
         //copy only the hidden part of the form selected, the other parts must be selected by the user
         take_hidden(form_work_on_first,form);
-
     }
 }
 ///=================================================================================///
@@ -586,43 +577,36 @@ std::string Browser::get_first_root()
     bool https = false;
     //remove the http:// to not confuse the slashes
     replaceAll(temp_url,"http://","");
-    if( word_in(temp_url,"https://") )
+    if( word_in(temp_url,"https://") ) {
         https = true;
-    if(https)
         replaceAll(temp_url,"https://","");
+    }
 
     //now test if we are in a directory
     //meaning something like:
     //www.something.com/   or
     //www.somthing.com/blah.php or
     //www.something.com/else/somthing.php
-    if( word_in(temp_url,"/"))
-    {
+    if( word_in(temp_url,"/")) {
         while(temp_url[temp_url.size()-backward_it]!='/')
-        {
             backward_it++;
-        }
         //here we are on the last slash
+        //prepare the first root URL for the form
         if(form.url_[0]!='/')
-        {
             if(!https)
                 temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it+1);
             else
                 temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it+1);
-        }
         else
-        {
             if(!https)
                 temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it);
             else
                 temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it);
-        }
     }
     //meaning we don't have any slash, we are in the top
     //dir , so something like:
     //www.blahblah.com
-    else
-    {
+    else {
         //here we concatenate all we need in this way:
         //http://www.blahblah.com/formurl.php
         if(!https)
@@ -643,59 +627,49 @@ void Browser::submit(int timeout=30)
     std::string temp_url="";
     int backward_it     = 1;
     //get out of the program if we don't have a post or a get in the form
-    assert(word_in(form.method_,"get")|| word_in(form.method_,"post") );
+    assert(word_in(form.method_,"get") || word_in(form.method_,"post") );
 
     //if the url is already complete
     if( word_in(form.url_,"http://"))
-    {
         temp_url = form.url();
-    }
     //otherwise we add after the root of dir
     //meaning after the first /
-    //or if there's not, we add a slash and append it
-    else
-    {
+    //or if there's not, we add a slash and append it -- But it might not be always true
+    //example: /postsome/shit/here/
+    else {
         temp_url = geturl();
         bool https = false;
         //remove the http:// to not confuse the slashes
         replaceAll(temp_url,"http://","");
-        if( word_in(temp_url,"https://") )
+        if( word_in(temp_url,"https://") ) {
             https = true;
-        if(https)
             replaceAll(temp_url,"https://","");
+        }
 
         //now test if we are in a directory
         //meaning something like:
         //www.something.com/   or
         //www.somthing.com/blah.php or
         //www.something.com/else/somthing.php
-        if( word_in(temp_url,"/"))
-        {
+        if( word_in(temp_url,"/")) {
             while(temp_url[temp_url.size()-backward_it]!='/')
-            {
                 backward_it++;
-            }
             //here we are on the last slash
             if(form.url_[0]!='/')
-            {
                 if(!https)
                     temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it+1)+form.url();
                 else
                     temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it+1)+form.url();
-            }
             else
-            {
                 if(!https)
                     temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it)+form.url();
                 else
                     temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it)+form.url();
-            }
         }
         //meaning we don't have any slash, we are in the top
         //dir , so something like:
         //www.blahblah.com
-        else
-        {
+        else {
             //here we concatenate all we need in this way:
             //http://www.blahblah.com/formurl.php
             if(!https)
@@ -707,8 +681,7 @@ void Browser::submit(int timeout=30)
 
     //we have the url where we will post or get set correctly
     //now prepare the get or post to do and submit
-    if( word_in(form.method_,"get"))
-    {
+    if( word_in(form.method_,"get")) {
         //if it's a get
         //append ? to action then add value1=avalue&value2=anothervalue
         //then open the link and decide if it writes to a file or not depending on the write_bytes
@@ -723,70 +696,52 @@ void Browser::submit(int timeout=30)
 
         //select
         for(unsigned int ii=0;ii<form.select.size();ii++)
-        {
             for(unsigned int jj=0;jj<form.select[ii].options.size();jj++)
-            {
-                if(form.select[ii].options[jj].value()!="" &&form.select[ii].options[jj].selected()==true)
-                {
+                if(form.select[ii].options[jj].value()!="" &&form.select[ii].options[jj].selected()==true) {
                     temp_url+=escape(form.select[ii].name());
                     temp_url+="=";
                     temp_url+=escape(form.select[ii].options[jj].value());
                     temp_url+="&";
                 }
-            }
-        }
 
         //input
         for(unsigned int ii=0;ii<form.input.size();ii++)
-        {
-            if(form.input[ii].value()!="")
-            {
+            if(form.input[ii].value()!="") {
                 temp_url+=escape(form.input[ii].name());
                 temp_url+="=";
                 temp_url+=escape(form.input[ii].value());
                 temp_url+="&";
             }
-        }
 
         //textarea
         for(unsigned int ii=0;ii<form.textarea.size();ii++)
-        {
-            if(form.textarea[ii].value()!="")
-            {
+            if(form.textarea[ii].value()!="") {
                 temp_url+=escape(form.textarea[ii].name());
                 temp_url+="=";
                 temp_url+=escape(form.textarea[ii].value());
                 temp_url+="&";
             }
-        }
         //stil use open because we can have write_bytes as a callback
         open(temp_url,timeout);
 
     }
     //FOR POSTS NOW!
-    else if( word_in(form.method_,"post") )
-    {
+    else if( word_in(form.method_,"post") ) {
         //if it's a post
         //we check what part of the form is pure bin
 
         //input -- here we can have the type FILE
         //which always imply uploading a file
-        for(unsigned int ii=0;ii<form.input.size();ii++)
-        {
-            if(form.input[ii].value()!="")
-            {
-
+        for(unsigned int ii=0;ii<form.input.size();ii++) {
+            if(form.input[ii].value()!="") {
                 //check if bytes and content type were specified
                 for( std::map<std::string,std::string>::iterator inside_bytes=form.bytes_.begin();
                      inside_bytes!=form.bytes_.end();
-                     ++inside_bytes)
-                {
+                     ++inside_bytes) {
                     //if names of the input is inside the bytes
-                    if( (*inside_bytes).first ==  form.input[ii].name() )
-                    {
+                    if( (*inside_bytes).first ==  form.input[ii].name() ) {
                         //if we didn't specified a content type
-                        if( (*inside_bytes).second == "" )
-                        {
+                        if( (*inside_bytes).second == "" ) {
                             // Fill in the file upload field
                             curl_formadd(&formpost,
                                      &lastptr,
@@ -795,8 +750,7 @@ void Browser::submit(int timeout=30)
                                      CURLFORM_END);
                         }
                         //specified a content type
-                        else
-                        {
+                        else {
                             // Fill in the file upload field with the content type
                             curl_formadd(&formpost,
                                      &lastptr,
@@ -810,8 +764,7 @@ void Browser::submit(int timeout=30)
                 //
 
                 //if we have the type file then it's a file:
-                if( word_in(form.input[ii].type(),"file") )
-                {
+                if( word_in(form.input[ii].type(),"file") ) {
                     // Fill in the file upload field
                     curl_formadd(&formpost,
                                  &lastptr,
@@ -820,8 +773,7 @@ void Browser::submit(int timeout=30)
                                  CURLFORM_END);
                 }
                 //else if it's pure text
-                else
-                {
+                else {
                     // Fill in the submit field too, even if this is rarely needed
                     curl_formadd(&formpost,
                                  &lastptr,
@@ -833,31 +785,24 @@ void Browser::submit(int timeout=30)
         }
         //select
         for(unsigned int ii=0;ii<form.select.size();ii++)
-        {
             for(unsigned int jj=0;jj<form.select[ii].options.size();jj++)
-            {
-                if(form.select[ii].options[jj].value()!="" && form.select[ii].options[jj].selected()==true)
-                {
+                if(form.select[ii].options[jj].value()!=""
+                    && form.select[ii].options[jj].selected()==true) {
                     curl_formadd(&formpost,
                                  &lastptr,
                                  CURLFORM_COPYNAME, form.select[ii].name().c_str(),
                                  CURLFORM_COPYCONTENTS, form.select[ii].options[jj].value().c_str(),
                                  CURLFORM_END);
                 }
-            }
-        }
         //textarea
         for(unsigned int ii=0;ii<form.textarea.size();ii++)
-        {
-            if(form.textarea[ii].value()!="")
-            {
+            if(form.textarea[ii].value()!="") {
                 curl_formadd(&formpost,
                              &lastptr,
                              CURLFORM_COPYNAME, form.textarea[ii].name().c_str(),
                              CURLFORM_COPYCONTENTS, form.textarea[ii].value().c_str(),
                              CURLFORM_END);
             }
-        }
 
         //add our prepared formpost to the options
         curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
@@ -897,9 +842,7 @@ void Browser::write_bytes(std::string filename)
     assert(filepipe!=NULL);
     //an error occured when opening the file for writting
     if(filepipe==NULL)
-    {
         fprintf (stderr, "[!] error writting the file: %s\n", strerror (errno));
-    }
     writing_bytes = true;
 }
 ///=================================================================================///
@@ -941,8 +884,7 @@ void Browser::addheaders(std::map<std::string, std::string> Headers)
 {
     std::string toaddhead;
     struct curl_slist *headers    = NULL;
-    for( std::map<std::string,std::string>::iterator ii=Headers.begin(); ii!=Headers.end(); ++ii)
-    {
+    for( std::map<std::string,std::string>::iterator ii=Headers.begin(); ii!=Headers.end(); ++ii) {
         toaddhead =  (*ii).first+ ":" + (*ii).second;
         headers = curl_slist_append(headers, toaddhead.c_str());
     }
@@ -952,8 +894,7 @@ void Browser::addheaders(std::vector<std::string> Headers)
 {
     std::string toaddhead;
     struct curl_slist *headers    = NULL;
-    for(unsigned int i=0; i < Headers.size(); i+=2)
-    {
+    for(unsigned int i=0; i < Headers.size(); i+=2) {
         toaddhead =  Headers[i]+ ":" + Headers[i+1];
         headers = curl_slist_append(headers, toaddhead.c_str());
     }
@@ -964,42 +905,31 @@ void Browser::addheaders(std::vector<std::string> Headers)
 ///===============Follow a link in the page based on the name=======================///
 void Browser::follow_link(std::string name_of_link_to_follow, int usertimeout=20)
 {
-    if(links.size()==0)
-    {
+    if(links.size()==0) {
         std::cerr<<"\n[!] No links found\n";
         return;
     }
     std::string to_follow="";
     for(int i=0;i<links.size();i++)
-    {
-        if(links[i].name()==name_of_link_to_follow)
-        {
+        if(links[i].name()==name_of_link_to_follow) {
             to_follow=links[i].url();
             break;
         }
-    }
-    if(to_follow=="")
-    {
+
+    if(to_follow=="") {
         std::cerr<<"\n[!] No such link in the page found\n";
         return;
     }
     //if the link is already a complete one we open it directly else we add the site root
     if(word_in(to_follow,"http://"))
-    {
         open(to_follow,usertimeout);
-    }
-    else
-    {
+    else {
         std::string now_on = get_first_root();
         //here we are on the last slash
         if(to_follow[0]!='/')
-        {
             open(now_on+to_follow);
-        }
         else
-        {
             open(now_on.substr(0,now_on.size()-1)+to_follow);
-        }
     }
 }
 ///=================================================================================///
@@ -1008,13 +938,9 @@ void Browser::follow_link(std::string name_of_link_to_follow, int usertimeout=20
 bool Browser::inresponse(std::string str)
 {
     if (html_response.find (str) != std::string::npos)
-    {
         return true;
-    }
     else
-    {
         return false;
-    }
 }
 ///=================================================================================///
 
@@ -1024,8 +950,7 @@ std::string Browser::title()
 {
     std::vector <std::string> title_container;
     get_after_delimiter(html_response,"title",title_container);
-    if(title_container.size()>0)
-    {
+    if(title_container.size()>0) {
         int start = title_container[0].find(">")+1;
         int stop  = title_container[0].find("<");
         return title_container[0].substr(start,stop-start);
@@ -1040,13 +965,9 @@ bool Browser::intitle(std::string str)
 {
     std::string current_title = title();
     if (current_title.find (str) != std::string::npos)
-    {
         return true;
-    }
     else
-    {
         return false;
-    }
 }
 ///=================================================================================///
 
@@ -1059,8 +980,7 @@ std::string Browser::getcookies()
     curl_slist * cookies   = 0 ;
     curl_easy_getinfo(curl,CURLINFO_COOKIELIST, &cookies);
     curl_slist * cur = cookies;
-    while(cur)
-    {
+    while (cur) {
         allcookies+= cur->data;
         cur        = cur->next;
     }
@@ -1092,14 +1012,10 @@ void Browser::set_verbose(bool allow)
 void Browser::set_handle_gzip(bool allow)
 {
     if(allow)
-    {
         curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "gzip");
-    }
     else
-    {
         //remember that this one needs curl to be compiled with zlib
         curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "deflate");
-    }
     curl_easy_setopt(curl, CURLOPT_TRANSFER_ENCODING, allow);
 }
 ///=================================================================================///
@@ -1128,8 +1044,7 @@ void Browser::set_cookiejar()
 ///========================simply reload the page===================================///
 void Browser::reload()
 {
-    if(geturl().length()>4)
-    {
+    if(geturl().length()>4) {
         std::string current_page = geturl();
         //don't reload a page that isn't a page
         assert(current_page.length()>7);
@@ -1165,27 +1080,22 @@ void Browser::set_dns(std::string dns_server)
 ///================Set a proxy (proxy:port) or unset it with the bool false=========///
 void Browser::set_proxy(std::string proxy, std::string type="http")
 {
-    if(type=="http")
-    {
+    if(type=="http") {
         curl_easy_setopt(curl, CURLOPT_PROXY, proxy.c_str());
         curl_easy_setopt(curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP );
     }
-    else if(type=="socks4")
-    {
+    else if(type=="socks4") {
         curl_easy_setopt(curl, CURLOPT_PROXY, proxy.c_str());
         curl_easy_setopt(curl, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS4  );
     }
-    else if(type=="socks5")
-    {
+    else if(type=="socks5") {
         curl_easy_setopt(curl, CURLOPT_PROXY, proxy.c_str());
         curl_easy_setopt(curl, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5 );
     }
-    else if(type=="socks4a")
-    {
+    else if(type=="socks4a") {
         curl_easy_setopt(curl, CURLOPT_PROXY, CURLPROXY_SOCKS4A );
     }
-    else
-    {
+    else {
         curl_easy_setopt(curl, CURLOPT_PROXY, proxy.c_str());
         curl_easy_setopt(curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP );
     }
@@ -1223,11 +1133,8 @@ void Browser::set_interface(std::string interface_name, long int port=80, long i
         curl_easy_setopt(curl, CURLOPT_INTERFACE, interface_name.c_str() );
         curl_easy_setopt(curl, CURLOPT_LOCALPORT, port );
         if(port<80)
-        {
             std::cerr<<"\n[!] Remember: With great power comes great responsabilities\n";
-        }
-        if(max_port>80)
-        {
+        if(max_port>80) {
             max_port = port + max_port-port+1;
             curl_easy_setopt(curl, CURLOPT_LOCALPORTRANGE, max_port );
         }
@@ -1255,16 +1162,13 @@ void Browser::limit_speed(int limit)
 {
     assert(limit>0 && limit<30000);
     limit = limit *1000;
-    if(limit>0 && limit<30000)
-    {
+    if(limit>0 && limit<30000) {
         curl_easy_setopt(curl, CURLOPT_LOW_SPEED_LIMIT, limit);
         curl_easy_setopt(curl, CURLOPT_MAX_SEND_SPEED_LARGE, limit);
         curl_easy_setopt(curl, CURLOPT_MAX_RECV_SPEED_LARGE, limit);
     }
     else
-    {
         std::cerr<<"\n[!] Can't set the time limit \n";
-    }
 }
 //relevant only if limit_speed is set up
 //in seconds
@@ -1272,13 +1176,9 @@ void Browser::limit_time(int limit)
 {
     assert(limit>0);
     if(limit>0)
-    {
         curl_easy_setopt(curl, CURLOPT_LOW_SPEED_TIME, limit);
-    }
     else
-    {
         std::cerr<<"\n[!] Can't set the limit \n";
-    }
 }
 ///=================================================================================///
 
@@ -1324,8 +1224,7 @@ void Browser::set_direct_form_post(bool direct,std::string url = "")
         form.direct_post           = direct;
 
     //if it's a direct post we set the url and the method
-    if(form.direct_post==true)
-    {
+    if(form.direct_post==true) {
         form.url_    = url;
         form.method_ = "POST";
     }
@@ -1356,9 +1255,7 @@ void Browser::clear_history()
 void Browser::history()
 {
     for(unsigned int ii=0;ii<history_.size();ii++)
-    {
         std::cout<<history_[ii]<<"\n";
-    }
 }
 ///=================================================================================///
 
@@ -1380,13 +1277,9 @@ bool Browser::inurl(std::string str)
     if(current_url=="")
         std::cerr<<"\n[!] No page in history\n";
     if (current_url.find (str) != std::string::npos)
-    {
         return true;
-    }
     else
-    {
         return false;
-    }
 }
 ///=================================================================================///
 
@@ -1423,23 +1316,19 @@ void Browser::emails_class::init(links_class links)
 
     //loop through the links to see if there's contact informations
     for(int i=0; i<links.size(); i++)
-    {
         //search for the word : "mailto:"
-        if(word_in(links[i].url(), "mailto:"))
-        {
+        if(word_in(links[i].url(), "mailto:")) {
             std::string fake_temp_shit = links[i].url();
             replaceAll(fake_temp_shit,"mailto:","");
             all_emails.push_back(fake_temp_shit);
         }
-    }
 }
 ///=================================================================================///
 
 ///==========================return the contact information=========================///
 std::string Browser::emails_class::operator[ ]  (int ite)
 {
-    if(ite>size())
-    {
+    if(ite>size()) {
         std::cerr<<"\n[!] No Such Email in the page\n";
         return "";
     }
@@ -1450,15 +1339,12 @@ std::string Browser::emails_class::operator[ ]  (int ite)
 std::string Browser::emails_class::all()
 {
     std::string output="";
-    for(int kk=0;kk<size();kk++)
-    {
+    for(int kk=0;kk<size();kk++) {
         output+=all_emails[kk];
         output+= "\n";
     }
     if(output=="")
-    {
         std::cerr<<"\n[!] No Emails in the page\n";
-    }
     return output;
 }
 

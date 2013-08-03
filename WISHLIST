@@ -26,3 +26,26 @@ Review the whole code to make it more clean and more efficient
 
 use StringPoolL or better algorithm instead of cstring for real efficiency (long string accessed many times is cpu and ram intensive)
 
+
+-*- TODO -*-
+
+* What's wrong with the forms, why do I need to convert from one type to another.
+        void Browser::select_form(int number_start_from_zero)
+
+* Syntax, more comments, functions names (regex.hpp)?
+
+* Efficiency, compile time.
+
+* Split up huge foos
+
+* get_first_root() does it always work like that, I don't think so.
+        When something.php for POST add to the first root.
+        When /something/something.php add to the plain web root.
+        void Browser::submit(int timeout=30)  contains the same thing, why?
+
+* void Browser::follow_link(std::string name_of_link_to_follow, int usertimeout=20)
+        is that done the right way?
+
+* Review the whole forms.hpp because it's nasty.
+
+* Review every single regex. Break them up into easy to understand little pieces.
