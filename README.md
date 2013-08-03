@@ -2,7 +2,6 @@ Browser
 =======
 
 <pre>
-Now not only curl has a cool(shitty) ascii-art
 
 █▐ ▀▄                   ▅▂  |▄▄  __
 █▐ ▄▄▄▄ |█▀▄  ▄▄ |▄   ▌▐__   ▌▄  █ ▚
@@ -52,7 +51,7 @@ Inspired by the python library **mechanize.Browser** <br>
 A Simple to use yet efficient headers only library (wrapped over **libcurl** / **curl** wrapper) to emulate a browser in C++. <br>
 It helps, simplify web interaction, and makes code maintenance less painful. <br>
 All the regex are written by hand reducing the dependencies to one library: libcurl; which is pretty small. <br>
-Keep in mind that this is really **alpha**. <br>
+Keep in mind that this is really **alpha**, I wrote this when I wasn't at ease with oop and I need to rewrite it. <br>
 
 Why
 ---
