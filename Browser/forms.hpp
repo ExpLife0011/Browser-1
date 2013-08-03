@@ -31,8 +31,10 @@ in this Software without prior written authorization of the copyright holder.
 #define FORMS_HPP_INCLUDED
 
 #include <cstring>
+#include <iostream>
 #include <vector>
 #include <map>
+#include <assert.h>
 #include "regex.hpp"
 
 

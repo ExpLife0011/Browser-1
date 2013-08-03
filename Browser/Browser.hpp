@@ -41,6 +41,7 @@ in this Software without prior written authorization of the copyright holder.
 #include "links.hpp"
 #include <errno.h>
 
+
 ///==================================THE BROWSER CLASS==============================///
 class Browser
 {
@@ -196,7 +197,6 @@ Browser::Browser()
 ///====================================DESTRUCTOR===================================///
 Browser::~Browser()
 {
-    curl_easy_reset(curl);
     curl_easy_cleanup(curl);
     history_.clear();
     init();
@@ -220,19 +220,17 @@ void Browser::init()
 {
     //maybe we'll loose the cookies if we do that
     //curl                   = curl_easy_init();
-    direct_form_post_    = false;
+
     if(formpost!=NULL)
         curl_formfree(formpost);
 
     struct curl_slist *headers  = NULL;
     headers                     = curl_slist_append(headers, "Accept:");
     curl_slist_free_all(headers);
+    curl_easy_reset(curl);
 
     html_response               = "";
     header_                     = "";
-    full_form_                  = false;
-    writing_bytes               = false;
-    timeout                     = 20;
 
     forms.form_raw_container.clear();
     forms.all_forms.clear();
@@ -302,6 +300,7 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_string );
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &html_response);
         curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header_);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT,   timeout );
     }
     else
     {
@@ -309,7 +308,7 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, filepipe);
     }
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT,   timeout );
+
     res = curl_easy_perform(curl);
     if(error())
     {
@@ -331,6 +330,10 @@ void Browser::open(std::string url, int usertimeout=20,bool save_history=true)
     //add current url to the history
     if(save_history)
         history_.push_back(geturl());
+    full_form_                  = false;
+    writing_bytes               = false;
+    timeout                     = 20;
+    direct_form_post_           = false;
 }
 void Browser::open_novisit(std::string url, int usertimeout=20)
 {
@@ -364,6 +367,10 @@ void Browser::open_novisit(std::string url, int usertimeout=20)
         fclose(filepipe);
         writing_bytes=false;
     }
+    full_form_                  = false;
+    writing_bytes               = false;
+    timeout                     = 20;
+    direct_form_post_           = false;
 }
 void Browser::open(std::string url, std::string post_data, int usertimeout=20)
 {
@@ -409,6 +416,10 @@ void Browser::open(std::string url, std::string post_data, int usertimeout=20)
         }
     }
     history_.push_back(geturl());
+    full_form_                  = false;
+    writing_bytes               = false;
+    timeout                     = 20;
+    direct_form_post_           = false;
 }
 void Browser::open(std::string url, int usertimeout,std::string post_data)
 {
@@ -454,6 +465,10 @@ void Browser::open(std::string url, int usertimeout,std::string post_data)
         }
     }
     history_.push_back(geturl());
+    full_form_                  = false;
+    writing_bytes               = false;
+    timeout                     = 20;
+    direct_form_post_           = false;
 }
 void Browser::open_form(std::string url, int usertimeout=20)
 {
@@ -496,6 +511,10 @@ void Browser::open_form(std::string url, int usertimeout=20)
         }
     }
     history_.push_back(geturl());
+    full_form_                  = false;
+    writing_bytes               = false;
+    timeout                     = 20;
+    direct_form_post_           = false;
 }
 ///=================================================================================///
 

@@ -31,6 +31,7 @@ in this Software without prior written authorization of the copyright holder.
 #define LINKS_HPP_INCLUDED
 
 #include <cstring>
+#include <iostream>
 #include <vector>
 #include <iomanip>
 #include <map>

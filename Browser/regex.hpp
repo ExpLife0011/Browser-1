@@ -31,6 +31,7 @@ in this Software without prior written authorization of the copyright holder.
 #define REGEX_HPP_INCLUDED
 
 #include <cstring>
+#include <string>
 #include <vector>
 #include <map>
 
