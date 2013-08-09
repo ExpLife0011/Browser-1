@@ -277,7 +277,7 @@ int main()
              <<"\n"
              <<br.links().all();
              <<"\n"
-             <<br.forms().all();
+             <<br.forms.all();
     //you can loop through the links this way:
     for(int i=0;i<br.links.size();i++)
         cout<<br.links[i]<<"\n";
