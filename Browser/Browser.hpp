@@ -109,7 +109,7 @@ class Browser {
         void set_direct_form_post(bool direct,std::string url);
         std::string escape(std::string the_string);
         std::string unescape(std::string the_string);
-        std::string get_first_root();
+        std::string get_first_root(bool start_from_host);
         void limit_speed(int limit);
         void limit_time(int limit);
         void set_http_tunel(bool allow);
@@ -567,14 +567,14 @@ void Browser::convert_1_to_2(forms_class::form_class form_work_on_first
 ///=================================================================================///
 
 
-///==================Get the first root of the current  url=========================///
-std::string Browser::get_first_root()
+///======Get the first root of the current  url starting from right or from left====///
+std::string Browser::get_first_root(bool start_from_host)
 {
-    std::string temp_url="";
-    int backward_it     = 1;
-
-    temp_url = geturl();
-    bool https = false;
+    std::string temp_url   ="";
+    int backward_it        = 1;
+    temp_url               = geturl();
+    bool https             = false;
+    // meaning we just need to add the docuement to the hostname.
     //remove the http:// to not confuse the slashes
     replaceAll(temp_url,"http://","");
     if( word_in(temp_url,"https://") ) {
@@ -588,20 +588,30 @@ std::string Browser::get_first_root()
     //www.somthing.com/blah.php or
     //www.something.com/else/somthing.php
     if( word_in(temp_url,"/")) {
-        while(temp_url[temp_url.size()-backward_it]!='/')
-            backward_it++;
-        //here we are on the last slash
-        //prepare the first root URL for the form
-        if(form.url_[0]!='/')
-            if(!https)
-                temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it+1);
+        //just find the first / in the temp url
+        if (start_from_host) {
+            backward_it = temp_url.find("/");
+            if (!https) temp_url = "http://"+ temp_url.substr(0,backward_it+1);
+            else        temp_url = "https://"+temp_url.substr(0,backward_it+1);
+            if (temp_url[temp_url.size()-1]=='/') return temp_url.substr(0,temp_url.size()-1);
+            else return temp_url;
+        }
+        else {
+            while(temp_url[temp_url.size()-backward_it]!='/')
+                backward_it++;
+            //here we are on the last slash
+            //prepare the first root URL for the form
+            if(form.url_[0]!='/')
+                if(!https)
+                    temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it+1);
+                else
+                    temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it+1);
             else
-                temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it+1);
-        else
-            if(!https)
-                temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it);
-            else
-                temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it);
+                if(!https)
+                    temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it);
+                else
+                    temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it);
+        }
     }
     //meaning we don't have any slash, we are in the top
     //dir , so something like:
@@ -625,58 +635,22 @@ std::string Browser::get_first_root()
 void Browser::submit(int timeout=30)
 {
     std::string temp_url="";
-    int backward_it     = 1;
     //get out of the program if we don't have a post or a get in the form
     assert(word_in(form.method_,"get") || word_in(form.method_,"post") );
 
     //if the url is already complete
-    if( word_in(form.url_,"http://"))
+    if( word_in(form.url_,"http://")|| word_in(form.url_,"http://") )
         temp_url = form.url();
     //otherwise we add after the root of dir
     //meaning after the first /
-    //or if there's not, we add a slash and append it -- But it might not be always true
+    //or if there's not, we add a slash and append it -- But it might not always be true
     //example: /postsome/shit/here/
     else {
-        temp_url = geturl();
-        bool https = false;
-        //remove the http:// to not confuse the slashes
-        replaceAll(temp_url,"http://","");
-        if( word_in(temp_url,"https://") ) {
-            https = true;
-            replaceAll(temp_url,"https://","");
-        }
-
-        //now test if we are in a directory
-        //meaning something like:
-        //www.something.com/   or
-        //www.somthing.com/blah.php or
-        //www.something.com/else/somthing.php
-        if( word_in(temp_url,"/")) {
-            while(temp_url[temp_url.size()-backward_it]!='/')
-                backward_it++;
-            //here we are on the last slash
-            if(form.url_[0]!='/')
-                if(!https)
-                    temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it+1)+form.url();
-                else
-                    temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it+1)+form.url();
-            else
-                if(!https)
-                    temp_url = "http://" + temp_url.substr(0,temp_url.size()-backward_it)+form.url();
-                else
-                    temp_url = "https://" + temp_url.substr(0,temp_url.size()-backward_it)+form.url();
-        }
-        //meaning we don't have any slash, we are in the top
-        //dir , so something like:
-        //www.blahblah.com
-        else {
-            //here we concatenate all we need in this way:
-            //http://www.blahblah.com/formurl.php
-            if(!https)
-                temp_url = "http://" + temp_url + "/" + form.url();
-            else
-                temp_url = "https://" + temp_url + "/" + form.url();
-        }
+        //here we need to add to the hostname
+        if (form.url_[0] == '/')
+            temp_url = get_first_root(true)+form.url_;
+        else
+            temp_url = get_first_root(false)+form.url_;
     }
 
     //we have the url where we will post or get set correctly
@@ -924,12 +898,11 @@ void Browser::follow_link(std::string name_of_link_to_follow, int usertimeout=20
     if(word_in(to_follow,"http://"))
         open(to_follow,usertimeout);
     else {
-        std::string now_on = get_first_root();
         //here we are on the last slash
         if(to_follow[0]!='/')
-            open(now_on+to_follow);
+            open(get_first_root(false)+to_follow);
         else
-            open(now_on.substr(0,now_on.size()-1)+to_follow);
+            open(get_first_root(true)+to_follow);
     }
 }
 ///=================================================================================///
