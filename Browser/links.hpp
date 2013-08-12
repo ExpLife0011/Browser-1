@@ -92,12 +92,12 @@ class links_class
         //overload [ ] to return
         int size();
         std::string all();
-        std::vector <link_struct> links_array;
         link_struct operator[ ]  (int ite);
         void getlinks(std::string raw_input);
         void clear();
     private:
     protected:
+        std::vector <link_struct> links_array;
 };
 
 ///===============================clear the links array==============================///

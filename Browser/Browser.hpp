@@ -57,8 +57,8 @@ class Browser {
         bool fetching_forms           ;
         bool direct_form_post_        ;
         bool full_form_               ;
-        struct curl_httppost *formpost=NULL;
-        struct curl_httppost *lastptr =NULL;
+        struct curl_httppost *formpost;
+        struct curl_httppost *lastptr;
         std::vector <std::string> history_;
         //might use that instead of always initializing the forms when opening the page
         //bool form_is_initialized      = false;
@@ -160,8 +160,10 @@ class Browser {
 ///==================================CONSTRUCTOR====================================///
 Browser::Browser()
 {
-    header_      ="";
-    html_response="";
+    header_                  = "";
+    html_response            = "";
+    formpost                 = NULL;
+    lastptr                  = NULL;
     full_form_               = false;
     direct_form_post_        = false;
     writing_bytes            = false;

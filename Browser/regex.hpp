@@ -34,6 +34,7 @@ in this Software without prior written authorization of the copyright holder.
 #include <string>
 #include <vector>
 #include <map>
+#include <sstream>
 
 
 bool remove_html_comment(std::string & html_response);
@@ -47,6 +48,32 @@ std::string get_between_two_closed(std::string raw_input,std::string seeking);
 void get_between_two(std::string raw_input, std::string seeking, std::vector <std::string> & container);
 void get_after_delimiter(std::string html_response, std::string seeking, std::vector <std::string> &form_container);
 void get_from_intern(std::string raw_input, std::string word,std::string word2, std::vector <std::string> & container);
+std::string  to_string(unsigned int integer);
+
+///========================Conver a u integer to string==============================///
+std::string to_string(unsigned int integer)
+{
+	std::ostringstream o;
+	o << integer;
+	return o.str();
+}
+///==================================================================================///
+
+///===========================SPLIT A STRING FROM A DELIMITER========================///
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+    std::stringstream ss(s);
+    std::string item;
+    while (std::getline(ss, item, delim))
+        elems.push_back(item);
+    return elems;
+}
+
+std::vector<std::string> split(const std::string &s, char delim) {
+    std::vector<std::string> elems;
+    split(s, delim, elems);
+    return elems;
+}
+///=================================================================================///
 
 ///==============================UPPER IT FROM STRING===============================///
 void upper_it(const std::string &income, std::string & outcome)
