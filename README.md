@@ -14,7 +14,7 @@ No utf-8 support? (damn it!)
 License (unixhub)
 -----------------
 
-    Copyright (c) 2013, Patrick Louis <patrick at unixhub.net>
+    Copyright (c) 2013, Patrick Louis  <contact me on irc.unixhub.net>
 
     All rights reserved.
 
@@ -52,7 +52,8 @@ A Simple to use yet efficient headers only library (wrapped over **libcurl** / *
 It helps, simplify web interaction, and makes code maintenance less painful. <br>
 All the regex are written by hand reducing the dependencies to one library: libcurl; which is pretty small. <br>
 Keep in mind that this is really **alpha**, I wrote this when I wasn't at ease with oop and I need to rewrite it. <br>
-I'll soon push a mini, cleaner, and more usable version of the Browser wrapper without the forms and links add-ups.
+
+This is a mini version of the original one <br>
 
 Why
 ---
