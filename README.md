@@ -52,6 +52,7 @@ A Simple to use yet efficient headers only library (wrapped over **libcurl** / *
 It helps, simplify web interaction, and makes code maintenance less painful. <br>
 All the regex are written by hand reducing the dependencies to one library: libcurl; which is pretty small. <br>
 Keep in mind that this is really **alpha**, I wrote this when I wasn't at ease with oop and I need to rewrite it. <br>
+I'll soon push a mini, cleaner, and more usable version of the Browser wrapper without the forms and links add-ups.
 
 Why
 ---
