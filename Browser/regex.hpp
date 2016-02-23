@@ -130,8 +130,8 @@ void replaceAll(std::string& str, const std::string& from, const std::string& to
 bool remove_html_comment(std::string & html_response)
 {
     //save the start position of the start of a comment
-    unsigned int position_start         = html_response.find ("<!--");
-    unsigned int position_stop          = html_response.find ("-->");
+    std::basic_string <char>::size_type position_start         = html_response.find ("<!--");
+    std::basic_string <char>::size_type position_stop          = html_response.find ("-->");
     if (position_start != std::string::npos) {
         //now we need to check for the end of it
         //... if no end
@@ -179,7 +179,7 @@ std::string get_after_equal(std::string html_response, std::string seeking)
     /*related to the start */
     bool STOP      = false;
     int position   = 0;
-    unsigned int first_index;
+    std::basic_string <char>::size_type first_index;
     /*related to the end */
     int forward_ite;
     while( STOP == false ) {
@@ -266,11 +266,11 @@ void get_after_delimiter(std::string html_response, std::string seeking, std::ve
     /*related to the start */
     bool STOP      = false;
     int position       = 0;
-    unsigned int first_index;
+    std::basic_string <char>::size_type first_index;
     /*related to the end */
     bool found_end = false;
     int backward_ite;
-    unsigned int last_index;
+    std::basic_string <char>::size_type last_index;
 
     while( STOP == false ) {
         // we didn't find an end yet
@@ -367,7 +367,7 @@ void get_between_two(std::string raw_input, std::string seeking, std::vector <st
     /*related to the start */
     bool STOP      = false;
     unsigned int position       = 0;
-    unsigned int first_index;
+    std::basic_string <char>::size_type first_index;
     /*related to the end */
     int backward_ite;
 
@@ -441,7 +441,7 @@ std::string get_between_two_closed(std::string raw_input,std::string seeking)
 
     /* some variables we'll use */
     /*related to the start */
-    unsigned int first_index;
+    std::basic_string <char>::size_type first_index;
     unsigned int backward_ite;
 
     //find the first closing '>' saves it as the first index of the output string
@@ -484,8 +484,8 @@ void get_from_intern(std::string raw_input, std::string word,std::string word2, 
     //position is the variable that
     //decides from where the search are done
     unsigned int position   = 0;
-    unsigned int first_index;
-    unsigned int middle_index;
+    std::basic_string <char>::size_type first_index;
+    std::basic_string <char>::size_type middle_index;
     unsigned int forward_ite;
     int backward_ite;
     bool have_found=false;
