@@ -196,9 +196,10 @@ Browser::Browser()
 ///====================================DESTRUCTOR===================================///
 Browser::~Browser()
 {
-    curl_easy_cleanup(curl);
-    history_.clear();
     init();
+    curl_easy_cleanup(curl);
+    curl = nullptr;
+    history_.clear();
     curl_global_cleanup();
 }
 ///=================================================================================///
