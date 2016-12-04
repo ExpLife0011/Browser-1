@@ -61,7 +61,7 @@ int main()
                 cout<<"New Post:\n";
                 new_post = true;
             }
-            cout<<"[*]  \""<<br.links[i].name()<<"\" ==> "<< br.get_root()<<br.links[i]<<"\n";
+            cout<<"[*]  \""<<br.links[i].name()<<"\" ==> "<< br.get_first_root(true)<<br.links[i]<<"\n";
         }
     }
     //show the end of the program

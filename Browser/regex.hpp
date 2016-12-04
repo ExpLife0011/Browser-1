@@ -484,8 +484,8 @@ void get_from_intern(std::string raw_input, std::string word,std::string word2, 
     //position is the variable that
     //decides from where the search are done
     unsigned int position   = 0;
-    std::basic_string <char>::size_type first_index;
-    std::basic_string <char>::size_type middle_index;
+    std::basic_string <char>::size_type first_index = 0;
+    std::basic_string <char>::size_type middle_index = 0;
     unsigned int forward_ite;
     int backward_ite;
     bool have_found=false;
@@ -494,6 +494,7 @@ void get_from_intern(std::string raw_input, std::string word,std::string word2, 
         //we find the word in the middle
         //" word"
         middle_index = raw_lower.find(" "+word,position);
+        if (middle_index==std::string::npos) break;
         position     = middle_index+2;
         backward_ite = 1;
         forward_ite  = 0;
